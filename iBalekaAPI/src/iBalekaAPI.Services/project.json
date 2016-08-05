@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "iBalekaAPI.Data": "1.0.0-*",
+    "iBalekaAPI.Models": "1.0.0-*",
+    "Microsoft.NETCore.App": {
+      "version": "1.0.0",
+      "type": "platform"
+    }
+  },
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "dotnet5.6",
+        "portable-net45+win8"
+      ],
+      "dependencies": {
+        "System.Runtime": "4.1.0"
+      }
+    }
+  }
+}
