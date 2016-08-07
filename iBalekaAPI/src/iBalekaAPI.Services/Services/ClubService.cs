@@ -13,6 +13,7 @@ namespace iBalekaAPI.Services
     {
         Club GetClubByID(int id);
         IEnumerable<Club> GetAll();
+        IEnumerable<Club> GetUserClubs(string userId);
         void AddClub(Club club);
         void UpdateClub(Club club);
         void Delete(Club club);
@@ -28,9 +29,13 @@ namespace iBalekaAPI.Services
             _clubRepo = _repo;
             unitOfWork = _unitOfWork;
         }
-
+        public IEnumerable<Club> GetUserClubs(string userId)
+        {
+            return _clubRepo.GetUserClubs(userId);
+        }
         public Club GetClubByID(int id)
         {
+            
             return _clubRepo.GetClubByID(id);
         }
         public IEnumerable<Club> GetAll()
@@ -39,6 +44,8 @@ namespace iBalekaAPI.Services
         }
         public void AddClub(Club club)
         {
+            club.Deleted = false;
+            club.DateCreated = DateTime.Now;
             _clubRepo.Add(club);
         }
         public void UpdateClub(Club club)

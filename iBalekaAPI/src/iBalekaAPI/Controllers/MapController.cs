@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using iBalekaAPI.Models;
 using iBalekaAPI.Services;
 using System.Collections.Generic;
-using iBalekaAPI.Models.MapViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
@@ -26,27 +25,27 @@ namespace iBalekaAPI.Controllers
         [HttpGet(Name = "GetUserRoutes")]
         public IActionResult GetUserRoutes(string userId)
         {
-            IEnumerable<Route> routes = _context.GetRoutes(userId);
+            IEnumerable<Route> routes = _context.GetUserRoutes(userId);
             return Json(routes);
         }
         [HttpGet(Name = "GetRoutes")]
         public IActionResult GetRoutes(string userId)
         {
-            IEnumerable<Route> routes = _context.GetRoutes(userId);
+            IEnumerable<Route> routes = _context.GetRoutes();
             return Json(routes);
         }
         //// POST: Map/AddRoute
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddRoute(RouteViewModel route,string userId)
+        public IActionResult AddRoute(Route route,string userId)
         {
-            RouteViewModel newRoute = route;
+            Route newRoute = route;
             if (ModelState.IsValid)
             {
                 route.UserID = userId;
                 _context.AddRoute(route);
                 _context.SaveRoute();
-                return Ok();
+                return Ok(route.RouteId);
              
             }
             else
@@ -67,22 +66,21 @@ namespace iBalekaAPI.Controllers
             {
                 return NotFound();
             }
-            RouteViewModel routeView = _context.GetRouteByIDView(route.RouteId);
-            
-            return Json(routeView);
+
+            return Json(route);
         }
 
         // POST: Map/Edit/5
         [HttpPost(Name = "Edit")]
         [ValidateAntiForgeryToken]
-        public IActionResult EditRoute(RouteViewModel route)
+        public IActionResult EditRoute(Route route)
         {
             if (ModelState.IsValid)
             {
                 _context.UpdateRoute(route);
 
                 _context.SaveRoute();
-                return Ok();
+                return Ok(route.RouteId);
             }
             else
             {

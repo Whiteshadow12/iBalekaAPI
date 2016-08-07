@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using iBalekaAPI.Models;
 using iBalekaAPI.Services;
-using iBalekaAPI.Models.EventViewModels;
 using Microsoft.AspNetCore.Identity;
 using iBalekaAPI.Models.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -30,13 +29,13 @@ namespace iBalekaAPI.Controllers
         [HttpGet(Name = "GetUserEvents")]
         public IActionResult GetUserEvents(string userId)
         {
-            IEnumerable<Event> events = _context.GetEvents(userId);
+            IEnumerable<Event> events = _context.GetUserEvents(userId);
             return Json(events);
         }
-        [HttpGet(Name = "GetAthleteEvents")]
-        public IActionResult GetAthleteEvents(string userId)
+        [HttpGet(Name = "GetEvents")]
+        public IActionResult GetEvents()
         {
-            IEnumerable<Event> events = _context.GetEvents(userId);
+            IEnumerable<Event> events = _context.GetEvents();
             return Json(events);
         }
         // GET: Event/Details/5
@@ -48,20 +47,19 @@ namespace iBalekaAPI.Controllers
             {
                 return NotFound();
             }
-            EventViewModel evntView = _context.GetEventByIDView(id);
-            return Json(evntView);
+            return Json(evnt);
         }
         //save event
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SaveEvent(EventViewModel currentModel,string userId)
+        public IActionResult SaveEvent(Event currentModel,string userId)
         {
             if (ModelState.IsValid)
             {
                 currentModel.UserID = userId;
                 _context.AddEvent(currentModel);
-
-                return Ok();
+                _context.SaveEvent();
+                return Ok(currentModel.EventId);
                 
             }
             else
@@ -72,21 +70,21 @@ namespace iBalekaAPI.Controllers
         // POST: Event/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditEvent(EventViewModel evnt)
+        public ActionResult EditEvent(Event evnt)
         {
 
             if (ModelState.IsValid)
             {
-                evnt.EventRoutes = new List<EventRouteViewModel>();
+                evnt.EventRoute = new List<EventRoute>();
 
                 foreach (int id in evnt.RouteId)
                 {
-                    evnt.EventRoutes.Add(new EventRouteViewModel(_routeContext.GetRouteByID(id)));
+                    evnt.EventRoute.Add(new EventRoute(_routeContext.GetRouteByID(id)));
                 }
                 _context.UpdateEvent(evnt);
                 _context.SaveEvent();
 
-                return Json(evnt.EventId);
+                return Ok(evnt.EventId);
 
             }
             else

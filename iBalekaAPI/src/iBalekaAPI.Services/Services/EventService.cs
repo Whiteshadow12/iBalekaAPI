@@ -1,7 +1,6 @@
 ﻿using iBalekaAPI.Data.Infastructure;
 using iBalekaAPI.Data.Repositories;
 using iBalekaAPI.Models;
-using iBalekaAPI.Models.EventViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +12,12 @@ namespace iBalekaAPI.Services
     public interface IEventService
     {
         Event GetEventByID(int id);
-        EventViewModel GetEventByIDView(int id);
         IEnumerable<EventRoute> GetEventRoutes(int id);
-        IEnumerable<Event> GetEvents(string userId);
-        void AddEvent(EventViewModel evnt);
+        IEnumerable<Event> GetUserEvents(string userId);
+        IEnumerable<Event> GetEvents();
+        void AddEvent(Event evnt);
 
-        void UpdateEvent(EventViewModel evnt);
+        void UpdateEvent(Event evnt);
         void Delete(Event evnt);
         void DeleteEventRoutes(IEnumerable<EventRoute> evntRoute);
         void SaveEvent();
@@ -37,24 +36,24 @@ namespace iBalekaAPI.Services
         {
             return _eventRepo.GetEventByID(id);
         }
-        public EventViewModel GetEventByIDView(int id)
+        public IEnumerable<Event> GetUserEvents(string userId)
         {
-            return _eventRepo.GetEventByIDView(id);
+            return _eventRepo.GetUserEvents(userId);
         }
-        public IEnumerable<Event> GetEvents(string userId)
+        public IEnumerable<Event> GetEvents()
         {
-            return _eventRepo.GetEvents(userId);
+            return _eventRepo.GetEvents();
         }
         public IEnumerable<EventRoute> GetEventRoutes(int id)
         {
             return _eventRepo.GetEventRoutes(id);
         }
-        public void AddEvent(EventViewModel evnt)
+        public void AddEvent(Event evnt)
         {
             _eventRepo.AddEvent(evnt);
         }
        
-        public void UpdateEvent(EventViewModel evnt)
+        public void UpdateEvent(Event evnt)
         {
             _eventRepo.UpdateEvent(evnt);
         }

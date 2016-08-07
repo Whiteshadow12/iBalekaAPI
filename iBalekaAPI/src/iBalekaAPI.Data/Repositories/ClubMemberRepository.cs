@@ -11,6 +11,7 @@ namespace iBalekaAPI.Data.Repositories
     public interface IClubMemberRepository:IRepository<ClubMember>
     {
         ClubMember GetMemberByID(int id);
+        IEnumerable<ClubMember> GetMembers(int clubId);
     }
     public class ClubMemberRepository:RepositoryBase<ClubMember>,IClubMemberRepository
     {
@@ -19,15 +20,32 @@ namespace iBalekaAPI.Data.Repositories
 
         public ClubMember GetMemberByID(int id)
         {
-            return DbContext.ClubMember.Where(m => m.MemberId == id && m.IsaMember == true).FirstOrDefault();
+            return DbContext.ClubMember.Where(m => m.MemberId == id && m.Status == ClubStatus.Joined).FirstOrDefault();
         }
-        public override IEnumerable<ClubMember> GetAll()
+        public IEnumerable<ClubMember> GetMembers(int clubId)
         {
-            return DbContext.ClubMember.Where(a => a.IsaMember == true).ToList();
+            return DbContext.ClubMember.Where(a => a.Status == ClubStatus.Joined && a.ClubId == clubId).ToList();
+        }
+        public override void Add(ClubMember entity)
+        {
+            ClubMember exist = DbContext.ClubMember.Single(a => a.Club == entity.Club && a.AthleteId == entity.AthleteId);
+            if(exist==null)
+            {
+                entity.DateJoined = DateTime.Now;
+                entity.Status = ClubStatus.Joined;
+                Add(entity);
+            }
+            else
+            {
+                exist.DateJoined = DateTime.Now;
+                exist.Status = ClubStatus.Joined;
+                Update(exist);
+            }
         }
         public override void Delete(ClubMember entity)
         {
-            entity.IsaMember = false;
+            entity.Status = ClubStatus.Left;
+            entity.DateLeft = DateTime.Now;
             Update(entity);
         }
     }

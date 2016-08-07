@@ -3,10 +3,17 @@ using System.Collections.Generic;
 
 namespace iBalekaAPI.Models
 {
+    public enum RegistrationType
+    {
+        Registered,
+        Deregistered,
+        Active,
+        Closed
+    }
     public partial class EventRegistration
     {
         public int RegistrationId { get; set; }
-        public bool Arrived { get; set; }
+        public RegistrationType EventStatus { get; set; }
         public int AthleteId { get; set; }
         public DateTime DateRegistered { get; set; }
         public bool Deleted { get; set; }

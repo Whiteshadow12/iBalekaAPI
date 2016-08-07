@@ -13,10 +13,10 @@ namespace iBalekaAPI.Services
     public interface IEventRegService
     {
         EventRegistration GetEventRegByID(int id);
-        IEnumerable<EventRegistration> GetAll();
-        void AddEventRegistration(EventRegistration evntReg);
-        void UpdateEventRegistration(EventRegistration evntReg);
-        void Delete(EventRegistration evntReg);
+        IEnumerable<EventRegistration> GetAll(int eventId);
+        void Register(EventRegistration reg);
+        IEnumerable<EventRegistration> GetAthleteRegistrations(int athleteId);
+        void DeRegister(int reg);
         void SaveEventRegistration();
     }
     public class EventRegistrationService:IEventRegService
@@ -34,17 +34,21 @@ namespace iBalekaAPI.Services
         {
             return _eventRegistrationRepository.GetEventRegByID(id);
         }
-        public IEnumerable<EventRegistration> GetAll()
+        public IEnumerable<EventRegistration> GetAthleteRegistrations(int athleteId)
         {
-            return _eventRegistrationRepository.GetAll();
+            return _eventRegistrationRepository.GetAthleteRegistrations(athleteId);
         }
-        public void AddEventRegistration(EventRegistration evntReg)
+        public IEnumerable<EventRegistration> GetAll(int eventId)
         {
-            _eventRegistrationRepository.Add(evntReg);
+            return _eventRegistrationRepository.GetAll(eventId);
         }
-        public void UpdateEventRegistration(EventRegistration evntReg)
+        public void Register(EventRegistration reg)
         {
-            _eventRegistrationRepository.Update(evntReg);
+            _eventRegistrationRepository.Register(reg);
+        }
+        public void DeRegister(int reg)
+        {
+            _eventRegistrationRepository.DeRegister(reg);
         }
         public void Delete(EventRegistration evntReg)
         {

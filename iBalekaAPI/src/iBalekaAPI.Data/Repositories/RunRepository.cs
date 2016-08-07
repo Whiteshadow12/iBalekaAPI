@@ -12,9 +12,12 @@ namespace iBalekaAPI.Data.Repositories
     public interface IRunRepository : IRepository<Run>
     {
         Run GetRunByID(int id);
+        IEnumerable<Run> GetAthleteEventRuns(int id);
+        IEnumerable<Run> GetAthletePersonalRuns(int id);
         IEnumerable<Run> GetEventRuns(int id);
-        IEnumerable<Run> GetPersonalRuns(int id);
+        IEnumerable<Run> GetRouteRuns(int id);
         IEnumerable<Run> GetAllRuns(int id);
+        void AddRun(Run run);
     }
     public class RunRepository : RepositoryBase<Run>, IRunRepository
     {
@@ -22,19 +25,27 @@ namespace iBalekaAPI.Data.Repositories
             : base(dbFactory) { }
         public Run GetRunByID(int id)
         {
-            return DbContext.Run.Where(a => a.RunId == id && a.Deleted == false).FirstOrDefault();
+            return DbContext.Run.Single(a => a.RunId == id && a.Deleted == false);
+        }
+        public IEnumerable<Run> GetAthleteEventRuns(int athleteId)
+        {
+            return DbContext.Run.Where(a => a.RunType==RunType.Event && a.AthleteId==athleteId && a.Deleted == false).ToList();
+        }
+        public IEnumerable<Run> GetAthletePersonalRuns(int athleteId)
+        {
+            return DbContext.Run.Where(a => a.RunType == RunType.Personal && a.AthleteId == athleteId && a.Deleted == false).ToList();
         }
         public IEnumerable<Run> GetEventRuns(int id)
         {
-            return DbContext.Run.Where(a => a.RunId == id && a.EventId != null && a.Deleted == false).ToList();
+            return DbContext.Run.Where(a => a.EventId == id && a.Deleted == false).ToList();
         }
-        public IEnumerable<Run> GetPersonalRuns(int id)
+        public IEnumerable<Run> GetRouteRuns(int id)
         {
-            return DbContext.Run.Where(a => a.RunId == id && a.EventId == null && a.Deleted == false).ToList();
+            return DbContext.Run.Where(a =>a.RouteId == id && a.Deleted == false).ToList();
         }
         public IEnumerable<Run> GetAllRuns(int id)
         {
-            return DbContext.Run.Where(a => a.RunId == id && a.Deleted == false).ToList();
+            return DbContext.Run.Where(a => a.AthleteId == id && a.Deleted == false).ToList();
         }
         public override void Delete(Run entity)
         {
@@ -45,9 +56,10 @@ namespace iBalekaAPI.Data.Repositories
                 DbContext.Entry(deletedRun).State = EntityState.Modified;
             }
         }
-        public override void Add(Run run)
+        public void AddRun(Run run)
         {
             run.Deleted = false;
+            run.DateRecorded = DateTime.Now;
             DbContext.Entry(run).State = EntityState.Added;
         }
 

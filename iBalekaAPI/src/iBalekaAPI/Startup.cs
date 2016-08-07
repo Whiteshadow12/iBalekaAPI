@@ -15,6 +15,10 @@ using iBalekaAPI.Data.Configurations;
 using iBalekaAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Swashbuckle.Swagger;
+using Swashbuckle.SwaggerUi;
+using Swashbuckle.SwaggerGen;
+using Swashbuckle.Swagger.Model;
 
 namespace iBalekaAPI
 {
@@ -28,6 +32,7 @@ namespace iBalekaAPI
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -35,6 +40,21 @@ namespace iBalekaAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddSwaggerGen();
+            services.ConfigureSwaggerGen(options =>
+            {
+                options.SingleApiVersion(new Info
+                {
+                    Version = "v1",
+                    Title = "iBaleka API",
+                    Description = "iBaleka API for mobile and web inegration",
+                    TermsOfService = "None"
+                });
+                options.DescribeAllEnumsAsStrings();
+            });
+
+            //services.AddScoped<ISearchProvider, SearchProvider>();
             services.AddDbContext<iBalekaDBContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -59,7 +79,7 @@ namespace iBalekaAPI
             services.AddScoped<IClubRepository, ClubRepository>();
             services.AddScoped<IEventRegRepository, EventRegistrationRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
-            services.AddScoped<IRatingRepository, RatingRepository>();
+            //services.AddScoped<IRatingRepository, RatingRepository>();
             services.AddScoped<IRouteRepository, RouteRepository>();
             services.AddScoped<IRunRepository, RunRepository>();
             //services.AddScoped<IUserRepository, UserRepository>();
@@ -69,7 +89,7 @@ namespace iBalekaAPI
             services.AddScoped<IClubMemberService, ClubMemberService>();
             services.AddScoped<IEventRegService, EventRegistrationService>();
             services.AddScoped<IEventService, EventService>();
-            services.AddScoped<IRatingService, RatingService>();
+            //services.AddScoped<IRatingService, RatingService>();
             services.AddScoped<IRunService, RunService>();
             //services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRouteService, RouteService>();

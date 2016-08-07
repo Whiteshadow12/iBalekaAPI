@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using iBalekaAPI.Models;
+using iBalekaAPI.Services;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,36 +13,79 @@ namespace iBalekaAPI.Controllers
     [Route("api/[controller]")]
     public class AthleteController : Controller
     {
+        private IAthleteService _context;
+        public AthleteController(IAthleteService _repo)
+        {
+            _context = _repo;
+        }
+        
         // GET: api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult GetAthletes()
         {
-            return new string[] { "value1", "value2" };
+            return Json(_context.GetAthletes());
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetAthlete(int athleteId)
         {
-            return "value";
+            Athlete athlete = _context.GetAthlete(athleteId);
+            if (athlete == null)
+                return NotFound();
+            return Json(athlete);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult AddAthlete(Athlete athlete)
         {
+
+            if (ModelState.IsValid)
+            {
+                _context.AddAthlete(athlete);
+                _context.SaveAthlete();
+                return Ok(athlete.AthleteId);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult UpdateAthlete(Athlete athlete)
         {
+
+            if (ModelState.IsValid)
+            {
+                _context.UpdateAthlete(athlete);
+                _context.SaveAthlete();
+                return Ok(athlete.AthleteId);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPut("{id}")] 
+        public IActionResult DeleteAthlete(int athleteId)
         {
+            if (ModelState.IsValid)
+            {
+                Athlete athlete = _context.GetAthlete(athleteId);
+                if (athlete == null)
+                    return NotFound();
+                _context.DeleteAthlete(athlete);
+                _context.SaveAthlete();
+                return Ok();
+            }
+            else
+                return BadRequest(ModelState);
+           
         }
     }
 }

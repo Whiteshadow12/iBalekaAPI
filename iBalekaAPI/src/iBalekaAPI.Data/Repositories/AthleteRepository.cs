@@ -12,7 +12,6 @@ namespace iBalekaAPI.Data.Repositories
     public interface IAthleteRepository:IRepository<Athlete>
     {
         Athlete GetAthleteByID(int id);
-        new void Delete(Athlete athlete);
     }
     public class AthleteRepository:RepositoryBase<Athlete>,IAthleteRepository
     {

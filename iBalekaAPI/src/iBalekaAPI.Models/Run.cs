@@ -4,6 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace iBalekaAPI.Models
 {
+    public enum RunType
+    {
+        Personal,
+        Event
+    }
     public partial class Run
     {
         [Key]
@@ -13,6 +18,7 @@ namespace iBalekaAPI.Models
         public DateTime DateRecorded { get; set; }
         public bool Deleted { get; set; }
         public DateTime EndTime { get; set; }
+        public RunType RunType { get; set; }
         public int? EventId { get; set; }
         public int? RouteId { get; set; }
         public DateTime StartTime { get; set; }

@@ -12,44 +12,41 @@ namespace iBalekaAPI.Services
     public interface IClubMemberService
     {
         ClubMember GetMemberByID(int id);
-        IEnumerable<ClubMember> GetAll();
-        void AddMember(ClubMember member);
-        void UpdateMember(ClubMember member);
-        void Delete(ClubMember member);
+        IEnumerable<ClubMember> GetMembers(int clubId);
+        void RegisterMember(ClubMember member);
+        void DeRegisterMember(ClubMember memberId);
         void SaveMember();
 
     }
     public class ClubMemberService:IClubMemberService
     {
-        private readonly IClubMemberRepository _routeRepo;
+        private readonly IClubMemberRepository _clubMemberRepo;
         private readonly IUnitOfWork unitOfWork;
 
         public ClubMemberService(IClubMemberRepository _repo,IUnitOfWork _unitOfWork)
         {
-            _routeRepo = _repo;
+            _clubMemberRepo = _repo;
             unitOfWork = _unitOfWork;
         }
         
         public ClubMember GetMemberByID(int id)
         {
-            return _routeRepo.GetMemberByID(id);
+            return _clubMemberRepo.GetMemberByID(id);
         }
-        public IEnumerable<ClubMember> GetAll()
+        public IEnumerable<ClubMember> GetMembers(int clubId)
         {
-            return _routeRepo.GetAll();
+            return _clubMemberRepo.GetMembers(clubId);
         }
-        public void AddMember(ClubMember member)
+        public void RegisterMember(ClubMember member)
         {
-            _routeRepo.Add(member);
+            _clubMemberRepo.Add(member);
         }
-        public void UpdateMember(ClubMember member)
+        public void DeRegisterMember(ClubMember member)
         {
-            _routeRepo.Update(member);
+            
+            _clubMemberRepo.Delete(member);
         }
-        public void Delete(ClubMember member)
-        {
-            _routeRepo.Delete(member);
-        }
+   
         public void SaveMember()
         {
             unitOfWork.Commit();

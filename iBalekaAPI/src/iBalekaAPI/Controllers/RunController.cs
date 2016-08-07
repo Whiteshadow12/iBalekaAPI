@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
+using iBalekaAPI.Models;
+using iBalekaAPI.Services;
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace iBalekaAPI.Controllers
@@ -11,36 +12,86 @@ namespace iBalekaAPI.Controllers
     [Route("api/[controller]")]
     public class RunController : Controller
     {
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private IRunService _runRepo;
+        public RunController(IRunService _repo)
         {
-            return new string[] { "value1", "value2" };
+            _runRepo = _repo;
         }
-
+        // GET: api/values
+        [HttpGet("{id}")]
+        public IActionResult GetAthletePersonalRuns(int athleteId)
+        {
+            IEnumerable<Run> runs = _runRepo.GetAthletePersonalRuns(athleteId);
+            if (runs == null)
+                return NoContent();
+            return Json(runs);
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetAthleteEventRuns(int athleteId)
+        {
+            IEnumerable<Run> runs = _runRepo.GetAthleteEventRuns(athleteId);
+            if (runs == null)
+                return NoContent();
+            return Json(runs);
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetRouteRuns(int routeId)
+        {
+            IEnumerable<Run> runs = _runRepo.GetRouteRuns(routeId);
+            if (runs == null)
+                return NoContent();
+            return Json(runs);
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetEventRuns(int eventId)
+        {
+            IEnumerable<Run> runs = _runRepo.GetEventRuns(eventId);
+            if (runs == null)
+                return NoContent();
+            return Json(runs);
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetAllRuns(int athleteId)
+        {
+            IEnumerable<Run> runs = _runRepo.GetAllRuns(athleteId);
+            if (runs==null)
+                return NoContent();
+            return Json(runs);
+        }
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetRun(int runId)
         {
-            return "value";
+            Run run = _runRepo.GetRunByID(runId);
+            if (run == null)
+                return NotFound();
+            return Json(run);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult AddRun(Run run)
         {
+            if (ModelState.IsValid)
+            {
+                _runRepo.AddRun(run);
+                _runRepo.SaveRun();
+                return Ok(run.RunId);
+            }
+            else
+                return BadRequest(ModelState);
         }
-
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPost("{id}")]
+        public IActionResult DeleteRun(int id)
         {
+            Run run = _runRepo.GetRunByID(id);
+            if (run == null)
+                return NotFound();
+            _runRepo.Delete(run);
+            _runRepo.SaveRun();
+            return Ok();
         }
     }
 }

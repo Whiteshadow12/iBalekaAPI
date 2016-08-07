@@ -19,7 +19,6 @@ namespace iBalekaAPI.Models
         public string Description { get; set; }
         public string Location { get; set; }
         public string Name { get; set; }
-        [Column(TypeName = "varchar(MAX)")]
 
         public string UserId { get; set; }
 
