@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace iBalekaAPI.Controllers
+namespace iBalekaAPI.Core.Controllers
 {
     public class EventController : Controller
     {

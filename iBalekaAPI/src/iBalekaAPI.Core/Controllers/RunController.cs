@@ -7,7 +7,7 @@ using iBalekaAPI.Models;
 using iBalekaAPI.Services;
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace iBalekaAPI.Controllers
+namespace iBalekaAPI.Core.Controllers
 {
     [Route("api/[controller]")]
     public class RunController : Controller

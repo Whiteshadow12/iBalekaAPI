@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 //using prototypeWeb.Models;
 
-namespace iBalekaAPI.Controllers
+namespace iBalekaAPI.Core.Controllers
 {
     public class MapController : Controller
     {
