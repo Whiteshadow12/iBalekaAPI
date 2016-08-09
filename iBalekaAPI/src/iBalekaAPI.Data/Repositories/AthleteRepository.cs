@@ -15,8 +15,10 @@ namespace iBalekaAPI.Data.Repositories
     }
     public class AthleteRepository:RepositoryBase<Athlete>,IAthleteRepository
     {
+        
         public AthleteRepository(IDbFactory dbFactory)
             : base(dbFactory) { }
+       
         public Athlete GetAthleteByID(int id)
         {
             return DbContext.Athlete.Where(a => a.AthleteId == id && a.Deleted == false).FirstOrDefault();

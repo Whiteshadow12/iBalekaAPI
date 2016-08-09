@@ -16,7 +16,9 @@
       "type": "platform"
     },
     "Microsoft.AspNetCore.Authorization": "1.0.0",
-    "iBalekaAPI.Models": "1.0.0-*"
+    "iBalekaAPI.Models": "1.0.0-*",
+    "Microsoft.Extensions.Caching.Abstractions": "1.0.0",
+    "Microsoft.Extensions.Configuration.Binder": "1.0.0"
   },
   "frameworks": {
     "netcoreapp1.0": {

@@ -56,7 +56,7 @@ namespace iBalekaAPI
 
             //services.AddScoped<ISearchProvider, SearchProvider>();
             services.AddDbContext<iBalekaDBContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                    options.UseSqlServer(Configuration.GetConnectionString("ServerConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(i => {
                 i.SecurityStampValidationInterval = TimeSpan.FromDays(7);
@@ -72,8 +72,9 @@ namespace iBalekaAPI
                 .AddViewLocalization()
                 .AddDataAnnotationsLocalization();
             //repos
-            services.AddScoped<IDbFactory, DbFactory>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton(_ => Configuration);
+            services.AddSingleton<IDbFactory, DbFactory>();
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAthleteRepository, AthleteRepository>();
             services.AddScoped<IClubMemberRepository, ClubMemberRepository>();
             services.AddScoped<IClubRepository, ClubRepository>();

@@ -3841,6 +3841,8 @@
           "Microsoft.EntityFrameworkCore": "1.0.0",
           "Microsoft.EntityFrameworkCore.Relational": "1.0.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
+          "Microsoft.Extensions.Caching.Abstractions": "1.0.0",
+          "Microsoft.Extensions.Configuration.Binder": "1.0.0",
           "Microsoft.NETCore.App": "1.0.0",
           "System.Runtime": "4.1.0",
           "iBalekaAPI.Models": "1.0.0"
@@ -3866,6 +3868,22 @@
         },
         "runtime": {
           "netcoreapp1.0/iBalekaAPI.Models.dll": {}
+        }
+      },
+      "iBalekaAPI.Service/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v1.0",
+        "dependencies": {
+          "Microsoft.NETCore.App": "1.0.0",
+          "System.Runtime": "4.1.0",
+          "iBalekaAPI.Data": "1.0.0",
+          "iBalekaAPI.Models": "1.0.0"
+        },
+        "compile": {
+          "netcoreapp1.0/iBalekaAPI.Service.dll": {}
+        },
+        "runtime": {
+          "netcoreapp1.0/iBalekaAPI.Service.dll": {}
         }
       },
       "iBalekaAPI.Services/1.0.0": {
@@ -10053,6 +10071,11 @@
       "type": "project",
       "path": "../iBalekaAPI.Models/project.json",
       "msbuildProject": "../iBalekaAPI.Models/iBalekaAPI.Models.xproj"
+    },
+    "iBalekaAPI.Service/1.0.0": {
+      "type": "project",
+      "path": "../iBalekaAPI.Services/project.json",
+      "msbuildProject": "../iBalekaAPI.Services/iBalekaAPI.Service.xproj"
     },
     "iBalekaAPI.Services/1.0.0": {
       "type": "project",

@@ -59,7 +59,7 @@ namespace iBalekaAPI.Controllers
                 currentModel.UserID = userId;
                 _context.AddEvent(currentModel);
                 _context.SaveEvent();
-                return Ok(currentModel.EventId);
+                return Ok();
                 
             }
             else
