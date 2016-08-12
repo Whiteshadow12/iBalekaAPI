@@ -10,6 +10,7 @@ using iBalekaAPI.Services;
 namespace iBalekaAPI.Core.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class RunController : Controller
     {
         private IRunService _runRepo;
@@ -18,48 +19,54 @@ namespace iBalekaAPI.Core.Controllers
             _runRepo = _repo;
         }
         // GET: api/values
-        [HttpGet("{id}")]
-        public IActionResult GetAthletePersonalRuns(int athleteId)
-        {
-            IEnumerable<Run> runs = _runRepo.GetAthletePersonalRuns(athleteId);
-            if (runs == null)
-                return NoContent();
-            return Json(runs);
-        }
-        [HttpGet("{id}")]
-        public IActionResult GetAthleteEventRuns(int athleteId)
-        {
-            IEnumerable<Run> runs = _runRepo.GetAthleteEventRuns(athleteId);
-            if (runs == null)
-                return NoContent();
-            return Json(runs);
-        }
-        [HttpGet("{id}")]
-        public IActionResult GetRouteRuns(int routeId)
-        {
-            IEnumerable<Run> runs = _runRepo.GetRouteRuns(routeId);
-            if (runs == null)
-                return NoContent();
-            return Json(runs);
-        }
-        [HttpGet("{id}")]
-        public IActionResult GetEventRuns(int eventId)
-        {
-            IEnumerable<Run> runs = _runRepo.GetEventRuns(eventId);
-            if (runs == null)
-                return NoContent();
-            return Json(runs);
-        }
-        [HttpGet("{id}")]
+        //[Route("api/GetUserRoutes")]
+        //[HttpGet]
+        //public IActionResult GetAthletePersonalRuns(int athleteId)
+        //{
+        //    IEnumerable<Run> runs = _runRepo.GetAthletePersonalRuns(athleteId);
+        //    if (runs == null)
+        //        return NoContent();
+        //    return Json(runs);
+        //}
+        //[Route("api/GetUserRoutes")]
+        //[HttpGet]
+        //public IActionResult GetAthleteEventRuns(int athleteId)
+        //{
+        //    IEnumerable<Run> runs = _runRepo.GetAthleteEventRuns(athleteId);
+        //    if (runs == null)
+        //        return NoContent();
+        //    return Json(runs);
+        //}
+        //[Route("api/GetUserRoutes")]
+        //[HttpGet]
+        //public IActionResult GetRouteRuns(int routeId)
+        //{
+        //    IEnumerable<Run> runs = _runRepo.GetRouteRuns(routeId);
+        //    if (runs == null)
+        //        return NoContent();
+        //    return Json(runs);
+        //}
+        //[Route("api/GetUserRoutes")]
+        //[HttpGet]
+        //public IActionResult GetEventRuns(int eventId)
+        //{
+        //    IEnumerable<Run> runs = _runRepo.GetEventRuns(eventId);
+        //    if (runs == null)
+        //        return NoContent();
+        //    return Json(runs);
+        //}
+        [Route("GetAllRuns")]
+        [HttpGet]
         public IActionResult GetAllRuns(int athleteId)
         {
             IEnumerable<Run> runs = _runRepo.GetAllRuns(athleteId);
-            if (runs==null)
+            if (runs == null)
                 return NoContent();
             return Json(runs);
         }
         // GET api/values/5
-        [HttpGet("{id}")]
+        [Route("GetRun")]
+        [HttpGet]
         public IActionResult GetRun(int runId)
         {
             Run run = _runRepo.GetRunByID(runId);
@@ -67,8 +74,8 @@ namespace iBalekaAPI.Core.Controllers
                 return NotFound();
             return Json(run);
         }
-
         // POST api/values
+        [Route("AddRun")]
         [HttpPost]
         public IActionResult AddRun(Run run)
         {
@@ -81,9 +88,9 @@ namespace iBalekaAPI.Core.Controllers
             else
                 return BadRequest(ModelState);
         }
-        // PUT api/values/5
         // DELETE api/values/5
-        [HttpPost("{id}")]
+        [Route("DeleteRun")]
+        [HttpPost]
         public IActionResult DeleteRun(int id)
         {
             Run run = _runRepo.GetRunByID(id);

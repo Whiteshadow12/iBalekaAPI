@@ -15,11 +15,18 @@ using Microsoft.EntityFrameworkCore;
 using iBalekaAPI.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.Swagger.Model;
+using Swashbuckle.SwaggerGen.Generator;
+using Microsoft.Extensions.PlatformAbstractions;
+using System.IO;
+using iBalekaAPI.Core.Swagger;
 
 namespace iBalekaAPI.Core
 {
     public class Startup
     {
+        private readonly IHostingEnvironment _hostingEnv;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -28,28 +35,44 @@ namespace iBalekaAPI.Core
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            _hostingEnv = env;
 
         }
 
         public IConfigurationRoot Configuration { get; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
 
-            //services.AddSwaggerGen();
-            //services.ConfigureSwaggerGen(options =>
-            //{
-            //    options.SingleApiVersion(new Info
-            //    {
-            //        Version = "v1",
-            //        Title = "iBaleka API",
-            //        Description = "iBaleka API for mobile and web inegration",
-            //        TermsOfService = "None"
-            //    });
-            //    options.DescribeAllEnumsAsStrings();
-            //});
-
+            services.AddMvc()
+               .AddJsonOptions(jsonOptions =>
+               {
+                   jsonOptions.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+               })
+               .AddDataAnnotationsLocalization();
+            services.AddSwaggerGen();
+            services.ConfigureSwaggerGen(options =>
+            {
+                options.SingleApiVersion(new Info
+                {
+                    Version = "v1",
+                    Title = "iBaleka API",
+                    Description = "iBaleka API for mobile and web inegration",
+                    TermsOfService = "None"
+                });
+                options.OperationFilter<AssignOperationVendorExtensions>();
+                options.DescribeAllEnumsAsStrings();
+                
+            });
+            if (_hostingEnv.IsDevelopment())
+            {
+                services.ConfigureSwaggerGen(c =>
+                {
+                    c.IncludeXmlComments(GetXmlCommentsPath(PlatformServices.Default.Application));
+                });
+            }
             //services.AddScoped<ISearchProvider, SearchProvider>();
             services.AddDbContext<iBalekaDBContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ServerConnection")));
@@ -60,13 +83,7 @@ namespace iBalekaAPI.Core
                 .AddEntityFrameworkStores<iBalekaDBContext>()
                 .AddDefaultTokenProviders();
             services.AddDistributedMemoryCache();
-            services.AddMvc()
-                .AddJsonOptions(jsonOptions =>
-                {
-                    jsonOptions.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                })
-                .AddViewLocalization()
-                .AddDataAnnotationsLocalization();
+           
             //repos
             services.AddSingleton(_ => Configuration);
             services.AddSingleton<IDbFactory, DbFactory>();
@@ -104,7 +121,22 @@ namespace iBalekaAPI.Core
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
+            app.UseSwagger((httpRequest, swaggerDoc) =>
+            {
+                swaggerDoc.Host = httpRequest.Host.Value;
+            });
+            app.UseSwaggerUi();
+        }
+        private string GetXmlCommentsPath(ApplicationEnvironment appEnvironment)
+        {
+            return Path.Combine(appEnvironment.ApplicationBasePath, "iBalekaAPI.Core.xml");
         }
     }
+
 }

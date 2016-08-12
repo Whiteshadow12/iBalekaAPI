@@ -6,6 +6,9 @@ using System.ComponentModel;
 
 namespace iBalekaAPI.Models
 {
+    /// <summary>
+    /// Represents an athlete
+    /// </summary>
     public class Athlete
     {
         public Athlete()

@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.0",
-    "signature": "b82f86c9212b8459ce9f04d37c9c6d70718a323e"
+    "signature": "d5218ee23ef5c2d252399baf5f21363f56221bf3"
   },
   "compilationOptions": {
     "defines": [
@@ -10,7 +10,8 @@
       "NETCOREAPP1_0"
     ],
     "optimize": false,
-    "emitEntryPoint": true
+    "emitEntryPoint": true,
+    "xmlDoc": true
   },
   "targets": {
     ".NETCoreApp,Version=v1.0": {
@@ -31,7 +32,11 @@
           "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
           "iBalekaAPI.Services": "1.0.0",
           "iBalekaAPI.Models": "1.0.0",
-          "iBalekaAPI.Data": "1.0.0"
+          "iBalekaAPI.Data": "1.0.0",
+          "Swashbuckle": "6.0.0-beta901",
+          "Swashbuckle.Swagger": "6.0.0-beta901",
+          "Swashbuckle.SwaggerGen": "6.0.0-beta901",
+          "Swashbuckle.SwaggerUi": "6.0.0-beta901"
         },
         "runtime": {
           "iBalekaAPI.Core.dll": {}
@@ -1090,6 +1095,18 @@
           "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Composite.dll": {}
         }
       },
+      "Microsoft.Extensions.FileProviders.Embedded/1.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Abstractions": "1.0.0",
+          "System.Runtime.Extensions": "4.1.0"
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Embedded.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Embedded.dll": {}
+        }
+      },
       "Microsoft.Extensions.FileProviders.Physical/1.0.0": {
         "dependencies": {
           "Microsoft.Extensions.FileProviders.Abstractions": "1.0.0",
@@ -1616,6 +1633,53 @@
             "rid": "win7-x86",
             "assetType": "native"
           }
+        }
+      },
+      "Swashbuckle/6.0.0-beta901": {
+        "dependencies": {
+          "Swashbuckle.SwaggerGen": "6.0.0-beta901",
+          "Swashbuckle.SwaggerUi": "6.0.0-beta901"
+        }
+      },
+      "Swashbuckle.Swagger/6.0.0-beta901": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
+          "Microsoft.AspNetCore.Mvc.Formatters.Json": "1.0.0"
+        },
+        "runtime": {
+          "lib/netstandard1.6/Swashbuckle.Swagger.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.6/Swashbuckle.Swagger.dll": {}
+        }
+      },
+      "Swashbuckle.SwaggerGen/6.0.0-beta901": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc.ApiExplorer": "1.0.0",
+          "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
+          "Microsoft.AspNetCore.Mvc.DataAnnotations": "1.0.0",
+          "Swashbuckle.Swagger": "6.0.0-beta901",
+          "System.Xml.XPath": "4.0.1"
+        },
+        "runtime": {
+          "lib/netstandard1.6/Swashbuckle.SwaggerGen.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.6/Swashbuckle.SwaggerGen.dll": {}
+        }
+      },
+      "Swashbuckle.SwaggerUi/6.0.0-beta901": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
+          "Microsoft.AspNetCore.StaticFiles": "1.0.0",
+          "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
+          "System.Xml.XPath": "4.0.1"
+        },
+        "runtime": {
+          "lib/netstandard1.6/Swashbuckle.SwaggerUi.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.6/Swashbuckle.SwaggerUi.dll": {}
         }
       },
       "System.Collections.NonGeneric/4.0.1": {
@@ -3516,6 +3580,9 @@
           "System.Threading": "4.0.11",
           "System.Xml.ReaderWriter": "4.0.11"
         },
+        "compile": {
+          "ref/netstandard1.3/System.Xml.XPath.dll": {}
+        },
         "compileOnly": true
       },
       "System.Xml.XPath.XDocument/4.0.1": {
@@ -3870,6 +3937,11 @@
       "serviceable": true,
       "sha512": "sha512-4nbDQfagNr1eILXSFZbTNuAKuZ6SsOyK6ySTMryo67ECi8+EcZBQ12E0aXcxX/aT3v+3pbWSt71NXlEm8tKIxw=="
     },
+    "Microsoft.Extensions.FileProviders.Embedded/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-mMCI3/BLXAyBCDneqOI4ohETd0IXjbXZdoiCm1dYdnOdV193ByEOCFQ6/Vn9RVdU5UlC4Nn1P4J5Df7pXG/vGg=="
+    },
     "Microsoft.Extensions.FileProviders.Physical/1.0.0": {
       "type": "package",
       "serviceable": true,
@@ -4049,6 +4121,26 @@
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-ykiYCf/0hIc0xm+g6bVX8nw9St5Ool+r4US+B+56Lv/GFnDG5G9BK4n7WkrwEpuWV3XjMn38oHgHOnNMzBVNKA=="
+    },
+    "Swashbuckle/6.0.0-beta901": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7QlFBzUxOwDrUOo2ZMLzF1ekhelozTUCzNifnz2rND+HqR0lJ6Bpl5QfIDVRnjMAge9LLTsc+TQLynkLVliKWw=="
+    },
+    "Swashbuckle.Swagger/6.0.0-beta901": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Aa9fzgCfJ6STF9EJyvpHz0J2BUKMYOV/ASZVvEN/Z8Tad4Ovn2KiKr6yN5rrXvtVqWjYlOiFPd01TM/DCtmKYA=="
+    },
+    "Swashbuckle.SwaggerGen/6.0.0-beta901": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lLznzenpFMkSyIygf7PZr9f48PRT51kSrrfsvufgciUxnKOBsGJMAFhBWQFccYSxDjFYdP0EOfPU6yZrGwZ+nQ=="
+    },
+    "Swashbuckle.SwaggerUi/6.0.0-beta901": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qqYh14nwLQI4NCTYQXjtoXoAjv1Fonio5LFRLlbQ8vfDUMOjEzBw94oLUF7uRBivrY6NEEqTmBasSdujveCCeA=="
     },
     "System.Collections.NonGeneric/4.0.1": {
       "type": "package",

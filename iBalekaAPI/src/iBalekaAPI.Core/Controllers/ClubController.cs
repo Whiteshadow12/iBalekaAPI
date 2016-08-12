@@ -11,6 +11,7 @@ using iBalekaAPI.Services;
 namespace iBalekaAPI.Core.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class ClubController : Controller
     {
         private IClubMemberService _memberRepo;
@@ -21,11 +22,13 @@ namespace iBalekaAPI.Core.Controllers
             _memberRepo = memberRepo;
         }
         // GET: api/value
+        [Route("GetAllClubs")]
         [HttpGet]
         public IActionResult GetAllClubs()
         {
             return Json(_clubRepo.GetAll());
         }
+        [Route("GetUserClubs")]
         [HttpGet]
         public IActionResult GetUserClubs(string userId)
         {
@@ -36,31 +39,8 @@ namespace iBalekaAPI.Core.Controllers
             else
                 return BadRequest(ModelState);
         }
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public IActionResult GetClubMembers(int clubId)
-        {
-            if (ModelState.IsValid)
-            {
-                return Json(_memberRepo.GetMembers(clubId));
-            }
-            else
-                return BadRequest(ModelState);
-        }
-        [HttpGet("{id}")]
-        public IActionResult GetClubMember(int memberId)
-        {
-            if (ModelState.IsValid)
-            {
-                ClubMember club = _memberRepo.GetMemberByID(memberId);
-                if (club == null)
-                    return NotFound();
-                return Json(club);
-            }
-            else
-                return BadRequest(ModelState);
-        }
-        [HttpGet("{id}")]
+        [Route("GetClub")]
+        [HttpGet]
         public IActionResult GetClub(int clubId)
         {
             if (ModelState.IsValid)
@@ -74,6 +54,7 @@ namespace iBalekaAPI.Core.Controllers
                 return BadRequest(ModelState);
         }
         // POST api/values
+        [Route("CreateClub")]
         [HttpPost]
         public IActionResult CreateClub(Club club)
         {
@@ -86,6 +67,7 @@ namespace iBalekaAPI.Core.Controllers
             else
                 return BadRequest(ModelState);
         }
+        [Route("UpdateClub")]
         [HttpPut]
         public IActionResult UpdateClub(Club club)
         {
@@ -98,6 +80,7 @@ namespace iBalekaAPI.Core.Controllers
             else
                 return BadRequest(ModelState);
         }
+        [Route("DeleteClub")]
         [HttpPut]
         public IActionResult DeleteClub(Club club)
         {
@@ -110,30 +93,7 @@ namespace iBalekaAPI.Core.Controllers
             else
                 return BadRequest(ModelState);
         }
-        [HttpPost]
-        public IActionResult RegisterMember(ClubMember club)
-        {
-            if (ModelState.IsValid)
-            {
-                _memberRepo.RegisterMember(club);
-                _memberRepo.SaveMember();
-                return Ok(club.MemberId);
-            }
-            else
-                return BadRequest(ModelState);
-        }
-        [HttpPut]
-        public IActionResult DeRegisterMember(ClubMember club)
-        {
-            if (ModelState.IsValid)
-            {
-                _memberRepo.DeRegisterMember(club);
-                _memberRepo.SaveMember();
-                return Ok();
-            }
-            else
-                return BadRequest(ModelState);
-        }
+        
         
     }
 }

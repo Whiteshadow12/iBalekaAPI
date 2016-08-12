@@ -11,6 +11,7 @@ using iBalekaAPI.Services;
 namespace iBalekaAPI.Core.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class EventRegistrationController : Controller
     {
         private IEventRegService _context;
@@ -19,7 +20,8 @@ namespace iBalekaAPI.Core.Controllers
             _context = _repo;
         }
         // GET: api/values
-        [HttpGet("{id}")]
+        [Route("GetRegistration")]
+        [HttpGet]
         public IActionResult GetRegistration(int regId)
         {
             if (ModelState.IsValid)
@@ -33,7 +35,8 @@ namespace iBalekaAPI.Core.Controllers
                 return BadRequest(ModelState);
             
         }
-        [HttpGet("{id}")]
+        [Route("GetRegistrations")]
+        [HttpGet]
         public IActionResult GetRegistrations(int eventId)
         {
             if (ModelState.IsValid)
@@ -43,7 +46,8 @@ namespace iBalekaAPI.Core.Controllers
             else
                 return BadRequest();
         }
-        [HttpGet("{id}")]
+        [Route("GetAthleteRegistrations")]
+        [HttpGet]
         public IActionResult GetAthleteRegistrations(int athleteId)
         {
 
@@ -55,6 +59,7 @@ namespace iBalekaAPI.Core.Controllers
                 return BadRequest(ModelState);
         }
         // POST api/values
+        [Route("Register")]
         [HttpPost]
         public IActionResult Register(EventRegistration reg)
         {
@@ -69,7 +74,8 @@ namespace iBalekaAPI.Core.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
+        [Route("DeRegister")]
+        [HttpPut]
         public IActionResult DeRegister(int regId)
         {
             if (ModelState.IsValid)

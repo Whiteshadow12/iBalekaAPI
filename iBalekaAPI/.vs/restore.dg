@@ -1,4 +1,7 @@
 #:C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\iBalekaAPI.Core.xproj
-C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\iBalekaAPI.Core.xproj|C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Models\iBalekaAPI.Models.xproj
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\iBalekaAPI.Core.xproj|C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Data\iBalekaAPI.Data.xproj
+C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\iBalekaAPI.Core.xproj|C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Models\iBalekaAPI.Models.xproj
+C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\iBalekaAPI.Core.xproj|C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Services\iBalekaAPI.Services.xproj
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Data\iBalekaAPI.Data.xproj|C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Models\iBalekaAPI.Models.xproj
+C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Services\iBalekaAPI.Services.xproj|C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Data\iBalekaAPI.Data.xproj
+C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Services\iBalekaAPI.Services.xproj|C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Models\iBalekaAPI.Models.xproj

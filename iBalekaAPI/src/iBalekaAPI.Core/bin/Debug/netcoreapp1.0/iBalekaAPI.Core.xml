@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>iBalekaAPI.Core</name>
+    </assembly>
+    <members>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.GetAthletes">
+            <summary>
+            Gets all athletes
+            </summary>
+            
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.GetAthlete(System.Int32)">
+            <summary>
+            Returns a specific athlete 
+            </summary>
+            <param name="athleteId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.AddAthlete(iBalekaAPI.Models.Athlete)">
+            <summary>
+            Adds an <paramref name="athlete"/> to db
+            </summary>
+            <paramref name="athlete"/>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.UpdateAthlete(iBalekaAPI.Models.Athlete)">
+            <summary>
+            Updates some properties of a athlete
+            </summary>
+            <param name="athlete"></param>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.DeleteAthlete(System.Int32)">
+            <summary>
+            Deletes a specific athlete
+            </summary>
+            <param name="athleteId"></param>
+        </member>
+    </members>
+</doc>

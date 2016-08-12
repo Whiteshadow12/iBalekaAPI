@@ -14,7 +14,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "iBalekaAPI.Models", "src\iB
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "iBalekaAPI.Data", "src\iBalekaAPI.Data\iBalekaAPI.Data.xproj", "{5719C1BB-01B8-4E8D-8FAD-C8B3B5158E83}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "iBalekaAPI.Service", "src\iBalekaAPI.Services\iBalekaAPI.Service.xproj", "{E5814AA0-C797-4B0E-A507-603DB5D98C26}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "iBalekaAPI.Services", "src\iBalekaAPI.Services\iBalekaAPI.Services.xproj", "{E5814AA0-C797-4B0E-A507-603DB5D98C26}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "iBalekaAPI.Core", "src\iBalekaAPI.Core\iBalekaAPI.Core.xproj", "{B6CF137E-272B-445A-ACC6-DA698C742A76}"
 EndProject

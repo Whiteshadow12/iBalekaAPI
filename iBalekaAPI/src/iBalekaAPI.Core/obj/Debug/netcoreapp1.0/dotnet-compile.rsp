@@ -3,11 +3,13 @@
 --define:DEBUG
 --define:TRACE
 --define:NETCOREAPP1_0
+--suppress-warning:1591
 --suppress-warning:CS1701
 --suppress-warning:CS1702
 --suppress-warning:CS1705
 --optimize:False
 --emit-entry-point:True
+--generate-xml-documentation:True
 --output-name:iBalekaAPI.Core
 --file-version:1.0.0.0
 --version:1.0.0.0
@@ -82,6 +84,7 @@
 --reference:C:\Users\Tulonga\.nuget\packages\Microsoft.Extensions.DependencyModel\1.0.0\lib\netstandard1.6\Microsoft.Extensions.DependencyModel.dll
 --reference:C:\Users\Tulonga\.nuget\packages\Microsoft.Extensions.FileProviders.Abstractions\1.0.0\lib\netstandard1.0\Microsoft.Extensions.FileProviders.Abstractions.dll
 --reference:C:\Users\Tulonga\.nuget\packages\Microsoft.Extensions.FileProviders.Composite\1.0.0\lib\netstandard1.0\Microsoft.Extensions.FileProviders.Composite.dll
+--reference:C:\Users\Tulonga\.nuget\packages\Microsoft.Extensions.FileProviders.Embedded\1.0.0\lib\netstandard1.0\Microsoft.Extensions.FileProviders.Embedded.dll
 --reference:C:\Users\Tulonga\.nuget\packages\Microsoft.Extensions.FileProviders.Physical\1.0.0\lib\netstandard1.3\Microsoft.Extensions.FileProviders.Physical.dll
 --reference:C:\Users\Tulonga\.nuget\packages\Microsoft.Extensions.FileSystemGlobbing\1.0.0\lib\netstandard1.3\Microsoft.Extensions.FileSystemGlobbing.dll
 --reference:C:\Users\Tulonga\.nuget\packages\Microsoft.Extensions.Globalization.CultureInfoCache\1.0.0\lib\netstandard1.1\Microsoft.Extensions.Globalization.CultureInfoCache.dll
@@ -118,6 +121,9 @@
 --reference:C:\Users\Tulonga\.nuget\packages\NuGet.RuntimeModel\3.5.0-beta2-1484\lib\netstandard1.3\NuGet.RuntimeModel.dll
 --reference:C:\Users\Tulonga\.nuget\packages\NuGet.Versioning\3.5.0-beta2-1484\lib\netstandard1.0\NuGet.Versioning.dll
 --reference:C:\Users\Tulonga\.nuget\packages\Remotion.Linq\2.1.1\lib\netstandard1.0\Remotion.Linq.dll
+--reference:C:\Users\Tulonga\.nuget\packages\Swashbuckle.Swagger\6.0.0-beta901\lib\netstandard1.6\Swashbuckle.Swagger.dll
+--reference:C:\Users\Tulonga\.nuget\packages\Swashbuckle.SwaggerGen\6.0.0-beta901\lib\netstandard1.6\Swashbuckle.SwaggerGen.dll
+--reference:C:\Users\Tulonga\.nuget\packages\Swashbuckle.SwaggerUi\6.0.0-beta901\lib\netstandard1.6\Swashbuckle.SwaggerUi.dll
 --reference:C:\Users\Tulonga\.nuget\packages\System.AppContext\4.1.0\ref\netstandard1.6\System.AppContext.dll
 --reference:C:\Users\Tulonga\.nuget\packages\System.Buffers\4.0.0\lib\netstandard1.1\System.Buffers.dll
 --reference:C:\Users\Tulonga\.nuget\packages\System.Collections\4.0.11\ref\netstandard1.3\System.Collections.dll
@@ -202,6 +208,7 @@
 --reference:C:\Users\Tulonga\.nuget\packages\System.Threading.Timer\4.0.1\ref\netstandard1.2\System.Threading.Timer.dll
 --reference:C:\Users\Tulonga\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\Tulonga\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll
+--reference:C:\Users\Tulonga\.nuget\packages\System.Xml.XPath\4.0.1\ref\netstandard1.3\System.Xml.XPath.dll
 --reference:C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Data\bin\Debug\netcoreapp1.0\iBalekaAPI.Data.dll
 --reference:C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Models\bin\Debug\netcoreapp1.0\iBalekaAPI.Models.dll
 --reference:C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Services\bin\Debug\netcoreapp1.0\iBalekaAPI.Services.dll
@@ -210,7 +217,9 @@ C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\Program.
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\Startup.cs
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\Controllers\AthleteController.cs
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\Controllers\ClubController.cs
+C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\Controllers\ClubMemberController.cs
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\Controllers\EventController.cs
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\Controllers\EventRegistrationController.cs
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\Controllers\MapController.cs
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\Controllers\RunController.cs
+C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\src\iBalekaAPI.Core\Swagger\AssignOperationVendorExtensions.cs

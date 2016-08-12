@@ -24,7 +24,7 @@ namespace iBalekaAPI.Data.Infastructure
         {
             
             var builder = new DbContextOptionsBuilder<iBalekaDBContext>();
-            var cs = config.GetValue<string>("ConnectionStrings:ServerConnection");
+            var cs = config.GetValue<string>("ConnectionStrings:DefaultConnection");
             builder.UseSqlServer(cs);
             return new iBalekaDBContext(builder.Options);
         }

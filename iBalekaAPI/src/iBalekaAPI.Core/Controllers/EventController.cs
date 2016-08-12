@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace iBalekaAPI.Core.Controllers
 {
+    
+    [Produces("application/json")]
     public class EventController : Controller
     {
         private IEventService _context;
@@ -26,20 +28,23 @@ namespace iBalekaAPI.Core.Controllers
         }
 
         // GET: Event/Events
-        [HttpGet(Name = "GetUserEvents")]
+        [Route("GetUserEvents")]
+        [HttpGet]
         public IActionResult GetUserEvents(string userId)
         {
             IEnumerable<Event> events = _context.GetUserEvents(userId);
             return Json(events);
         }
-        [HttpGet(Name = "GetEvents")]
+        [Route("GetEvents")]
+        [HttpGet]
         public IActionResult GetEvents()
         {
             IEnumerable<Event> events = _context.GetEvents();
             return Json(events);
         }
         // GET: Event/Details/5
-        [HttpGet(Name = "GetEvent")]
+        [Route("GetEvent")]
+        [HttpGet]
         public IActionResult GetEvent(int id)
         {
             Event evnt = _context.GetEventByID(id);
@@ -50,6 +55,7 @@ namespace iBalekaAPI.Core.Controllers
             return Json(evnt);
         }
         //save event
+        [Route("SaveEvent")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SaveEvent(Event currentModel,string userId)
@@ -68,6 +74,7 @@ namespace iBalekaAPI.Core.Controllers
             }
         }
         // POST: Event/Edit/5
+        [Route("EditEvent")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditEvent(Event evnt)
@@ -94,6 +101,7 @@ namespace iBalekaAPI.Core.Controllers
         }
 
         // POST: Event/Delete/5
+        [Route("DeleteEvent")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteEvent(int id)

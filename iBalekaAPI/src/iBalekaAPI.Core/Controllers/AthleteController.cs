@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using iBalekaAPI.Models;
 using iBalekaAPI.Services;
+using Swashbuckle.Swagger;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace iBalekaAPI.Core.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class AthleteController : Controller
     {
         private IAthleteService _context;
@@ -18,8 +20,13 @@ namespace iBalekaAPI.Core.Controllers
         {
             _context = _repo;
         }
-        
+
         // GET: api/values
+        /// <summary>
+        /// Gets all athletes
+        /// </summary>
+        /// 
+        [Route("GetAthletes")]
         [HttpGet]
         public IActionResult GetAthletes()
         {
@@ -27,7 +34,13 @@ namespace iBalekaAPI.Core.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
+        /// <summary>
+        /// Returns a specific athlete 
+        /// </summary>
+        /// <param name="athleteId"></param>
+        /// <returns></returns>
+        [Route("GetAthlete")]
+        [HttpGet]
         public IActionResult GetAthlete(int athleteId)
         {
             Athlete athlete = _context.GetAthlete(athleteId);
@@ -37,6 +50,11 @@ namespace iBalekaAPI.Core.Controllers
         }
 
         // POST api/values
+        /// <summary>
+        /// Adds an <paramref name="athlete"/> to db
+        /// </summary>
+        /// <paramref name="athlete"/>
+        [Route("AddAthlete")]
         [HttpPost]
         public IActionResult AddAthlete(Athlete athlete)
         {
@@ -54,7 +72,12 @@ namespace iBalekaAPI.Core.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
+        /// <summary>
+        /// Updates some properties of a athlete
+        /// </summary>
+        /// <param name="athlete"></param>
+        [Route("UpdateAthlete")]
+        [HttpPut]
         public IActionResult UpdateAthlete(Athlete athlete)
         {
 
@@ -71,7 +94,12 @@ namespace iBalekaAPI.Core.Controllers
         }
 
         // DELETE api/values/5
-        [HttpPut("{id}")] 
+        /// <summary>
+        /// Deletes a specific athlete
+        /// </summary>
+        /// <param name="athleteId"></param>
+        [Route("DeleteAthlete")]
+        [HttpPut]
         public IActionResult DeleteAthlete(int athleteId)
         {
             if (ModelState.IsValid)
@@ -85,7 +113,7 @@ namespace iBalekaAPI.Core.Controllers
             }
             else
                 return BadRequest(ModelState);
-           
+
         }
     }
 }

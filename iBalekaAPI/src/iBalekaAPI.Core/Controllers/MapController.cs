@@ -11,6 +11,7 @@ using System.Diagnostics;
 
 namespace iBalekaAPI.Core.Controllers
 {
+    [Produces("application/json")]
     public class MapController : Controller
     {
         private IRouteService _context;
@@ -19,22 +20,25 @@ namespace iBalekaAPI.Core.Controllers
             _context = _repo;
         }
 
-        
-        
+
+
         //// GET: Map/SavedRoutes
-        [HttpGet(Name = "GetUserRoutes")]
+        [Route("GetUserRoutes")]
+        [HttpGet]
         public IActionResult GetUserRoutes(string userId)
         {
             IEnumerable<Route> routes = _context.GetUserRoutes(userId);
             return Json(routes);
         }
-        [HttpGet(Name = "GetRoutes")]
+        [Route("GetRoutes")]
+        [HttpGet]
         public IActionResult GetRoutes(string userId)
         {
             IEnumerable<Route> routes = _context.GetRoutes();
             return Json(routes);
         }
         //// POST: Map/AddRoute
+        [Route("AddRoute")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddRoute(Route route,string userId)
@@ -55,10 +59,11 @@ namespace iBalekaAPI.Core.Controllers
                 return BadRequest(ModelState);
             }
         }
- 
+
 
         // GET: Map/Edit/5
-        [HttpGet(Name = "GetRoute")]
+        [Route("GetRoute")]
+        [HttpGet]
         public IActionResult GetRoute(int id)
         {
             Route route = _context.GetRouteByID(id);
@@ -71,7 +76,8 @@ namespace iBalekaAPI.Core.Controllers
         }
 
         // POST: Map/Edit/5
-        [HttpPost(Name = "Edit")]
+        [Route("EditRoute")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditRoute(Route route)
         {
@@ -87,9 +93,10 @@ namespace iBalekaAPI.Core.Controllers
                 return BadRequest(ModelState);
             }
         }
-        
+
         // POST: Map/DeleteRoute/5
-        [HttpPost, ActionName("Delete")]
+        [Route("DeleteRoute")]
+        [HttpPost]
         public IActionResult DeleteRoute(int id)
         {
             if (ModelState.IsValid)
