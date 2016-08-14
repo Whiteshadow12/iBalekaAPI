@@ -22,12 +22,25 @@ namespace iBalekaAPI.Core.Controllers
             _memberRepo = memberRepo;
         }
         // GET: api/value
+        /// <summary>
+        /// Get all clubs
+        /// </summary>
+        /// <remarks>Get all clubs</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("GetAllClubs")]
         [HttpGet]
         public IActionResult GetAllClubs()
         {
             return Json(_clubRepo.GetAll());
         }
+        /// <summary>
+        /// Get all user created clubs
+        /// </summary>
+        /// <param name="userId" type="int">User Id</param>
+        /// <remarks>Get all user created clubs</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("GetUserClubs")]
         [HttpGet]
         public IActionResult GetUserClubs(string userId)
@@ -39,6 +52,13 @@ namespace iBalekaAPI.Core.Controllers
             else
                 return BadRequest(ModelState);
         }
+        /// <summary>
+        /// Get a particular club
+        /// </summary>
+        /// <param name="clubId" type="int">Club Id</param>
+        /// <remarks>Get a particular club</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("GetClub")]
         [HttpGet]
         public IActionResult GetClub(int clubId)
@@ -54,6 +74,13 @@ namespace iBalekaAPI.Core.Controllers
                 return BadRequest(ModelState);
         }
         // POST api/values
+        /// <summary>
+        /// Create a club
+        /// </summary>
+        /// <param name="club" type="Club">Club Model</param>
+        /// <remarks>Create a Club</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("CreateClub")]
         [HttpPost]
         public IActionResult CreateClub(Club club)
@@ -67,6 +94,13 @@ namespace iBalekaAPI.Core.Controllers
             else
                 return BadRequest(ModelState);
         }
+        /// <summary>
+        /// Update a club
+        /// </summary>
+        /// <param name="club" type="Club">Club Model</param>
+        /// <remarks>Update a Club</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("UpdateClub")]
         [HttpPut]
         public IActionResult UpdateClub(Club club)
@@ -80,6 +114,13 @@ namespace iBalekaAPI.Core.Controllers
             else
                 return BadRequest(ModelState);
         }
+        /// <summary>
+        /// Delete a club
+        /// </summary>
+        /// <param name="club" type="Club">Club Model</param>
+        /// <remarks>Delete a club</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("DeleteClub")]
         [HttpPut]
         public IActionResult DeleteClub(Club club)

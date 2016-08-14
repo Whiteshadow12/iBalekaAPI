@@ -22,13 +22,10 @@ namespace iBalekaAPI.Data.Repositories
     }
     public class RouteRepository : RepositoryBase<Route>, IRouteRepository
     {
-        private readonly UserManager<ApplicationUser> _userManger;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        public RouteRepository(IDbFactory dbFactory,UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager)
+
+        public RouteRepository(IDbFactory dbFactory)
             : base(dbFactory)
         {
-            _userManger = userManager;
-            _signInManager = signInManager;
             
         }
         
@@ -98,7 +95,7 @@ namespace iBalekaAPI.Data.Repositories
         }
         public IEnumerable<Route> GetRoutes()
         {
-            return DbContext.Route.Where(a =>a.Deleted == false).ToList();
+            return DbContext.Route.Where(a =>a.Deleted == false).Include(a=>a.Checkpoint).ToList();
         }
         public void DeleteCheckPoints(IEnumerable<Checkpoint> checkpoints)
         {

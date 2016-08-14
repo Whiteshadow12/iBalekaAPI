@@ -37,7 +37,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// Returns a specific athlete 
         /// </summary>
-        /// <param name="athleteId"></param>
+        /// <param name="athleteId" type="int">AthleteId</param>
         /// <returns></returns>
         [Route("GetAthlete")]
         [HttpGet]
@@ -51,7 +51,7 @@ namespace iBalekaAPI.Core.Controllers
 
         // POST api/values
         /// <summary>
-        /// Adds an <paramref name="athlete"/> to db
+        /// Adds an Athlete to db
         /// </summary>
         /// <paramref name="athlete"/>
         [Route("AddAthlete")]
@@ -75,7 +75,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// Updates some properties of a athlete
         /// </summary>
-        /// <param name="athlete"></param>
+        /// <param name="athlete" type="Athlete"></param>
         [Route("UpdateAthlete")]
         [HttpPut]
         public IActionResult UpdateAthlete(Athlete athlete)

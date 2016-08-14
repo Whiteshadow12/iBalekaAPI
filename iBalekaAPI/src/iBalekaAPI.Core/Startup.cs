@@ -85,7 +85,6 @@ namespace iBalekaAPI.Core
             services.AddDistributedMemoryCache();
            
             //repos
-            services.AddSingleton(_ => Configuration);
             services.AddSingleton<IDbFactory, DbFactory>();
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAthleteRepository, AthleteRepository>();
@@ -121,12 +120,7 @@ namespace iBalekaAPI.Core
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
             app.UseSwagger((httpRequest, swaggerDoc) =>
             {
                 swaggerDoc.Host = httpRequest.Host.Value;

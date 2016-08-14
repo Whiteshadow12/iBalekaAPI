@@ -13,33 +13,20 @@ namespace iBalekaAPI.Models
             DateAdded = dateAdded;
             Deleted = false;
         }
-        public EventRoute(int evntRouteId, int evntId, int routeId, string descript, string dateAdd, double distance, string title)
-        {
-            EventRouteID = evntRouteId;
-            EventID = evntId;
-            RouteID = routeId;
-            Description = descript;
-            Distance = distance;
-            DateAdded = dateAdd;
-
-
-        }
-        public EventRoute(int routeId, string dateAdd, double distance, string title)
+        public EventRoute(int routeId, string dateAdd, string title)
         {
             Title = title;
             RouteID = routeId;
-            Distance = distance;
             DateAdded = dateAdd;
 
 
         }
-        public EventRoute(int eventRouteId, int eventId, int routeId, string dateAdded, double distance, string title, string description)
+        public EventRoute(int eventRouteId, int eventId, int routeId, string dateAdded,string title, string description)
         {
             EventRouteID = eventRouteId;
             EventID = eventId;
             RouteID = routeId;
             DateAdded = dateAdded;
-            Distance = distance;
             Title = title;
             Description = description;
         }
@@ -47,7 +34,6 @@ namespace iBalekaAPI.Models
         {
             Title = evntRoute.Title;
             RouteID = evntRoute.RouteId;
-            Distance = evntRoute.Distance;
             DateAdded = DateTime.Now.Date.ToString();
         }
         [Required(ErrorMessage = "Title is required")]
@@ -57,7 +43,6 @@ namespace iBalekaAPI.Models
         public bool Deleted { get; set; }
         [Required(ErrorMessage = "Description is required")]
         public string Description { get; set; }
-        public double Distance { get; set; }
         public int EventID { get; set; }
         public int RouteID { get; set; }
 

@@ -66,7 +66,7 @@ namespace iBalekaAPI.Data.Repositories
 
 
             //DeleteEventRoutes(evntRoutes);
-            foreach(EventRoute route in evntRoutes)
+            foreach (EventRoute route in evntRoutes)
             {
                 DbContext.Entry(route).State = EntityState.Deleted;
             }
@@ -76,7 +76,7 @@ namespace iBalekaAPI.Data.Repositories
             {
                 EventRoute route = new EventRoute(evntRoute.DateAdded);
                 route.Title = evntRoute.Title;
-                route.Description = evnt.Description; 
+                route.Description = evnt.Description;
                 route.RouteID = evntRoute.RouteID;
                 newEvent.EventRoute.Add(route);
             }
@@ -113,7 +113,19 @@ namespace iBalekaAPI.Data.Repositories
         }
         public IEnumerable<Event> GetEvents()
         {
-            return DbContext.Event.Where(a => a.Deleted == false && a.EventStatus == EventType.Open);
+            //load events
+            IEnumerable<Event> Events;
+            Events = DbContext.Event
+                .Where(a => a.Deleted == false && a.EventStatus == EventType.Open)
+                .Include(a=>a.EventRoute)
+                .ToList();
+            //load event routes
+            //Events
+            //foreach (Event evnt in Events)
+            //{
+            //    evnt.EventRoute = 
+            //}
+            return Events;
         }
         public override void Delete(Event evnt)
         {

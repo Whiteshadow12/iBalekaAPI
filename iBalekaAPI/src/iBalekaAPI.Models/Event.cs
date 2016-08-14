@@ -54,7 +54,7 @@ namespace iBalekaAPI.Models
         }
 
 
-        public int[] RouteId { get; set; }
+        
         [Key]
         [DisplayName("Event ID")]
         public int EventId { get; set; }

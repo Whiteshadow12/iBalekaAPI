@@ -20,6 +20,13 @@ namespace iBalekaAPI.Core.Controllers
             _memberRepo = memberRepo;
         }
         // GET api/values/5
+        /// <summary>
+        /// Gets clubmembers for a particular club
+        /// </summary>
+        /// <param name="clubId" type="int">Club Id</param>
+        /// <remarks>Get club members</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("GetClubMembers")]
         [HttpGet]
         public IActionResult GetClubMembers(int clubId)
@@ -31,6 +38,13 @@ namespace iBalekaAPI.Core.Controllers
             else
                 return BadRequest(ModelState);
         }
+        /// <summary>
+        /// Gets particular club member
+        /// </summary>
+        /// <param name="memberId" type="int">MemberId</param>
+        /// <remarks>Get club member</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("GetClubMember")]
         [HttpGet]
         public IActionResult GetClubMember(int memberId)
@@ -45,26 +59,40 @@ namespace iBalekaAPI.Core.Controllers
             else
                 return BadRequest(ModelState);
         }
+        /// <summary>
+        /// Register athlete to a particular club
+        /// </summary>
+        /// <param name="clubmember" type="ClubMember">ClubMember Model</param>
+        /// <remarks>Register club member</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("RegisterMember")]
         [HttpPost]
-        public IActionResult RegisterMember(ClubMember club)
+        public IActionResult RegisterMember(ClubMember clubmember)
         {
             if (ModelState.IsValid)
             {
-                _memberRepo.RegisterMember(club);
+                _memberRepo.RegisterMember(clubmember);
                 _memberRepo.SaveMember();
-                return Ok(club.MemberId);
+                return Ok(clubmember.MemberId);
             }
             else
                 return BadRequest(ModelState);
         }
+        /// <summary>
+        /// DeRegister athlete from a particular club
+        /// </summary>
+        /// <param name="clubmember" type="ClubMember">ClubMember Model</param>
+        /// <remarks>DeRegister club member</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("DeRegisterMember")]
         [HttpPut]
-        public IActionResult DeRegisterMember(ClubMember club)
+        public IActionResult DeRegisterMember(ClubMember clubmember)
         {
             if (ModelState.IsValid)
             {
-                _memberRepo.DeRegisterMember(club);
+                _memberRepo.DeRegisterMember(clubmember);
                 _memberRepo.SaveMember();
                 return Ok();
             }

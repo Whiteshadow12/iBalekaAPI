@@ -55,6 +55,13 @@ namespace iBalekaAPI.Core.Controllers
         //        return NoContent();
         //    return Json(runs);
         //}
+        /// <summary>
+        /// Gets all athletr=e runs
+        /// </summary>
+        /// <param name="athleteId" type="int">Athlete Id</param>
+        /// <remarks>Gets all athletr=e runs</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("GetAllRuns")]
         [HttpGet]
         public IActionResult GetAllRuns(int athleteId)
@@ -65,6 +72,13 @@ namespace iBalekaAPI.Core.Controllers
             return Json(runs);
         }
         // GET api/values/5
+        /// <summary>
+        ///  Gets a particular run
+        /// </summary>
+        /// <param name="runId" type="int">Run Id</param>
+        /// <remarks>Gets a particular run</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("GetRun")]
         [HttpGet]
         public IActionResult GetRun(int runId)
@@ -75,6 +89,13 @@ namespace iBalekaAPI.Core.Controllers
             return Json(run);
         }
         // POST api/values
+        /// <summary>
+        /// Adds a run
+        /// </summary>
+        /// <param name="run" type="Run">Run Model</param>
+        /// <remarks>Adds a run</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("AddRun")]
         [HttpPost]
         public IActionResult AddRun(Run run)
@@ -89,11 +110,18 @@ namespace iBalekaAPI.Core.Controllers
                 return BadRequest(ModelState);
         }
         // DELETE api/values/5
+        /// <summary>
+        /// Deletes a particular run
+        /// </summary>
+        /// <param name="runId" type="int">Run Id</param>
+        /// <remarks>Deletes a particular run</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("DeleteRun")]
         [HttpPost]
-        public IActionResult DeleteRun(int id)
+        public IActionResult DeleteRun(int runId)
         {
-            Run run = _runRepo.GetRunByID(id);
+            Run run = _runRepo.GetRunByID(runId);
             if (run == null)
                 return NotFound();
             _runRepo.Delete(run);

@@ -20,6 +20,13 @@ namespace iBalekaAPI.Core.Controllers
             _context = _repo;
         }
         // GET: api/values
+        /// <summary>
+        /// Get a particular event registration
+        /// </summary>
+        /// <param name="regId" type="int">Registration Id</param>
+        /// <remarks>Get a particular event registration</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("GetRegistration")]
         [HttpGet]
         public IActionResult GetRegistration(int regId)
@@ -35,6 +42,13 @@ namespace iBalekaAPI.Core.Controllers
                 return BadRequest(ModelState);
             
         }
+        /// <summary>
+        /// Get all registrations for a particular event 
+        /// </summary>
+        /// <param name="eventId" type="int">Event Id</param>
+        /// <remarks>Get all registrations for a particular event</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("GetRegistrations")]
         [HttpGet]
         public IActionResult GetRegistrations(int eventId)
@@ -46,6 +60,13 @@ namespace iBalekaAPI.Core.Controllers
             else
                 return BadRequest();
         }
+        /// <summary>
+        /// Get all athlete registrations 
+        /// </summary>
+        /// <param name="athleteId" type="int">Athlete Id</param>
+        /// <remarks>Get all athlete registrations</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("GetAthleteRegistrations")]
         [HttpGet]
         public IActionResult GetAthleteRegistrations(int athleteId)
@@ -59,6 +80,13 @@ namespace iBalekaAPI.Core.Controllers
                 return BadRequest(ModelState);
         }
         // POST api/values
+        /// <summary>
+        /// Register athlete
+        /// </summary>
+        /// <param name="reg" type="EventRegistration">Registration Model</param>
+        /// <remarks>Register athlete</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("Register")]
         [HttpPost]
         public IActionResult Register(EventRegistration reg)
@@ -74,6 +102,13 @@ namespace iBalekaAPI.Core.Controllers
         }
 
         // PUT api/values/5
+        /// <summary>
+        /// DeRegister athlete
+        /// </summary>
+        /// <param name="regId" type="int">Registration Id</param>
+        /// <remarks>DeRegister athlete</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("DeRegister")]
         [HttpPut]
         public IActionResult DeRegister(int regId)
