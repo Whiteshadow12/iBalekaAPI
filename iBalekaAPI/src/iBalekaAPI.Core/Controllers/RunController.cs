@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using iBalekaAPI.Models;
 using iBalekaAPI.Services;
+using iBalekaAPI.Models.Responses;
+using iBalekaAPI.Core.Extensions;
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace iBalekaAPI.Core.Controllers
@@ -13,10 +15,10 @@ namespace iBalekaAPI.Core.Controllers
     [Produces("application/json")]
     public class RunController : Controller
     {
-        private IRunService _runRepo;
+        private IRunService _context;
         public RunController(IRunService _repo)
         {
-            _runRepo = _repo;
+            _context = _repo;
         }
         // GET: api/values
         //[Route("api/GetUserRoutes")]
@@ -64,12 +66,28 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("GetAllRuns")]
         [HttpGet]
-        public IActionResult GetAllRuns(int athleteId)
+        public async Task<IActionResult> GetAllRuns(int athleteId)
         {
-            IEnumerable<Run> runs = _runRepo.GetAllRuns(athleteId);
-            if (runs == null)
-                return NoContent();
-            return Json(runs);
+            var response = new ListModelResponse<Run>()
+               as IListModelResponse<Run>;
+            try
+            {
+                if (athleteId < 1)
+                    throw new Exception("Athlete Id is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    IEnumerable<Run> run = _context.GetAllRuns(athleteId);
+                    if (run == null)
+                        throw new Exception("Run does not exist");
+                    return run;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
         // GET api/values/5
         /// <summary>
@@ -81,12 +99,28 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("GetRun")]
         [HttpGet]
-        public IActionResult GetRun(int runId)
+        public async Task<IActionResult> GetRun(int runId)
         {
-            Run run = _runRepo.GetRunByID(runId);
-            if (run == null)
-                return NotFound();
-            return Json(run);
+            var response = new SingleModelResponse<Run>()
+               as ISingleModelResponse<Run>;
+            try
+            {
+                if (runId < 1)
+                    throw new Exception("Run Id is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    Run run = _context.GetRunByID(runId);
+                    if (run == null)
+                        throw new Exception("Run does not exist");
+                    return run;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
         // POST api/values
         /// <summary>
@@ -98,16 +132,27 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("AddRun")]
         [HttpPost]
-        public IActionResult AddRun(Run run)
+        public async Task<IActionResult> AddRun(Run run)
         {
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<Run>()
+               as ISingleModelResponse<Run>;
+            try
             {
-                _runRepo.AddRun(run);
-                _runRepo.SaveRun();
-                return Ok(run.RunId);
+                if (run==null)
+                    throw new Exception("Run is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    _context.AddRun(run);
+                    _context.SaveRun();
+                    return run;
+                });
             }
-            else
-                return BadRequest(ModelState);
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
         // DELETE api/values/5
         /// <summary>
@@ -119,14 +164,31 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("DeleteRun")]
         [HttpPost]
-        public IActionResult DeleteRun(int runId)
+        public async Task<IActionResult> DeleteRun(int runId)
         {
-            Run run = _runRepo.GetRunByID(runId);
-            if (run == null)
-                return NotFound();
-            _runRepo.Delete(run);
-            _runRepo.SaveRun();
-            return Ok();
+            var response = new SingleModelResponse<Run>()
+               as ISingleModelResponse<Run>;
+            try
+            {
+                if (runId < 1)
+                    throw new Exception("Run Id is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    Run run = _context.GetRunByID(runId);
+                    if (run == null)
+                        throw new Exception("Run does not exist");
+                    _context.Delete(run);
+                    _context.SaveRun();
+                    return run;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+            
         }
     }
 }

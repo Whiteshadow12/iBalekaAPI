@@ -5,6 +5,8 @@ using iBalekaAPI.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using iBalekaAPI.Services;
+using iBalekaAPI.Models.Responses;
+using iBalekaAPI.Core.Extensions;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,18 +31,29 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("GetRegistration")]
         [HttpGet]
-        public IActionResult GetRegistration(int regId)
+        public async Task<IActionResult> GetRegistration(int regId)
         {
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<EventRegistration>()
+                  as ISingleModelResponse<EventRegistration>;
+            try
             {
-                EventRegistration reg = _context.GetEventRegByID(regId);
-                if (reg == null)
-                    return NotFound();
-                return Json(reg);
+                if (regId < 1)
+                    throw new Exception("Registration Id is null");
+                response.Model = await Task.Run(() =>
+                {
+                    EventRegistration regs = _context.GetEventRegByID(regId);
+                    if (regs == null)
+                        throw new Exception("No registrations");
+                    return regs;
+                });
             }
-            else
-                return BadRequest(ModelState);
-            
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+
         }
         /// <summary>
         /// Get all registrations for a particular event 
@@ -51,14 +64,28 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("GetRegistrations")]
         [HttpGet]
-        public IActionResult GetRegistrations(int eventId)
+        public async Task<IActionResult> GetRegistrations(int eventId)
         {
-            if (ModelState.IsValid)
+            var response = new ListModelResponse<EventRegistration>()
+                 as IListModelResponse<EventRegistration>;
+            try
             {
-                return Json(_context.GetAll(eventId));
+                if (eventId < 1)
+                    throw new Exception("Athlete Id is null");
+                response.Model = await Task.Run(() =>
+                {
+                    IEnumerable<EventRegistration> regs = _context.GetAll(eventId);
+                    if (regs == null)
+                        throw new Exception("No registrations");
+                    return regs;
+                });
             }
-            else
-                return BadRequest();
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
         /// <summary>
         /// Get all athlete registrations 
@@ -69,15 +96,30 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("GetAthleteRegistrations")]
         [HttpGet]
-        public IActionResult GetAthleteRegistrations(int athleteId)
+        public async Task<IActionResult> GetAthleteRegistrations(int athleteId)
         {
 
-            if (ModelState.IsValid)
+            var response = new ListModelResponse<EventRegistration>()
+                as IListModelResponse<EventRegistration>;
+            try
             {
-                return Json(_context.GetAthleteRegistrations(athleteId));
+                if (athleteId < 1)
+                    throw new Exception("Athlete Id is null");
+                response.Model = await Task.Run(() =>
+                {
+                    IEnumerable<EventRegistration> regs= _context.GetAthleteRegistrations(athleteId);
+                    if (regs==null)
+                        throw new Exception("No registrations");
+                    _context.SaveEventRegistration();
+                    return regs;
+                });
             }
-            else
-                return BadRequest(ModelState);
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
         // POST api/values
         /// <summary>
@@ -89,16 +131,27 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("Register")]
         [HttpPost]
-        public IActionResult Register(EventRegistration reg)
+        public async Task<IActionResult> Register(EventRegistration reg)
         {
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<EventRegistration>()
+                as ISingleModelResponse<EventRegistration>;
+            try
             {
-                _context.Register(reg);
-                _context.SaveEventRegistration();
-                return Ok(reg.RegistrationId);
+                if (reg==null)
+                    throw new Exception("Model is null");
+                response.Model = await Task.Run(() =>
+                {
+                    _context.Register(reg);
+                    _context.SaveEventRegistration();
+                    return reg;
+                });
             }
-            else
-                return BadRequest(ModelState);
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
 
         // PUT api/values/5
@@ -111,16 +164,27 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("DeRegister")]
         [HttpPut]
-        public IActionResult DeRegister(int regId)
+        public async Task<IActionResult> DeRegister(int regId)
         {
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<EventRegistration>()
+                as ISingleModelResponse<EventRegistration>;
+            try
             {
-                _context.DeRegister(regId);
-                _context.SaveEventRegistration();
-                return Ok();
+                if (regId < 1)
+                    throw new Exception("Registration Id is null");
+                response.Model = await Task.Run(() =>
+                {
+                    _context.DeRegister(regId);
+                    _context.SaveEventRegistration();
+                    return new EventRegistration();
+                });
             }
-            else
-                return BadRequest(ModelState);
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
 
         

@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using iBalekaAPI.Models;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace iBalekaAPI.Data.Configurations
 {
@@ -240,8 +243,8 @@ namespace iBalekaAPI.Data.Configurations
         public virtual DbSet<Rating> Rating { get; set; }
         public virtual DbSet<Route> Route { get; set; }
         public virtual DbSet<Run> Run { get; set; }
-        
 
+       
         public virtual void Commit()
         {
             base.SaveChanges();

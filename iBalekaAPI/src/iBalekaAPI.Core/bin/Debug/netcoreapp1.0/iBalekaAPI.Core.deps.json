@@ -1936,7 +1936,8 @@
           "Microsoft.AspNetCore.Authorization": "1.0.0",
           "iBalekaAPI.Models": "1.0.0",
           "Microsoft.Extensions.Caching.Abstractions": "1.0.0",
-          "Microsoft.Extensions.Configuration.Binder": "1.0.0"
+          "Microsoft.Extensions.Configuration.Binder": "1.0.0",
+          "System.Interactive.Async": "3.0.0"
         },
         "runtime": {
           "iBalekaAPI.Data.dll": {}

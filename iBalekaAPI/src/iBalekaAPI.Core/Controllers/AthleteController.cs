@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using iBalekaAPI.Models;
 using iBalekaAPI.Services;
 using Swashbuckle.Swagger;
+using iBalekaAPI.Models.Responses;
+using iBalekaAPI.Core.Extensions;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,9 +30,23 @@ namespace iBalekaAPI.Core.Controllers
         /// 
         [Route("GetAthletes")]
         [HttpGet]
-        public IActionResult GetAthletes()
+        public async Task<IActionResult> GetAthletes()
         {
-            return Json(_context.GetAthletes());
+            var response = new ListModelResponse<Athlete>()
+                as IListModelResponse<Athlete>;
+            try
+            {
+                response.Model = await Task.Run(() =>
+                {
+                    return _context.GetAthletes();
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
 
         // GET api/values/5
@@ -41,12 +57,28 @@ namespace iBalekaAPI.Core.Controllers
         /// <returns></returns>
         [Route("GetAthlete")]
         [HttpGet]
-        public IActionResult GetAthlete(int athleteId)
+        public async Task<IActionResult> GetAthlete(int athleteId)
         {
-            Athlete athlete = _context.GetAthlete(athleteId);
-            if (athlete == null)
-                return NotFound();
-            return Json(athlete);
+            var response = new SingleModelResponse<Athlete>()
+                as ISingleModelResponse<Athlete>;
+            try
+            {
+                if (athleteId < 1)
+                    throw new Exception("Athlete Id is null");
+                response.Model = await Task.Run(() =>
+                {
+                    Athlete athlete = _context.GetAthlete(athleteId);
+                    if (athlete == null)
+                        throw new Exception("Athlete does not Exist");
+                    return athlete;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
 
         // POST api/values
@@ -56,19 +88,28 @@ namespace iBalekaAPI.Core.Controllers
         /// <paramref name="athlete"/>
         [Route("AddAthlete")]
         [HttpPost]
-        public IActionResult AddAthlete(Athlete athlete)
+        public async Task<IActionResult> AddAthlete(Athlete athlete)
         {
 
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<Athlete>()
+                as ISingleModelResponse<Athlete>;
+            try
             {
-                _context.AddAthlete(athlete);
-                _context.SaveAthlete();
-                return Ok(athlete.AthleteId);
+                if (athlete == null)
+                    throw new Exception("Model is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    _context.AddAthlete(athlete);
+                    _context.SaveAthlete();
+                    return athlete;
+                });
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
+            return response.ToHttpResponse();
         }
 
         // PUT api/values/5
@@ -78,41 +119,60 @@ namespace iBalekaAPI.Core.Controllers
         /// <param name="athlete" type="Athlete"></param>
         [Route("UpdateAthlete")]
         [HttpPut]
-        public IActionResult UpdateAthlete(Athlete athlete)
+        public async Task<IActionResult> UpdateAthlete(Athlete athlete)
         {
 
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<Athlete>()
+               as ISingleModelResponse<Athlete>;
+            try
             {
-                _context.UpdateAthlete(athlete);
-                _context.SaveAthlete();
-                return Ok(athlete.AthleteId);
+                if (athlete == null)
+                    throw new Exception("Model is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    _context.UpdateAthlete(athlete);
+                    _context.SaveAthlete();
+                    return athlete;
+                });
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
+            return response.ToHttpResponse();
+   
         }
 
         // DELETE api/values/5
         /// <summary>
         /// Deletes a specific athlete
         /// </summary>
-        /// <param name="athleteId"></param>
+        /// <param name="athlete"></param>
         [Route("DeleteAthlete")]
         [HttpPut]
-        public IActionResult DeleteAthlete(int athleteId)
+        public async Task<IActionResult> DeleteAthlete(Athlete athlete)
         {
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<Athlete>()
+               as ISingleModelResponse<Athlete>;
+            try
             {
-                Athlete athlete = _context.GetAthlete(athleteId);
                 if (athlete == null)
-                    return NotFound();
-                _context.DeleteAthlete(athlete);
-                _context.SaveAthlete();
-                return Ok();
+                    throw new Exception("Model is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    _context.DeleteAthlete(athlete);
+                    _context.SaveAthlete();
+                    return athlete;
+                });
             }
-            else
-                return BadRequest(ModelState);
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+            
 
         }
     }

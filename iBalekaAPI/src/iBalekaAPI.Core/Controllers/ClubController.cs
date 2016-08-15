@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using iBalekaAPI.Models;
 using iBalekaAPI.Services;
+using iBalekaAPI.Models.Responses;
+using iBalekaAPI.Core.Extensions;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,12 +16,10 @@ namespace iBalekaAPI.Core.Controllers
     [Produces("application/json")]
     public class ClubController : Controller
     {
-        private IClubMemberService _memberRepo;
-        private IClubService _clubRepo;
-        public ClubController(IClubMemberService memberRepo, IClubService clubRepo)
+        private IClubService _context;
+        public ClubController(IClubService clubRepo)
         {
-            _clubRepo = clubRepo;
-            _memberRepo = memberRepo;
+            _context = clubRepo;;
         }
         // GET: api/value
         /// <summary>
@@ -30,9 +30,26 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("GetAllClubs")]
         [HttpGet]
-        public IActionResult GetAllClubs()
+        public async Task<IActionResult> GetAllClubs()
         {
-            return Json(_clubRepo.GetAll());
+            var response = new ListModelResponse<Club>()
+               as IListModelResponse<Club>;
+            try
+            {
+                response.Model = await Task.Run(() =>
+                {
+                    IEnumerable<Club> clubs = _context.GetAll();
+                    if (clubs == null)
+                        throw new System.ArgumentNullException("Clubs do not does not Exist");
+                    return clubs;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
         /// <summary>
         /// Get all user created clubs
@@ -43,14 +60,28 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("GetUserClubs")]
         [HttpGet]
-        public IActionResult GetUserClubs(string userId)
+        public async Task<IActionResult> GetUserClubs(string userId)
         {
-            if (ModelState.IsValid)
+            var response = new ListModelResponse<Club>()
+                as IListModelResponse<Club>;
+            try
             {
-                return Json(_clubRepo.GetUserClubs(userId));
+                if (userId == null)
+                    throw new Exception("User Id is null");
+                response.Model = await Task.Run(() =>
+                {
+                    IEnumerable<Club> clubs = _context.GetUserClubs(userId);
+                    if (clubs == null)
+                        throw new System.ArgumentNullException("Clubs do not does not Exist");
+                    return clubs;
+                });
             }
-            else
-                return BadRequest(ModelState);
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
         /// <summary>
         /// Get a particular club
@@ -61,17 +92,28 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("GetClub")]
         [HttpGet]
-        public IActionResult GetClub(int clubId)
+        public async Task<IActionResult> GetClub(int clubId)
         {
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<Club>()
+                as ISingleModelResponse<Club>;
+            try
             {
-                Club club = _clubRepo.GetClubByID(clubId);
-                if (club == null)
-                    return NotFound();
-                return Json(club);
+                if (clubId < 1)
+                    throw new Exception("Club Id is null");
+                response.Model = await Task.Run(() =>
+                {
+                    Club evnt = _context.GetClubByID(clubId);
+                    if (evnt == null)
+                        throw new Exception("Club does not Exist");
+                    return evnt;
+                });
             }
-            else
-                return BadRequest(ModelState);
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
         // POST api/values
         /// <summary>
@@ -83,16 +125,27 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("CreateClub")]
         [HttpPost]
-        public IActionResult CreateClub(Club club)
+        public async Task<IActionResult> CreateClub(Club club)
         {
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<Club>()
+              as ISingleModelResponse<Club>;
+            try
             {
-                _clubRepo.AddClub(club);
-                _clubRepo.SaveClub();
-                return Ok(club.ClubId);
+                if (club == null)
+                    throw new Exception("Model is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    _context.AddClub(club);
+                    _context.SaveClub();
+                    return club;
+                });
             }
-            else
-                return BadRequest(ModelState);
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
         /// <summary>
         /// Update a club
@@ -103,16 +156,27 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("UpdateClub")]
         [HttpPut]
-        public IActionResult UpdateClub(Club club)
+        public async Task<IActionResult> UpdateClub(Club club)
         {
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<Club>()
+               as ISingleModelResponse<Club>;
+            try
             {
-                _clubRepo.UpdateClub(club);
-                _clubRepo.SaveClub();
-                return Ok(club.ClubId);
+                if (club == null)
+                    throw new Exception("Model is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    _context.UpdateClub(club);
+                    _context.SaveClub();
+                    return club;
+                });
             }
-            else
-                return BadRequest(ModelState);
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
         /// <summary>
         /// Delete a club
@@ -123,16 +187,27 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("DeleteClub")]
         [HttpPut]
-        public IActionResult DeleteClub(Club club)
+        public async Task<IActionResult> DeleteClub(Club club)
         {
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<Club>()
+                as ISingleModelResponse<Club>;
+            try
             {
-                _clubRepo.Delete(club);
-                _clubRepo.SaveClub();
-                return Ok();
+                if (club == null)
+                    throw new Exception("Model is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    _context.Delete(club);
+                    _context.SaveClub();
+                    return club;
+                });
             }
-            else
-                return BadRequest(ModelState);
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
         
         

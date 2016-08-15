@@ -23,7 +23,7 @@ namespace iBalekaAPI.Data.Infastructure
             
             var builder = new DbContextOptionsBuilder<iBalekaDBContext>();
             
-            builder.UseSqlServer(ServerConnection);
+            builder.UseSqlServer(DefaultConnection);
             return new iBalekaDBContext(builder.Options);
         }
         public iBalekaDBContext Init(DbContextFactoryOptions opt)

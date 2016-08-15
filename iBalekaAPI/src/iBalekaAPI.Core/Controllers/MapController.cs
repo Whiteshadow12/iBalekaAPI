@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
+using System;
+using iBalekaAPI.Models.Responses;
+using System.Threading.Tasks;
+using iBalekaAPI.Core.Extensions;
 
 //using prototypeWeb.Models;
 
@@ -32,10 +36,28 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("GetUserRoutes")]
         [HttpGet]
-        public IActionResult GetUserRoutes(string userId)
+        public async Task<IActionResult> GetUserRoutes(string userId)
         {
-            IEnumerable<Route> routes = _context.GetUserRoutes(userId);
-            return Json(routes);
+            var response = new ListModelResponse<Route>()
+               as IListModelResponse<Route>;
+            try
+            {
+                if (userId == null)
+                    throw new Exception("User Id is null");
+                response.Model = await Task.Run(() =>
+                {
+                    IEnumerable<Route> routes = _context.GetUserRoutes(userId);
+                    if (routes == null)
+                        throw new Exception("There are no routes");
+                    return routes;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
         /// <summary>
         /// Get all Routes
@@ -45,10 +67,26 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("GetRoutes")]
         [HttpGet]
-        public IActionResult GetRoutes()
+        public async Task<IActionResult> GetRoutes()
         {
-            IEnumerable<Route> routes = _context.GetRoutes();
-            return Json(routes);
+            var response = new ListModelResponse<Route>()
+               as IListModelResponse<Route>;
+            try
+            {
+                response.Model = await Task.Run(() =>
+                {
+                    IEnumerable<Route> routes = _context.GetRoutes();
+                    if (routes == null)
+                        throw new Exception("There are no routes");
+                    return routes;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
 
         //// POST: Map/AddRoute
@@ -63,23 +101,32 @@ namespace iBalekaAPI.Core.Controllers
         [Route("AddRoute")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddRoute(Route route,string userId)
+        public async Task<IActionResult> AddRoute(Route route,string userId)
         {
-            Route newRoute = route;
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<Route>()
+               as ISingleModelResponse<Route>;
+            try
             {
-                route.UserID = userId;
-                _context.AddRoute(route);
-                _context.SaveRoute();
-                return Ok(route.RouteId);
-             
+                if (route == null && userId==null)
+                    throw new Exception("Your whole request is messed up. Route and UserId missing");
+                else if(route == null)
+                    throw new Exception("Route is missing");
+                else if(userId==null)
+                    throw new Exception("Route is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    route.UserID = userId;
+                    _context.AddRoute(route);
+                    _context.SaveRoute();
+                    return route;
+                });
             }
-            else
+            catch (Exception ex)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors);
-                Debug.WriteLine("Errors found: "+ errors+"\nEnd Errors found");
-                return BadRequest(ModelState);
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
+            return response.ToHttpResponse();
         }
 
 
@@ -93,15 +140,28 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [Route("GetRoute")]
         [HttpGet]
-        public IActionResult GetRoute(int routeId)
+        public async Task<IActionResult> GetRoute(int routeId)
         {
-            Route route = _context.GetRouteByID(routeId);
-            if (route == null)
+            var response = new SingleModelResponse<Route>()
+               as ISingleModelResponse<Route>;
+            try
             {
-                return NotFound();
+                if (routeId <1)
+                    throw new Exception("Route Id is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    Route route = _context.GetRouteByID(routeId);
+                    if (route == null)
+                        throw new Exception("Route does not exist");
+                    return route;
+                });
             }
-
-            return Json(route);
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
         }
 
         // POST: Map/Edit/5
@@ -115,47 +175,60 @@ namespace iBalekaAPI.Core.Controllers
         [Route("EditRoute")]
         [HttpPut]
         [ValidateAntiForgeryToken]
-        public IActionResult EditRoute(Route route)
+        public async Task<IActionResult> EditRoute(Route route)
         {
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<Route>()
+               as ISingleModelResponse<Route>;
+            try
             {
-                _context.UpdateRoute(route);
-
-                _context.SaveRoute();
-                return Ok(route.RouteId);
+                if (route == null)
+                    throw new Exception("Route Model is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    _context.UpdateRoute(route);
+                    _context.SaveRoute();
+                    return route;
+                });
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest(ModelState);
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
+            return response.ToHttpResponse();
         }
 
         // POST: Map/DeleteRoute/5
         /// <summary>
         /// Delete a Route
         /// </summary>
-        /// <param name="routeId" type="int">Route Id</param>
+        /// <param name="route" type="Route">Route Model</param>
         /// <remarks>Delete a Route</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         [Route("DeleteRoute")]
         [HttpPut]
-        public IActionResult DeleteRoute(int routeId)
+        public async Task<IActionResult> DeleteRoute(Route route)
         {
-            if (ModelState.IsValid)
+            var response = new SingleModelResponse<Route>()
+               as ISingleModelResponse<Route>;
+            try
             {
-                
-                Route route = _context.GetRouteByID(routeId);
-                _context.DeleteRoute(route);
-                _context.SaveRoute();
-                return Ok(); 
+                if (route ==null)
+                    throw new Exception("Route Model is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    _context.DeleteRoute(route);
+                    _context.SaveRoute();
+                    return route;
+                });
             }
-            else
+            catch (Exception ex)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors);
-                Debug.WriteLine("Errors found: " + errors + "\nEnd Errors found");
-                return BadRequest(ModelState);
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
+            return response.ToHttpResponse();
         }
        
     }
