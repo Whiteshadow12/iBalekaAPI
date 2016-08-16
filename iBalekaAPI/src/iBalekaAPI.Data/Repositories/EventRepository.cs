@@ -19,14 +19,22 @@ namespace iBalekaAPI.Data.Repositories
         IEnumerable<EventRoute> GetEventRoutes(int id);
         IEnumerable<Event> GetUserEvents(string userId);
         IEnumerable<Event> GetEvents();
+        //Queries
+        IEnumerable<Event> GetEventsQuery();
+        ICollection<EventRoute> GetEventRoutesQuery(int evntId);
     }
     public class EventRepository : RepositoryBase<Event>, IEventRepository
     {
         private IRouteRepository _routeRepo;
-        public EventRepository(IDbFactory dbFactory, IRouteRepository repo)
+        private IRunRepository _runRepo;
+        private IEventRegRepository _eventRegRepo;
+        
+        public EventRepository(IDbFactory dbFactory, IRouteRepository repo, IRunRepository runRepo, IEventRegRepository eventRegRepo)
             : base(dbFactory)
         {
             _routeRepo = repo;
+            _runRepo = runRepo;
+            _eventRegRepo = eventRegRepo;
         }
         //add addEvent
         public void AddEvent(Event evnt)
@@ -39,21 +47,17 @@ namespace iBalekaAPI.Data.Repositories
             newEvent.Location = evnt.Location;
             newEvent.UserID = evnt.UserID;
 
-
-            //Event savedEvent = DbContext.Event.Single(x => x.UserID == newEvent.UserID && x.Title == newEvent.Title && x.DateCreated == newEvent.DateCreated && x.Deleted == false);
             foreach (EventRoute evntRoute in evnt.EventRoute)
             {
                 EventRoute route = new EventRoute(DateTime.Now.ToString());
-                //DbContext.EventRoute.Add(route);
                 route.Title = evntRoute.Title;
-                route.Description = evnt.Description; //evntRoute.Description;
+                route.Description = evnt.Description; 
                 route.RouteID = evntRoute.RouteID;
                 newEvent.EventRoute.Add(route);
             }
             DbContext.Event.Add(newEvent);
             DbContext.SaveChanges();
         }
-
         public void UpdateEvent(Event evnt)
         {
             IEnumerable<EventRoute> evntRoutes = GetEventRoutes(evnt.EventId);
@@ -93,66 +97,71 @@ namespace iBalekaAPI.Data.Repositories
                 DbContext.Entry(route).State = EntityState.Modified;
             }
         }
-        public void DeleteEventRoute(EventRoute evntRoute)
+        public IEnumerable<EventRoute> GetEventRoutes(int evntId)
         {
-
-            evntRoute.Deleted = true;
-            DbContext.Entry(evntRoute).State = EntityState.Modified;
-
-        }
-        public IEnumerable<EventRoute> GetEventRoutes(int id)
-        {
-            return DbContext.EventRoute.Where(m => m.EventID == id && m.Deleted == false).ToList();
+            return GetEventRoutesQuery(evntId);
         }
         public Event GetEventByID(int id)
         {
-            return DbContext.Event.Single(m => m.EventId == id && m.Deleted == false);
+            return GetEventsQuery().GetEventByEventId(id);
         }
-        public IEnumerable<Event> GetUserEvents(string id)
+        public IEnumerable<Event> GetUserEvents(string userId)
         {
-            return GetEventsQuery().AsQueryable().Where(p => p.UserID == id).AsEnumerable();
+            return GetEventsQuery().GetEventByUserId(userId);
         }
         public IEnumerable<Event> GetEvents()
         {
             return GetEventsQuery();
         }
-        private IEnumerable<Event> GetEventsQuery()
+        public override void Delete(Event evnt)
         {
-            var events = DbContext.Event
-                         .Where(p => p.Deleted == false && p.EventStatus == EventType.Open)
-                         .AsEnumerable();
-
-            var evntRoutes = DbContext.EventRoute
-                             .Where(p=>p.Deleted == false)
-                             .AsEnumerable();
-            foreach (var evnt in events)
+            IEnumerable<EventRoute> evntRoutes = GetEventRoutes(evnt.EventId);
+            if (evntRoutes != null)
             {
-                foreach (var route in evntRoutes)
+                foreach (EventRoute route in evnt.EventRoute)
                 {
-                    if (evnt.EventId == route.EventID)
-                        evnt.EventRoute.Add(route);
+                    route.Deleted = true;
+                    DbContext.Entry(route).State = EntityState.Modified;
                 }
+            }
+            Event deletedEvent = DbContext.Event.Single(x => x.EventId == evnt.EventId);
+            if (deletedEvent != null)
+            {
+                deletedEvent.Deleted = true;
+                DbContext.Entry(deletedEvent).State = EntityState.Modified;
+            }
+        }
 
+        //Queries
+        public IEnumerable<Event> GetEventsQuery()
+        {
+            IEnumerable<Event> events = DbContext.Event
+                                .Where(p => p.Deleted == false && p.EventStatus == EventType.Open)
+                                .AsEnumerable();
+            foreach (Event evnt in events)
+            {
+                evnt.EventRoute = GetEventRoutesQuery(evnt.EventId);
+                evnt.EventRegistration = _eventRegRepo.GetEventRegistrationsQuery().GetRegByEventId(evnt.EventId);
+                evnt.Run = _runRepo.GetRunsQuery().GetRunsByEventId(evnt.EventId);
             }
             return (IEnumerable<Event>)events;
-        }
-        public override void Delete(Event evnt)
-{
-    IEnumerable<EventRoute> evntRoutes = GetEventRoutes(evnt.EventId);
-    if (evntRoutes != null)
-    {
-        foreach (EventRoute route in evnt.EventRoute)
+        }        
+        public ICollection<EventRoute> GetEventRoutesQuery(int evntId)
         {
-            route.Deleted = true;
-            DbContext.Entry(route).State = EntityState.Modified;
+            IEnumerable<EventRoute> evntRoutes;
+            evntRoutes = DbContext.EventRoute
+                             .Where(p => p.Deleted == false && p.EventID == evntId)
+                             .AsEnumerable();
+            if(evntRoutes.Count()>0)
+            {
+                foreach(EventRoute route in evntRoutes)
+                {
+                    route.Route = _routeRepo.GetRoutesQuery().GetRouteByRouteId(route.RouteID);
+                }
+            }
+            return (ICollection<EventRoute>)evntRoutes;
+
         }
-    }
-    Event deletedEvent = DbContext.Event.Single(x => x.EventId == evnt.EventId);
-    if (deletedEvent != null)
-    {
-        deletedEvent.Deleted = true;
-        DbContext.Entry(deletedEvent).State = EntityState.Modified;
-    }
-}
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using iBalekaAPI.Data.Infastructure;
+﻿using Data.Extentions;
+using iBalekaAPI.Data.Infastructure;
 using iBalekaAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -12,28 +13,55 @@ namespace iBalekaAPI.Data.Repositories
     {
         Club GetClubByID(int id);
         IEnumerable<Club> GetUserClubs(string userId);
+        ICollection<Club> GetClubsQuery();
     }
     public class ClubRepository : RepositoryBase<Club>, IClubRepository
     {
-        public ClubRepository(IDbFactory dbFactory)
-            : base(dbFactory) { }
+        private IClubMemberRepository _memberRepo;
+        private IEventRepository _eventRepo;
+        public ClubRepository(IDbFactory dbFactory,
+            IClubMemberRepository memberRepo,
+            IEventRepository eventRepo)
+            : base(dbFactory)
+        {
+            _memberRepo = memberRepo;
+            _eventRepo = eventRepo;
+        }
 
         public Club GetClubByID(int id)
         {
-            return DbContext.Club.Where(m => m.ClubId == id && m.Deleted == false).FirstOrDefault();
+            return GetClubsQuery().GetClubByClubId(id);
         }
         public IEnumerable<Club> GetUserClubs(string userId)
         {
-            return DbContext.Club.Where(a => a.Deleted == false && a.UserId == userId).ToList();
+            return GetClubsQuery().GetClubByUserId(userId);
         }
         public override IEnumerable<Club> GetAll()
         {
-            return DbContext.Club.Where(a => a.Deleted == false).ToList();
+            return GetClubsQuery();
         }
         public override void Delete(Club entity)
         {
             entity.Deleted = true;
             Update(entity);
+        }
+
+        //query
+        public ICollection<Club> GetClubsQuery()
+        {
+            IEnumerable<Club> clubs;
+            clubs = DbContext.Club
+                    .Where(p => p.Deleted == false)
+                    .AsEnumerable();
+            if (clubs.Count() > 0)
+            {
+                foreach (Club club in clubs)
+                {
+                    club.Event = _eventRepo.GetEvents().GetEventsByClubId(club.ClubId);
+                    club.ClubMember = _memberRepo.GetClubMembersQuery().GetMembersByClubId(club.ClubId);
+                }
+            }
+            return (ICollection<Club>)clubs;
         }
     }
 }

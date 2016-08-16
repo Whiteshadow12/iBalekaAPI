@@ -9,7 +9,7 @@ namespace iBalekaAPI.Models
         Joined,
         Left
     }
-    public partial class ClubMember
+    public class ClubMember
     {
         [Key]
         public int MemberId { get; set; }

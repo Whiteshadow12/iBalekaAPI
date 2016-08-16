@@ -29,11 +29,11 @@
             </summary>
             <param name="athlete" type="Athlete"></param>
         </member>
-        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.DeleteAthlete(System.Int32)">
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.DeleteAthlete(iBalekaAPI.Models.Athlete)">
             <summary>
             Deletes a specific athlete
             </summary>
-            <param name="athleteId"></param>
+            <param name="athlete"></param>
         </member>
         <member name="M:iBalekaAPI.Core.Controllers.ClubController.GetAllClubs">
             <summary>
@@ -169,11 +169,11 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:iBalekaAPI.Core.Controllers.EventController.DeleteEvent(System.Int32)">
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.DeleteEvent(iBalekaAPI.Models.Event)">
             <summary>
             Delete an event
             </summary>
-            <param name="eventId" type="int">Event Id</param>
+            <param name="evnt" type="Event">Event Model</param>
             <remarks>Delete an event</remarks>
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
@@ -268,11 +268,11 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:iBalekaAPI.Core.Controllers.MapController.DeleteRoute(System.Int32)">
+        <member name="M:iBalekaAPI.Core.Controllers.MapController.DeleteRoute(iBalekaAPI.Models.Route)">
             <summary>
             Delete a Route
             </summary>
-            <param name="routeId" type="int">Route Id</param>
+            <param name="route" type="Route">Route Model</param>
             <remarks>Delete a Route</remarks>
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
