@@ -6,6 +6,7 @@ using iBalekaAPI.Data.Infastructure;
 using iBalekaAPI.Models;
 using Microsoft.AspNetCore.Identity;
 using Data.Extentions;
+using iBalekaAPI.Data.Configurations;
 
 namespace iBalekaAPI.Data.Repositories
 {
@@ -22,11 +23,11 @@ namespace iBalekaAPI.Data.Repositories
     }
     public class RouteRepository : RepositoryBase<Route>, IRouteRepository
     {
-
-        public RouteRepository(IDbFactory dbFactory)
-            : base(dbFactory)
+        private iBalekaDBContext DbContext;
+        public RouteRepository(iBalekaDBContext dbContext)
+            : base(dbContext)
         {
-            
+            DbContext = dbContext;
         }
         
 

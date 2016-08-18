@@ -7,6 +7,7 @@ using iBalekaAPI.Data.Infastructure;
 using iBalekaAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Data.Extentions;
+using iBalekaAPI.Data.Configurations;
 
 namespace iBalekaAPI.Data.Repositories
 {
@@ -39,9 +40,11 @@ namespace iBalekaAPI.Data.Repositories
     {
         private IRouteRepository _routeRepo;
         private IAthleteRepository _athleteRepo;
-        public EventRepository(IDbFactory dbFactory, IRouteRepository repo,IAthleteRepository athleteRepo)
-            : base(dbFactory)
+        private iBalekaDBContext DbContext;
+        public EventRepository(iBalekaDBContext dbContext, IRouteRepository repo,IAthleteRepository athleteRepo)
+            : base(dbContext)
         {
+            DbContext = dbContext;
             _athleteRepo = athleteRepo;
             _routeRepo = repo;
         }

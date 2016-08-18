@@ -11,20 +11,14 @@ namespace iBalekaAPI.Data.Infastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IDbFactory dbFactory;
-        private iBalekaDBContext dbContext;
+        private iBalekaDBContext DbContext;
         DbContextFactoryOptions opt { get; set; }
 
-        public UnitOfWork(IDbFactory dbFactory)
+        public UnitOfWork(iBalekaDBContext dbContext)
         {
-            this.dbFactory = dbFactory;
+            DbContext = dbContext;
         }
 
-        public iBalekaDBContext DbContext
-        {
-            
-            get { return dbContext ?? (dbContext = dbFactory.Init(opt)); }
-        }
 
         public void Commit()
         {

@@ -25,9 +25,11 @@ namespace iBalekaAPI.Data.Repositories
     }
     public class RunRepository : RepositoryBase<Run>, IRunRepository
     {
-        public RunRepository(IDbFactory dbFactory)
-            : base(dbFactory)
+        private iBalekaDBContext DbContext;
+        public RunRepository(iBalekaDBContext dbContext)
+            : base(dbContext)
         {
+            DbContext = dbContext;
         }
         public Run GetRunByID(int id)
         {

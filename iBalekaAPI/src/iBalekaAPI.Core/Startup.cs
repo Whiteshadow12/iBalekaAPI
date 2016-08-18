@@ -79,15 +79,9 @@ namespace iBalekaAPI.Core
             services.AddDbContext<iBalekaDBContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ServerConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(i => {
-                i.SecurityStampValidationInterval = TimeSpan.FromDays(7);
-            })
-                .AddEntityFrameworkStores<iBalekaDBContext>()
-                .AddDefaultTokenProviders();
             services.AddDistributedMemoryCache();
            
             //repos
-            services.AddSingleton<IDbFactory, DbFactory>();
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAthleteRepository, AthleteRepository>();
             services.AddScoped<IClubRepository, ClubRepository>();

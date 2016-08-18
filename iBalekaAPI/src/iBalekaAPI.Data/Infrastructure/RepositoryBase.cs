@@ -13,22 +13,14 @@ namespace iBalekaAPI.Data.Infastructure
     public abstract class RepositoryBase<T> where T:class
     {
         #region Properties
-        private iBalekaDBContext dbContext;
+        private iBalekaDBContext DbContext;
         private readonly DbSet<T> dbSet;
-        private DbContextFactoryOptions opt;
 
-        protected IDbFactory DbFactory
-        { get; private set; }
-
-        protected iBalekaDBContext DbContext
-        {
-            get { return dbContext ?? (dbContext = DbFactory.Init(opt)); }
-        }
         #endregion
 
-        protected RepositoryBase(IDbFactory dbFactory)
+        protected RepositoryBase(iBalekaDBContext dbContext)
         {
-            DbFactory = dbFactory;
+            DbContext = dbContext;
             dbSet = DbContext.Set<T>();
         }
         #region Implementation
@@ -39,7 +31,7 @@ namespace iBalekaAPI.Data.Infastructure
         public virtual void Update(T entity)
         {
             dbSet.Attach(entity);
-            dbContext.Entry(entity).State = EntityState.Modified;
+            DbContext.Entry(entity).State = EntityState.Modified;
         }
 
         public virtual void Delete(T entity)

@@ -1,4 +1,5 @@
-﻿using iBalekaAPI.Data.Infastructure;
+﻿using iBalekaAPI.Data.Configurations;
+using iBalekaAPI.Data.Infastructure;
 using iBalekaAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,12 @@ namespace iBalekaAPI.Data.Repositories
     }
     public class RatingRepository : RepositoryBase<Rating>, IRatingRepository
     {
-        public RatingRepository(IDbFactory dbFactory)
-            : base(dbFactory) { }
+        private iBalekaDBContext DbContext;
+        public RatingRepository(iBalekaDBContext dbContext)
+            : base(dbContext)
+        {
+            DbContext = dbContext;
+        }
 
         public Rating GetRatingByID(int id)
         {

@@ -1,4 +1,5 @@
 ﻿using Data.Extentions;
+using iBalekaAPI.Data.Configurations;
 using iBalekaAPI.Data.Infastructure;
 using iBalekaAPI.Models;
 using System;
@@ -24,10 +25,12 @@ namespace iBalekaAPI.Data.Repositories
     public class ClubRepository : RepositoryBase<Club>, IClubRepository
     {
         private IAthleteRepository _athleteRepo;
-        public ClubRepository(IDbFactory dbFactory,
+        private iBalekaDBContext DbContext;
+        public ClubRepository(iBalekaDBContext dbContext,
             IAthleteRepository athleteRepo)
-            : base(dbFactory)
+            : base(dbContext)
         {
+            DbContext = dbContext;
             _athleteRepo = athleteRepo;
         }
 

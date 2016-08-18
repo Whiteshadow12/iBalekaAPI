@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using iBalekaAPI.Data.Infastructure;
 using iBalekaAPI.Models;
 using Data.Extentions;
+using iBalekaAPI.Data.Configurations;
 
 namespace iBalekaAPI.Data.Repositories
 {
@@ -17,9 +18,11 @@ namespace iBalekaAPI.Data.Repositories
     }
     public class AthleteRepository:RepositoryBase<Athlete>,IAthleteRepository
     {
-        public AthleteRepository(IDbFactory dbFactory)
-            : base(dbFactory)
+        private iBalekaDBContext DbContext;
+        public AthleteRepository(iBalekaDBContext dbContext)
+            : base(dbContext)
         {
+            DbContext = dbContext;
         }
        
         public Athlete GetAthleteByID(int athleteId)
