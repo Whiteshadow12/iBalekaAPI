@@ -20,6 +20,7 @@ using Swashbuckle.SwaggerGen.Generator;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
 using iBalekaAPI.Core.Swagger;
+using Newtonsoft.Json.Serialization;
 
 namespace iBalekaAPI.Core
 {
@@ -44,9 +45,10 @@ namespace iBalekaAPI.Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
 
             services.AddMvc()
+               .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver()) 
                .AddJsonOptions(jsonOptions =>
                {
                    jsonOptions.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;

@@ -144,15 +144,17 @@ namespace iBalekaAPI.Data.Repositories
         //Queries
         public IEnumerable<Event> GetEventsQuery()
         {
-            IEnumerable<Event> events = DbContext.Event
-                                .Where(p => p.Deleted == false && p.EventStatus == EventType.Open)
-                                .AsEnumerable();
-            foreach (Event evnt in events)
-            {
-                evnt.EventRoute = GetEventRoutesQuery(evnt.EventId);
-                evnt.EventRegistration = GetEventRegistrationsQuery().GetRegByEventId(evnt.EventId);
-            }
-            return events;
+            IEnumerable<Event> events;
+
+                events = DbContext.Event
+                                    .Where(p => p.Deleted == false && p.EventStatus == EventType.Open)
+                                    .AsEnumerable();
+                foreach (Event evnt in events)
+                {
+                    evnt.EventRoute = GetEventRoutesQuery(evnt.EventId);
+                    evnt.EventRegistration = GetEventRegistrationsQuery().GetRegByEventId(evnt.EventId);
+                }
+                return events;           
         }        
         public ICollection<EventRoute> GetEventRoutesQuery(int evntId)
         {
