@@ -34,7 +34,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get all user created Routes</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetUserRoutes")]
+        [Route("GetUserRoutes/{userId}")]
         [HttpGet]
         public async Task<IActionResult> GetUserRoutes(string userId)
         {
@@ -98,7 +98,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Add Route to DB</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("AddRoute")]
+        [Route("AddRoute/{userId}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddRoute(Route route,string userId)
@@ -138,7 +138,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get a Route</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetRoute")]
+        [Route("GetRoute/{routeId}")]
         [HttpGet]
         public async Task<IActionResult> GetRoute(int routeId)
         {
@@ -172,7 +172,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Update a Route</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("EditRoute")]
+        [Route("EditRoute/{route}")]
         [HttpPut]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditRoute(Route route)
@@ -206,7 +206,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Delete a Route</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("DeleteRoute")]
+        [Route("DeleteRoute/{route}")]
         [HttpPut]
         public async Task<IActionResult> DeleteRoute(Route route)
         {
