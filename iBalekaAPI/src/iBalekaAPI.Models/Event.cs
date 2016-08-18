@@ -17,7 +17,6 @@ namespace iBalekaAPI.Models
         {
             EventRegistration = new HashSet<EventRegistration>();
             EventRoute = new HashSet<EventRoute>();
-            Run = new HashSet<Run>();
             
             DateCreated = DateTime.Now.ToString();
             ClubID = 0;
@@ -82,6 +81,7 @@ namespace iBalekaAPI.Models
         public virtual ICollection<EventRegistration> EventRegistration { get; set; }
         [DisplayName("Event Routes")]
         public virtual ICollection<EventRoute> EventRoute { get; set; }
+        
 
     }
 

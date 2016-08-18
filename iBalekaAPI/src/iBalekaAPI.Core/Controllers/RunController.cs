@@ -11,7 +11,7 @@ using iBalekaAPI.Core.Extensions;
 
 namespace iBalekaAPI.Core.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [Produces("application/json")]
     public class RunController : Controller
     {
@@ -64,7 +64,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Gets all athletr=e runs</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetAllRuns")]
+        [Route("GetAllRuns/{athleteId}")]
         [HttpGet]
         public async Task<IActionResult> GetAllRuns(int athleteId)
         {
@@ -97,7 +97,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Gets a particular run</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetRun")]
+        [Route("GetRun/{runId}")]
         [HttpGet]
         public async Task<IActionResult> GetRun(int runId)
         {
@@ -130,7 +130,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Adds a run</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("AddRun")]
+        [Route("AddRun/{run}")]
         [HttpPost]
         public async Task<IActionResult> AddRun(Run run)
         {
@@ -162,7 +162,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Deletes a particular run</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("DeleteRun")]
+        [Route("DeleteRun/{runId}")]
         [HttpPost]
         public async Task<IActionResult> DeleteRun(int runId)
         {

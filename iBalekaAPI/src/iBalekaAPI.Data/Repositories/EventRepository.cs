@@ -38,14 +38,12 @@ namespace iBalekaAPI.Data.Repositories
     public class EventRepository : RepositoryBase<Event>, IEventRepository
     {
         private IRouteRepository _routeRepo;
-        private IRunRepository _runRepo;
         private IAthleteRepository _athleteRepo;
-        public EventRepository(IDbFactory dbFactory, IRouteRepository repo, IRunRepository runRepo, IAthleteRepository athleteRepo)
+        public EventRepository(IDbFactory dbFactory, IRouteRepository repo,IAthleteRepository athleteRepo)
             : base(dbFactory)
         {
             _athleteRepo = athleteRepo;
             _routeRepo = repo;
-            _runRepo = runRepo;
         }
         //add addEvent
         public void AddEvent(Event evnt)
@@ -153,7 +151,6 @@ namespace iBalekaAPI.Data.Repositories
             {
                 evnt.EventRoute = GetEventRoutesQuery(evnt.EventId);
                 evnt.EventRegistration = GetEventRegistrationsQuery().GetRegByEventId(evnt.EventId);
-                evnt.Run = _runRepo.GetRunsQuery().GetRunsByEventId(evnt.EventId);
             }
             return events;
         }        

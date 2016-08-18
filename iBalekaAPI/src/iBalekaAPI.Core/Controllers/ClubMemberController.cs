@@ -12,7 +12,7 @@ using iBalekaAPI.Core.Extensions;
 
 namespace iBalekaAPI.Core.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [Produces("application/json")]
     public class ClubMemberController : Controller
     {
@@ -29,7 +29,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get club members</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetClubMembers")]
+        [Route("GetClubMembers/{clubId}")]
         [HttpGet]
         public async Task<IActionResult> GetClubMembers(int clubId)
         {
@@ -61,7 +61,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get club member</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetClubMember")]
+        [Route("GetClubMember/{memberId}")]
         [HttpGet]
         public async Task<IActionResult> GetClubMember(int memberId)
         {
@@ -93,7 +93,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Register club member</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("RegisterMember")]
+        [Route("RegisterMember/{clubmember}")]
         [HttpPost]
         public async Task<IActionResult> RegisterMember(ClubMember clubmember)
         {
@@ -124,7 +124,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>DeRegister club member</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("DeRegisterMember")]
+        [Route("DeRegisterMember/{clubmember}")]
         [HttpPut]
         public async Task<IActionResult> DeRegisterMember(ClubMember clubmember)
         {

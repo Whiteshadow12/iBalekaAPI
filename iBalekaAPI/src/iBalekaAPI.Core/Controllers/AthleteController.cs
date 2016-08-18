@@ -13,7 +13,7 @@ using iBalekaAPI.Core.Extensions;
 
 namespace iBalekaAPI.Core.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [Produces("application/json")]
     public class AthleteController : Controller
     {
@@ -55,7 +55,7 @@ namespace iBalekaAPI.Core.Controllers
         /// </summary>
         /// <param name="athleteId" type="int">AthleteId</param>
         /// <returns></returns>
-        [Route("GetAthlete")]
+        [Route("GetAthlete/{athleteId}")]
         [HttpGet]
         public async Task<IActionResult> GetAthlete(int athleteId)
         {
@@ -86,7 +86,7 @@ namespace iBalekaAPI.Core.Controllers
         /// Adds an Athlete to db
         /// </summary>
         /// <paramref name="athlete"/>
-        [Route("AddAthlete")]
+        [Route("AddAthlete/{athlete}")]
         [HttpPost]
         public async Task<IActionResult> AddAthlete(Athlete athlete)
         {
@@ -117,7 +117,7 @@ namespace iBalekaAPI.Core.Controllers
         /// Updates some properties of a athlete
         /// </summary>
         /// <param name="athlete" type="Athlete"></param>
-        [Route("UpdateAthlete")]
+        [Route("UpdateAthlete/{athlete}")]
         [HttpPut]
         public async Task<IActionResult> UpdateAthlete(Athlete athlete)
         {
@@ -149,7 +149,7 @@ namespace iBalekaAPI.Core.Controllers
         /// Deletes a specific athlete
         /// </summary>
         /// <param name="athlete"></param>
-        [Route("DeleteAthlete")]
+        [Route("DeleteAthlete/{athlete}")]
         [HttpPut]
         public async Task<IActionResult> DeleteAthlete(Athlete athlete)
         {

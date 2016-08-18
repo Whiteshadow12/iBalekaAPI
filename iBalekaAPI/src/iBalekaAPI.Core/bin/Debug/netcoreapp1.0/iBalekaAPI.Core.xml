@@ -150,12 +150,11 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:iBalekaAPI.Core.Controllers.EventController.SaveEvent(iBalekaAPI.Models.Event,System.String)">
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.SaveEvent(iBalekaAPI.Models.Event)">
             <summary>
             Saves an event
             </summary>
             <param name="evnt" type="Event">Event Model</param>
-            <param name="userId" type="string">User Id</param>
             <remarks>Saves an event</remarks>
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>

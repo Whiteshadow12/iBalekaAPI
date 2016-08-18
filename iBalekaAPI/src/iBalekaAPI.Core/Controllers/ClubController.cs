@@ -12,7 +12,7 @@ using iBalekaAPI.Core.Extensions;
 
 namespace iBalekaAPI.Core.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [Produces("application/json")]
     public class ClubController : Controller
     {
@@ -58,7 +58,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get all user created clubs</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetUserClubs")]
+        [Route("GetUserClubs/{userId}")]
         [HttpGet]
         public async Task<IActionResult> GetUserClubs(string userId)
         {
@@ -90,7 +90,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get a particular club</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetClub")]
+        [Route("GetClub/{clubId}")]
         [HttpGet]
         public async Task<IActionResult> GetClub(int clubId)
         {
@@ -123,7 +123,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Create a Club</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("CreateClub")]
+        [Route("CreateClub/{club}")]
         [HttpPost]
         public async Task<IActionResult> CreateClub(Club club)
         {
@@ -154,7 +154,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Update a Club</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("UpdateClub")]
+        [Route("UpdateClub/{club}")]
         [HttpPut]
         public async Task<IActionResult> UpdateClub(Club club)
         {
@@ -185,7 +185,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Delete a club</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("DeleteClub")]
+        [Route("DeleteClub/{club}")]
         [HttpPut]
         public async Task<IActionResult> DeleteClub(Club club)
         {

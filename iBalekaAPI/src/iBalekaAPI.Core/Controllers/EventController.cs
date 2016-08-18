@@ -9,7 +9,7 @@ using iBalekaAPI.Core.Extensions;
 
 namespace iBalekaAPI.Core.Controllers
 {
-    [Route("api/[controller]")]
+   // [Route("api/[controller]")]
     [Produces("application/json")]
     public class EventController : Controller
     {
@@ -29,9 +29,10 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         // GET: Event/Events
-        [Route("GetUserEvents")]
+        [Route("GetUserEvents/{userId}")]
         [HttpPost]
-        public async Task<IActionResult> GetUserEvents([FromBody]string userId)
+        
+        public async Task<IActionResult> GetUserEvents(string userId)
         {
             var response = new ListModelResponse<Event>() 
                 as IListModelResponse<Event>;
@@ -91,7 +92,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get an event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetEvent")]
+        [Route("GetEvent/{eventId}")]
         [HttpGet]
         public async Task<IActionResult> GetEvent(int eventId)
         {
@@ -121,28 +122,25 @@ namespace iBalekaAPI.Core.Controllers
         /// Saves an event
         /// </summary>
         /// <param name="evnt" type="Event">Event Model</param>
-        /// <param name="userId" type="string">User Id</param>
         /// <remarks>Saves an event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("SaveEvent")]
+        [Route("SaveEvent/{evnt}")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SaveEvent(Event evnt,string userId)
+        public async Task<IActionResult> SaveEvent(Event evnt)
         {
             var response = new SingleModelResponse<Event>()
                as ISingleModelResponse<Event>;
             try
             {
-                if (userId ==null && evnt == null)
+                if (evnt.UserID ==null && evnt == null)
                     throw new Exception("Your whole request is messed up. Event and UserId are blank");
-                else if(userId==null)
+                else if(evnt.UserID == null)
                     throw new Exception("UserId Missing");
                 else if(evnt==null)
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    evnt.UserID = userId;
                     _context.AddEvent(evnt);
                     _context.SaveEvent();
                     return evnt;                   
@@ -164,9 +162,8 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Update an event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("EditEvent")]
+        [Route("EditEvent/{evnt}")]
         [HttpPut]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditEvent(Event evnt)
         {
 
@@ -199,7 +196,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Delete an event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("DeleteEvent")]
+        [Route("DeleteEvent/{evnt}")]
         [HttpPut]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteEvent(Event evnt)

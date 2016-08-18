@@ -12,7 +12,7 @@ using iBalekaAPI.Core.Extensions;
 
 namespace iBalekaAPI.Core.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [Produces("application/json")]
     public class EventRegistrationController : Controller
     {
@@ -29,7 +29,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get a particular event registration</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetRegistration")]
+        [Route("GetRegistration/{regId}")]
         [HttpGet]
         public async Task<IActionResult> GetRegistration(int regId)
         {
@@ -62,7 +62,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get all registrations for a particular event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetRegistrations")]
+        [Route("GetRegistrations/{eventId}")]
         [HttpGet]
         public async Task<IActionResult> GetRegistrations(int eventId)
         {
@@ -94,7 +94,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get all athlete registrations</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetAthleteRegistrations")]
+        [Route("GetAthleteRegistrations/{athleteId}")]
         [HttpGet]
         public async Task<IActionResult> GetAthleteRegistrations(int athleteId)
         {
@@ -129,7 +129,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Register athlete</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("Register")]
+        [Route("Register/{reg}")]
         [HttpPost]
         public async Task<IActionResult> Register(EventRegistration reg)
         {
@@ -162,7 +162,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>DeRegister athlete</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("DeRegister")]
+        [Route("DeRegister/{regId}")]
         [HttpPut]
         public async Task<IActionResult> DeRegister(int regId)
         {
