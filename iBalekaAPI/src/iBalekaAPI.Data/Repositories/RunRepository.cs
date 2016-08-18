@@ -25,18 +25,9 @@ namespace iBalekaAPI.Data.Repositories
     }
     public class RunRepository : RepositoryBase<Run>, IRunRepository
     {
-        private IAthleteRepository _athleteRepo;
-        private IEventRepository _eventRepo;
-        private IRouteRepository _routeRepo;
-        public RunRepository(IDbFactory dbFactory,
-            IAthleteRepository athleteRepo,
-            IRouteRepository routeRepo,
-            IEventRepository eventRepo)
+        public RunRepository(IDbFactory dbFactory)
             : base(dbFactory)
         {
-            _athleteRepo = athleteRepo;
-            _routeRepo = routeRepo;
-            _eventRepo = eventRepo;
         }
         public Run GetRunByID(int id)
         {
@@ -81,21 +72,10 @@ namespace iBalekaAPI.Data.Repositories
         //queries
         public ICollection<Run> GetRunsQuery()
         {
-            IEnumerable<Run> runs = DbContext.Run
+            ICollection<Run> runs = DbContext.Run
                         .Where(p => p.Deleted == false)
-                        .AsEnumerable();
-            if (runs.Count()>0)
-            {
-                foreach (Run run in runs)
-                {
-                    run.Athlete = _athleteRepo.GetAthletesQuery().GetAthleteByAthleteId(run.AthleteId);
-                    if (run.EventId != null)
-                        run.Event = _eventRepo.GetEventsQuery().GetEventByEventId(run.EventId);
-                    else
-                        run.Route = _routeRepo.GetRoutesQuery().GetRouteByRouteId(run.RouteId);
-                } 
-            }
-            return (ICollection<Run>)runs;
+                        .ToList();
+            return runs;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -24,6 +25,7 @@ namespace iBalekaAPI.Models
         public DateTime StartTime { get; set; }
 
         public virtual Rating Rating { get; set; }
+        [JsonIgnore]
         public virtual Athlete Athlete { get; set; }
         public virtual Event Event { get; set; }
         public virtual Route Route { get; set; }

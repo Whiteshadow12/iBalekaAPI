@@ -88,9 +88,7 @@ namespace iBalekaAPI.Core
             services.AddSingleton<IDbFactory, DbFactory>();
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAthleteRepository, AthleteRepository>();
-            services.AddScoped<IClubMemberRepository, ClubMemberRepository>();
             services.AddScoped<IClubRepository, ClubRepository>();
-            services.AddScoped<IEventRegRepository, EventRegistrationRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
             //services.AddScoped<IRatingRepository, RatingRepository>();
             services.AddScoped<IRouteRepository, RouteRepository>();
@@ -98,8 +96,8 @@ namespace iBalekaAPI.Core
             //services.AddScoped<IUserRepository, UserRepository>();
             //services
             services.AddScoped<IAthleteService, AthleteService>();
+            services.AddScoped<IClubMemberService, ClubService>();
             services.AddScoped<IClubService, ClubService>();
-            services.AddScoped<IClubMemberService, ClubMemberService>();
             services.AddScoped<IEventRegService, EventRegistrationService>();
             services.AddScoped<IEventService, EventService>();
             //services.AddScoped<IRatingService, RatingService>();

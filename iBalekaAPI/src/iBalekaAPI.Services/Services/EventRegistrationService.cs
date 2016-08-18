@@ -21,10 +21,10 @@ namespace iBalekaAPI.Services
     }
     public class EventRegistrationService:IEventRegService
     {
-        private readonly IEventRegRepository _eventRegistrationRepository;
+        private readonly IEventRepository _eventRegistrationRepository;
         private readonly IUnitOfWork unitOfWork;
 
-        public EventRegistrationService(IEventRegRepository _repo,IUnitOfWork _unitOfWork)
+        public EventRegistrationService(IEventRepository _repo,IUnitOfWork _unitOfWork)
         {
             _eventRegistrationRepository = _repo;
             unitOfWork = _unitOfWork;
@@ -52,7 +52,7 @@ namespace iBalekaAPI.Services
         }
         public void Delete(EventRegistration evntReg)
         {
-            _eventRegistrationRepository.Delete(evntReg);
+            _eventRegistrationRepository.DeleteEventReg(evntReg);
         }
         public void SaveEventRegistration()
         {

@@ -17,18 +17,9 @@ namespace iBalekaAPI.Data.Repositories
     }
     public class AthleteRepository:RepositoryBase<Athlete>,IAthleteRepository
     {
-        private IClubMemberRepository _clubMemberRepo;
-        private IEventRegRepository _evntRegRepo;
-        private IRunRepository _runRepo;
-        public AthleteRepository(IDbFactory dbFactory,
-            IClubMemberRepository clubMemberRepo,
-            IEventRegRepository evntRegRepo,
-            IRunRepository runRepo)
+        public AthleteRepository(IDbFactory dbFactory)
             : base(dbFactory)
         {
-            _clubMemberRepo = clubMemberRepo;
-            _evntRegRepo = evntRegRepo;
-            _runRepo = runRepo;
         }
        
         public Athlete GetAthleteByID(int athleteId)
@@ -51,14 +42,7 @@ namespace iBalekaAPI.Data.Repositories
             IEnumerable<Athlete> athlete = DbContext.Athlete
                                 .Where(p => p.Deleted ==false)
                                 .AsEnumerable();
-            if (athlete.Count()>0)
-            {
-                foreach (Athlete ath in athlete)
-                {
-                    ath.EventRegistration =_evntRegRepo.GetEventRegistrationsQuery().GetRegByAthleteId(ath.AthleteId);
-                    ath.Run = _runRepo.GetRunsQuery().GetRunsByAthleteId(ath.AthleteId);
-                } 
-            }
+            
             return athlete;
         }
 

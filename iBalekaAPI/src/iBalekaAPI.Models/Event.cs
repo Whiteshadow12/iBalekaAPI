@@ -82,7 +82,6 @@ namespace iBalekaAPI.Models
         public virtual ICollection<EventRegistration> EventRegistration { get; set; }
         [DisplayName("Event Routes")]
         public virtual ICollection<EventRoute> EventRoute { get; set; }
-        public virtual ICollection<Run> Run { get; set; }
 
     }
 

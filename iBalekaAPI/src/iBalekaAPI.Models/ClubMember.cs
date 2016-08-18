@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,8 +19,10 @@ namespace iBalekaAPI.Models
         public DateTime DateJoined { get; set; }
         public DateTime? DateLeft { get; set; }
         public ClubStatus Status { get; set; }
+        [JsonIgnore]
 
         public virtual Athlete Athlete { get; set; }
+        [JsonIgnore]
         public virtual Club Club { get; set; }
     }
 }

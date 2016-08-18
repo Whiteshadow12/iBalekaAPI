@@ -47,10 +47,6 @@ namespace iBalekaAPI.Services
         {
             return _routeRepo.GetRouteByID(id);
         }
-        public Route GetRouteByIDView(int id)
-        {
-            return _routeRepo.GetRouteByIDView(id);
-        }
         public void AddRoute(Route route)
         { 
             _routeRepo.AddRoute(route);

@@ -19,7 +19,16 @@ namespace iBalekaAPI.Services
         void Delete(Club club);
         void SaveClub();
     }
-    public class ClubService:IClubService
+    public interface IClubMemberService
+    {
+        ClubMember GetMemberByID(int id);
+        IEnumerable<ClubMember> GetMembers(int clubId);
+        void RegisterMember(ClubMember member);
+        void DeRegisterMember(ClubMember memberId);
+        void SaveMember();
+
+    }
+    public class ClubService:IClubService,IClubMemberService
     {
         private readonly IClubRepository _clubRepo;
         private readonly IUnitOfWork unitOfWork;
@@ -57,6 +66,30 @@ namespace iBalekaAPI.Services
             _clubRepo.Delete(club);
         }
         public void SaveClub()
+        {
+            unitOfWork.Commit();
+        }
+
+        //clubmember
+        public ClubMember GetMemberByID(int id)
+        {
+            return _clubRepo.GetMemberByID(id);
+        }
+        public IEnumerable<ClubMember> GetMembers(int clubId)
+        {
+            return _clubRepo.GetMembers(clubId);
+        }
+        public void RegisterMember(ClubMember member)
+        {
+            _clubRepo.JoinClub(member);
+        }
+        public void DeRegisterMember(ClubMember member)
+        {
+
+            _clubRepo.LeaveClub(member);
+        }
+
+        public void SaveMember()
         {
             unitOfWork.Commit();
         }

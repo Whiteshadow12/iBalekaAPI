@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,7 +20,7 @@ namespace iBalekaAPI.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public int RouteId { get; set; }
-
+        [JsonIgnore]
         public virtual Route Route { get; set; }
     }
 }
