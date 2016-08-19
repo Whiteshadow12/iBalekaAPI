@@ -12,7 +12,7 @@ using iBalekaAPI.Core.Extensions;
 
 namespace iBalekaAPI.Core.Controllers
 {
-    //[Route("api/[controller]")]
+    [Route("[controller]")]
     [Produces("application/json")]
     public class ClubMemberController : Controller
     {

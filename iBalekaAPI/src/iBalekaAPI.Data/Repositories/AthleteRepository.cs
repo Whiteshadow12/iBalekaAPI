@@ -14,7 +14,7 @@ namespace iBalekaAPI.Data.Repositories
     public interface IAthleteRepository:IRepository<Athlete>
     {
         Athlete GetAthleteByID(int id);
-        IEnumerable<Athlete> GetAthletesQuery();
+        ICollection<Athlete> GetAthletesQuery();
     }
     public class AthleteRepository:RepositoryBase<Athlete>,IAthleteRepository
     {
@@ -31,7 +31,7 @@ namespace iBalekaAPI.Data.Repositories
         }
         public override IEnumerable<Athlete> GetAll()
         {
-            return GetAthletesQuery();
+            return GetAthletesQuery().AsEnumerable();
         }
         public override void Delete(Athlete entity)
         {
@@ -40,11 +40,11 @@ namespace iBalekaAPI.Data.Repositories
         }
         
         //queries
-        public IEnumerable<Athlete> GetAthletesQuery()
+        public ICollection<Athlete> GetAthletesQuery()
         {
-            IEnumerable<Athlete> athlete = DbContext.Athlete
+            ICollection<Athlete> athlete = DbContext.Athlete
                                 .Where(p => p.Deleted ==false)
-                                .AsEnumerable();
+                                .ToList();
             
             return athlete;
         }

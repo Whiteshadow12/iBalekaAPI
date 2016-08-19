@@ -114,7 +114,7 @@ namespace iBalekaAPI.Data.Repositories
         //queries
         public ICollection<Route> GetRoutesQuery()
         {
-            IEnumerable<Route> routes;
+            ICollection<Route> routes;
             routes = DbContext.Route
                         .Where(r => r.Deleted == false)
                         .ToList();
@@ -125,7 +125,7 @@ namespace iBalekaAPI.Data.Repositories
                     rte.Checkpoint = (ICollection<Checkpoint>)GetCheckpoints(rte.RouteId);
                 } 
             }
-            return (ICollection<Route>)routes;
+            return routes;
         }
     }
 }

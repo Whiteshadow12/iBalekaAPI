@@ -55,10 +55,10 @@ namespace iBalekaAPI.Data.Repositories
         //query
         public ICollection<Club> GetClubsQuery()
         {
-            IEnumerable<Club> clubs;
+            ICollection<Club> clubs;
             clubs = DbContext.Club
                     .Where(p => p.Deleted == false)
-                    .AsEnumerable();
+                    .ToList();
             if (clubs.Count() > 0)
             {
                 foreach (Club club in clubs)
@@ -66,7 +66,7 @@ namespace iBalekaAPI.Data.Repositories
                     club.ClubMember = GetClubMembersQuery().GetMembersByClubId(club.ClubId);
                 }
             }
-            return (ICollection<Club>)clubs;
+            return clubs;
         }
 
         //club members

@@ -8,4 +8,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAApGK2c2/G2Uqwatq4r19D2wAAAAACAAAAAAAQZgAAAAEAACAAAAAf+bXFNc4BJCQ2+cCe5H7Yn8x4oKX4Ldm8xe0RT6sLoQAAAAAOgAAAAAIAACAAAAD8IUo1BMG32Bpa5+vFPaqhnWOG6GUFkmzU00Y8tV/ofoAAAAB1jMf4uaPxLKSeJkIRxonHjYUXJUXpH6vjteTUaOnS1NNknlyxVbclmzB6oOsirffVsGbApCxfri9LQ7kVmff7F4CAu09waRBjrcEKjGjhHGNIrte/H8T/Ldrg5eEMsfyq8rJ3IXt2XH8/xejNFbMvhDg0+4r/KKycUYrsFy4QSUAAAAAK2b4co8YAoENq2SaAsw2+rpX8qfAT0ED5MIOoAaSAmOhBp4hQlukEVEuzmh8akksi3nk2+QkBOC3bFjEBmC6q</EncryptedPassword>
   </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="ServerConnection">
+      <Value>Data Source=tcp:ibaleka.database.windows.net,1433;Initial Catalog = iBalekaDB; User Id = iBalekaAdmin@ibaleka;Password=AllBlacks2026;MultipleActiveResultSets=true;</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
 </Project>

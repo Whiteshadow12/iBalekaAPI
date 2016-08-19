@@ -21,7 +21,7 @@ namespace iBalekaAPI.Data.Repositories
         IEnumerable<Event> GetUserEvents(string userId);
         IEnumerable<Event> GetEvents();
         //Queries
-        IEnumerable<Event> GetEventsQuery();
+        ICollection<Event> GetEventsQuery();
         ICollection<EventRoute> GetEventRoutesQuery(int evntId);
 
         //event reg
@@ -145,13 +145,13 @@ namespace iBalekaAPI.Data.Repositories
         }
 
         //Queries
-        public IEnumerable<Event> GetEventsQuery()
+        public ICollection<Event> GetEventsQuery()
         {
-            IEnumerable<Event> events;
+            ICollection<Event> events;
 
                 events = DbContext.Event
                                     .Where(p => p.Deleted == false && p.EventStatus == EventType.Open)
-                                    .AsEnumerable();
+                                    .ToList();
                 foreach (Event evnt in events)
                 {
                     evnt.EventRoute = GetEventRoutesQuery(evnt.EventId);
@@ -161,10 +161,13 @@ namespace iBalekaAPI.Data.Repositories
         }        
         public ICollection<EventRoute> GetEventRoutesQuery(int evntId)
         {
+
             ICollection<EventRoute> evntRoutes;
-            evntRoutes = DbContext.EventRoute
-                             .Where(p => p.Deleted == false && p.EventID == evntId)
-                             .ToList();
+          
+                evntRoutes = DbContext.EventRoute
+                                     .Where(p => p.Deleted == false && p.EventID == evntId)
+                                     .ToList(); 
+            
             if(evntRoutes.Count()>0)
             {
                 foreach(EventRoute route in evntRoutes)

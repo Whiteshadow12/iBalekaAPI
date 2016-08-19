@@ -15,6 +15,7 @@ using iBalekaAPI.Core.Extensions;
 
 namespace iBalekaAPI.Core.Controllers
 {
+    [Route("[controller]")]
     [Produces("application/json")]
     public class MapController : Controller
     {
