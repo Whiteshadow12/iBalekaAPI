@@ -15,6 +15,7 @@ namespace iBalekaAPI.Data.Repositories
     {
         Athlete GetAthleteByID(int id);
         ICollection<Athlete> GetAthletesQuery();
+        
     }
     public class AthleteRepository:RepositoryBase<Athlete>,IAthleteRepository
     {

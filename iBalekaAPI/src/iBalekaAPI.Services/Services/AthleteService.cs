@@ -13,6 +13,7 @@ namespace iBalekaAPI.Services
     {
         IEnumerable<Athlete> GetAthletes();
         Athlete GetAthlete(int id);
+
         void AddAthlete(Athlete athlete);
         void UpdateAthlete(Athlete athlete);
         void DeleteAthlete(Athlete athlete);

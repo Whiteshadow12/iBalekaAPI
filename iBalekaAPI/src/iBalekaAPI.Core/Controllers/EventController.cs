@@ -29,10 +29,10 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         // GET: Event/Events
-        [Route("GetUserEvents/{userId}")]
-        [HttpPost]
-        
-        public async Task<IActionResult> GetUserEvents(string userId)
+        [HttpGet]
+        [Route("User/[action]")]
+
+        public async Task<IActionResult> GetUserEvents([FromQuery]string userId)
         {
             var response = new ListModelResponse<Event>() 
                 as IListModelResponse<Event>;
@@ -61,8 +61,8 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get all events</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetEvents")]
         [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> GetEvents()
         {
             var response = new ListModelResponse<Event>()
@@ -92,9 +92,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get an event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetEvent/{eventId}")]
         [HttpGet]
-        public async Task<IActionResult> GetEvent(int eventId)
+        [Route("[action]")]
+        public async Task<IActionResult> GetEvent([FromQuery]int eventId)
         {
             var response = new SingleModelResponse<Event>()
                 as ISingleModelResponse<Event>;
@@ -125,9 +125,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Saves an event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("SaveEvent/{evnt}")]
         [HttpPost]
-        public async Task<IActionResult> SaveEvent(Event evnt)
+        [Route("[action]")]
+        public async Task<IActionResult> SaveEvent([FromQuery]Event evnt)
         {
             var response = new SingleModelResponse<Event>()
                as ISingleModelResponse<Event>;
@@ -162,9 +162,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Update an event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("EditEvent/{evnt}")]
         [HttpPut]
-        public async Task<IActionResult> EditEvent(Event evnt)
+        [Route("Update/[action]")]
+        public async Task<IActionResult> EditEvent([FromQuery]Event evnt)
         {
 
             var response = new SingleModelResponse<Event>()
@@ -196,10 +196,10 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Delete an event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("DeleteEvent/{evnt}")]
         [HttpPut]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteEvent(Event evnt)
+        public async Task<IActionResult> DeleteEvent([FromQuery]Event evnt)
         {
             var response = new SingleModelResponse<Event>()
                as ISingleModelResponse<Event>;

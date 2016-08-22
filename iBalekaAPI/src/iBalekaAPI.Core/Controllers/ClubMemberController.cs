@@ -29,9 +29,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get club members</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetClubMembers/{clubId}")]
         [HttpGet]
-        public async Task<IActionResult> GetClubMembers(int clubId)
+        [Route("[action]")]
+        public async Task<IActionResult> GetClubMembers([FromQuery]int clubId)
         {
             var response = new ListModelResponse<ClubMember>()
                 as IListModelResponse<ClubMember>;
@@ -61,9 +61,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get club member</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetClubMember/{memberId}")]
         [HttpGet]
-        public async Task<IActionResult> GetClubMember(int memberId)
+        [Route("Member/[action]")]
+        public async Task<IActionResult> GetClubMember([FromQuery]int memberId)
         {
             var response = new SingleModelResponse<ClubMember>()
               as ISingleModelResponse<ClubMember>;
@@ -93,9 +93,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Register club member</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("RegisterMember/{clubmember}")]
         [HttpPost]
-        public async Task<IActionResult> RegisterMember(ClubMember clubmember)
+        [Route("[action]")]
+        public async Task<IActionResult> RegisterMember([FromBody]ClubMember clubmember)
         {
             var response = new SingleModelResponse<ClubMember>()
               as ISingleModelResponse<ClubMember>;
@@ -124,9 +124,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>DeRegister club member</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("DeRegisterMember/{clubmember}")]
         [HttpPut]
-        public async Task<IActionResult> DeRegisterMember(ClubMember clubmember)
+        [Route("[action]")]
+        public async Task<IActionResult> DeRegisterMember([FromBody]ClubMember clubmember)
         {
             var response = new SingleModelResponse<ClubMember>()
               as ISingleModelResponse<ClubMember>;

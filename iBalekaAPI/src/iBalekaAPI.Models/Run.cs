@@ -16,6 +16,7 @@ namespace iBalekaAPI.Models
         public int RunId { get; set; }
         public int AthleteId { get; set; }
         public double CaloriesBurnt { get; set; }
+        public double Distance { get; set; }
         public DateTime DateRecorded { get; set; }
         public bool Deleted { get; set; }
         public DateTime EndTime { get; set; }

@@ -11,8 +11,6 @@ using iBalekaAPI.Models.Responses;
 using System.Threading.Tasks;
 using iBalekaAPI.Core.Extensions;
 
-//using prototypeWeb.Models;
-
 namespace iBalekaAPI.Core.Controllers
 {
     [Route("[controller]")]
@@ -35,9 +33,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get all user created Routes</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetUserRoutes/{userId}")]
         [HttpGet]
-        public async Task<IActionResult> GetUserRoutes(string userId)
+        [Route("User/[action]")]
+        public async Task<IActionResult> GetUserRoutes([FromQuery]string userId)
         {
             var response = new ListModelResponse<Route>()
                as IListModelResponse<Route>;
@@ -66,8 +64,8 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get all Routes</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetRoutes")]
         [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> GetRoutes()
         {
             var response = new ListModelResponse<Route>()
@@ -99,10 +97,10 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Add Route to DB</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("AddRoute/{userId}")]
         [HttpPost]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddRoute(Route route,string userId)
+        public async Task<IActionResult> AddRoute([FromQuery]Route route, [FromQuery]string userId)
         {
             var response = new SingleModelResponse<Route>()
                as ISingleModelResponse<Route>;
@@ -139,9 +137,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get a Route</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetRoute/{routeId}")]
         [HttpGet]
-        public async Task<IActionResult> GetRoute(int routeId)
+        [Route("[action]")]
+        public async Task<IActionResult> GetRoute([FromQuery]int routeId)
         {
             var response = new SingleModelResponse<Route>()
                as ISingleModelResponse<Route>;
@@ -173,10 +171,10 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Update a Route</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("EditRoute/{route}")]
         [HttpPut]
+        [Route("Update/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditRoute(Route route)
+        public async Task<IActionResult> EditRoute([FromQuery]Route route)
         {
             var response = new SingleModelResponse<Route>()
                as ISingleModelResponse<Route>;
@@ -207,9 +205,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Delete a Route</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("DeleteRoute/{route}")]
         [HttpPut]
-        public async Task<IActionResult> DeleteRoute(Route route)
+        [Route("Delete/[action]")]
+        public async Task<IActionResult> DeleteRoute([FromQuery]Route route)
         {
             var response = new SingleModelResponse<Route>()
                as ISingleModelResponse<Route>;

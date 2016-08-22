@@ -28,8 +28,8 @@ namespace iBalekaAPI.Core.Controllers
         /// Gets all athletes
         /// </summary>
         /// 
-        [Route("GetAthletes")]
         [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> GetAthletes()
         {
             var response = new ListModelResponse<Athlete>()
@@ -55,9 +55,9 @@ namespace iBalekaAPI.Core.Controllers
         /// </summary>
         /// <param name="athleteId" type="int">AthleteId</param>
         /// <returns></returns>
-        [Route("GetAthlete/{athleteId}")]
         [HttpGet]
-        public async Task<IActionResult> GetAthlete(int athleteId)
+        [Route("[action]")]
+        public async Task<IActionResult> GetAthlete([FromQuery] int athleteId)
         {
             var response = new SingleModelResponse<Athlete>()
                 as ISingleModelResponse<Athlete>;
@@ -81,14 +81,16 @@ namespace iBalekaAPI.Core.Controllers
             return response.ToHttpResponse();
         }
 
+
+
         // POST api/values
         /// <summary>
         /// Adds an Athlete to db
         /// </summary>
         /// <paramref name="athlete"/>
-        [Route("AddAthlete/{athlete}")]
         [HttpPost]
-        public async Task<IActionResult> AddAthlete(Athlete athlete)
+        [Route("[action]")]
+        public async Task<IActionResult> AddAthlete([FromBody]Athlete athlete)
         {
 
             var response = new SingleModelResponse<Athlete>()
@@ -117,9 +119,9 @@ namespace iBalekaAPI.Core.Controllers
         /// Updates some properties of a athlete
         /// </summary>
         /// <param name="athlete" type="Athlete"></param>
-        [Route("UpdateAthlete/{athlete}")]
         [HttpPut]
-        public async Task<IActionResult> UpdateAthlete(Athlete athlete)
+        [Route("[action]")]
+        public async Task<IActionResult> UpdateAthlete([FromBody]Athlete athlete)
         {
 
             var response = new SingleModelResponse<Athlete>()
@@ -149,9 +151,9 @@ namespace iBalekaAPI.Core.Controllers
         /// Deletes a specific athlete
         /// </summary>
         /// <param name="athlete"></param>
-        [Route("DeleteAthlete/{athlete}")]
         [HttpPut]
-        public async Task<IActionResult> DeleteAthlete(Athlete athlete)
+        [Route("[action]")]
+        public async Task<IActionResult> DeleteAthlete([FromBody]Athlete athlete)
         {
             var response = new SingleModelResponse<Athlete>()
                as ISingleModelResponse<Athlete>;

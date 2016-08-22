@@ -29,9 +29,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get a particular event registration</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetRegistration/{regId}")]
         [HttpGet]
-        public async Task<IActionResult> GetRegistration(int regId)
+        [Route("[action]")]
+        public async Task<IActionResult> GetRegistration([FromQuery]int regId)
         {
             var response = new SingleModelResponse<EventRegistration>()
                   as ISingleModelResponse<EventRegistration>;
@@ -62,9 +62,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get all registrations for a particular event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetRegistrations/{eventId}")]
         [HttpGet]
-        public async Task<IActionResult> GetRegistrations(int eventId)
+        [Route("Event/[action]")]
+        public async Task<IActionResult> GetRegistrations([FromQuery]int eventId)
         {
             var response = new ListModelResponse<EventRegistration>()
                  as IListModelResponse<EventRegistration>;
@@ -94,9 +94,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get all athlete registrations</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetAthleteRegistrations/{athleteId}")]
         [HttpGet]
-        public async Task<IActionResult> GetAthleteRegistrations(int athleteId)
+        [Route("Athlete/[action]")]
+        public async Task<IActionResult> GetAthleteRegistrations([FromQuery]int athleteId)
         {
 
             var response = new ListModelResponse<EventRegistration>()
@@ -129,9 +129,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Register athlete</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("Register/{reg}")]
         [HttpPost]
-        public async Task<IActionResult> Register(EventRegistration reg)
+        [Route("[action]")]
+        public async Task<IActionResult> Register([FromQuery]EventRegistration reg)
         {
             var response = new SingleModelResponse<EventRegistration>()
                 as ISingleModelResponse<EventRegistration>;
@@ -162,9 +162,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>DeRegister athlete</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("DeRegister/{regId}")]
         [HttpPut]
-        public async Task<IActionResult> DeRegister(int regId)
+        [Route("[action]")]
+        public async Task<IActionResult> DeRegister([FromQuery]int regId)
         {
             var response = new SingleModelResponse<EventRegistration>()
                 as ISingleModelResponse<EventRegistration>;

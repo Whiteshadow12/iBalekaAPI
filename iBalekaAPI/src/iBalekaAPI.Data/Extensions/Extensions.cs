@@ -69,25 +69,59 @@ namespace Data.Extentions
         {
             return run.Where(a => a.EventId == evntId).ToList();
         }
-        public static ICollection<Run> GetRunsByAthleteId(this IEnumerable<Run> run, int athleteId)
-        {
-            return run.Where(a => a.AthleteId == athleteId).ToList();
-        }
         public static ICollection<Run> GetRunsByRouteId(this IEnumerable<Run> run, int routeId)
         {
             return run.Where(a => a.RouteId == routeId).ToList();
         }
-        public static ICollection<Run> GetRunsByAthletePersonalRuns(this IEnumerable<Run> run,int athleteId)
+        public static ICollection<Run> GetRunsByAthletePersonalRuns(this IEnumerable<Run> run)
         {
-            return run.Where(a => a.EventId == null
-                                && a.AthleteId == athleteId).ToList();
+            return run.Where(a => a.EventId == null).ToList();
         }
-        public static ICollection<Run> GetRunsByAthleteEventRuns(this IEnumerable<Run> run, int athleteId)
+        public static ICollection<Run> GetRunsByAthleteEventRuns(this IEnumerable<Run> run)
         {
-            return run.Where(a => a.RouteId == null
-                                && a.AthleteId == athleteId).ToList();
+            return run.Where(a => a.RouteId == null).ToList();
         }
-
+        public static double GetTotalDistanceRan(this IEnumerable<Run> run)
+        {
+            return run.Sum(a=>a.Distance);
+        }
+        //add to service
+        public static double GetRunCount(this IEnumerable<Run> run)
+        {
+            return run.Select(a=>a.RunId)
+                      .Distinct()
+                      .Count();
+        }
+        public static double GetEventRunCount(this IEnumerable<Run> run)
+        {
+            return run.Where(a => a.EventId != null)
+                      .Select(a => a.RunId)
+                      .Distinct()
+                      .Count();
+        }
+        public static double GetPersonalRunCount(this IEnumerable<Run> run)
+        {
+            return run.Where(a => a.EventId == null)
+                      .Select(a => a.RunId)
+                      .Distinct()
+                      .Count();
+        }
+        public static double GetCaloriesOverTime(this IEnumerable<Run> run,string startDate,string endDate)
+        {
+            DateTime start, end;
+            start = DateTime.Parse(startDate);
+            end = DateTime.Parse(endDate);
+            return run.Where(a => a.DateRecorded >= start && a.DateRecorded <= end)
+                      .Sum(a => a.CaloriesBurnt);
+        }
+        public static double GetDistanceOverTime(this IEnumerable<Run> run, string startDate, string endDate)
+        {
+            DateTime start, end;
+            start = DateTime.Parse(startDate);
+            end = DateTime.Parse(endDate);
+            return run.Where(a => a.DateRecorded >= start && a.DateRecorded <= end)
+                      .Sum(a => a.Distance);
+        }
     }
     public static class ClubRepoExtensions
     {

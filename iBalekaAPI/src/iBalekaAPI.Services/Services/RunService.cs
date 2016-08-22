@@ -21,6 +21,12 @@ namespace iBalekaAPI.Services
         void UpdateRun(Run run);
         void Delete(Run run);
         void SaveRun();
+        double GetTotalDistanceRan(int athleteId);
+        double GetRunCount(int athleteId);
+        double GetEventRunCount(int athleteId);
+        double GetPersonalRunCount(int athleteId);
+        double GetCaloriesOverTime(int athleteId, string startDate, string endDate);
+        double GetDistanceOverTime(int athleteId, string startDate, string endDate);
     }
     public class RunService:IRunService
     {
@@ -32,7 +38,30 @@ namespace iBalekaAPI.Services
             _runRepo = _repo;
             unitOfWork = _unitOfWork;
         }
-
+        public double GetRunCount(int athleteId)
+        {
+            return _runRepo.GetRunCount(athleteId);
+        }
+        public double GetEventRunCount(int athleteId)
+        {
+            return _runRepo.GetEventRunCount(athleteId);
+        }
+        public double GetPersonalRunCount(int athleteId)
+        {
+            return _runRepo.GetPersonalRunCount(athleteId);
+        }
+        public double GetCaloriesOverTime(int athleteId, string startDate, string endDate)
+        {
+            return _runRepo.GetCaloriesOverTime(athleteId, startDate, endDate);
+        }
+        public double GetDistanceOverTime(int athleteId, string startDate, string endDate)
+        {
+            return _runRepo.GetDistanceOverTime(athleteId, startDate, endDate);
+        }
+        public double GetTotalDistanceRan(int athleteId)
+        {
+            return _runRepo.GetTotalDistanceRan(athleteId);
+        }
         public Run GetRunByID(int id)
         {
             return _runRepo.GetRunByID(id);
