@@ -19,6 +19,7 @@ namespace iBalekaAPI.Data.Repositories
         void DeleteCheckPoints(IEnumerable<Checkpoint> checkpoints);
         void AddRoute(Route route);
         void UpdateRoute(Route route);
+        void DeleteRoute(int routeId);
         ICollection<Route> GetRoutesQuery();
     }
     public class RouteRepository : RepositoryBase<Route>, IRouteRepository
@@ -91,9 +92,9 @@ namespace iBalekaAPI.Data.Repositories
                 DbContext.Entry(checkpoint).State = EntityState.Deleted;
             }
         }
-        public override void Delete(Route entity)
+        public void DeleteRoute(int routeId)
         {
-            IEnumerable<Checkpoint> Checkpoints = GetCheckpoints(entity.RouteId);
+            IEnumerable<Checkpoint> Checkpoints = GetCheckpoints(routeId);
             if (Checkpoints != null)
             {
                 foreach (Checkpoint check in Checkpoints)
@@ -102,7 +103,7 @@ namespace iBalekaAPI.Data.Repositories
                     DbContext.Entry(check).State = EntityState.Modified;
                 }
             }
-            Route deletedRoute = DbContext.Route.FirstOrDefault(x => x.RouteId == entity.RouteId);
+            Route deletedRoute = DbContext.Route.FirstOrDefault(x => x.RouteId == routeId);
             if (deletedRoute != null)
             {
 

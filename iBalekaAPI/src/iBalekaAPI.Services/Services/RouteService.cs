@@ -17,7 +17,7 @@ namespace iBalekaAPI.Services
         IEnumerable<Route> GetRoutes();
         void AddRoute(Route route);
         void UpdateRoute(Route route);
-        void DeleteRoute(Route route);
+        void DeleteRoute(int route);
         void SaveRoute();
     }
 
@@ -55,7 +55,7 @@ namespace iBalekaAPI.Services
         {
             _routeRepo.UpdateRoute(route);
         }
-        public void DeleteRoute(Route route)
+        public void DeleteRoute(int route)
         {
             _routeRepo.Delete(route);
         }

@@ -16,7 +16,7 @@ namespace iBalekaAPI.Services
         IEnumerable<Club> GetUserClubs(string userId);
         void AddClub(Club club);
         void UpdateClub(Club club);
-        void Delete(Club club);
+        void Delete(int club);
         void SaveClub();
     }
     public interface IClubMemberService
@@ -24,7 +24,7 @@ namespace iBalekaAPI.Services
         ClubMember GetMemberByID(int id);
         IEnumerable<ClubMember> GetMembers(int clubId);
         void RegisterMember(ClubMember member);
-        void DeRegisterMember(ClubMember memberId);
+        void DeRegisterMember(int memberId);
         void SaveMember();
 
     }
@@ -61,7 +61,7 @@ namespace iBalekaAPI.Services
         {
             _clubRepo.Update(club);
         }
-        public void Delete(Club club)
+        public void Delete(int club)
         {
             _clubRepo.Delete(club);
         }
@@ -83,7 +83,7 @@ namespace iBalekaAPI.Services
         {
             _clubRepo.JoinClub(member);
         }
-        public void DeRegisterMember(ClubMember member)
+        public void DeRegisterMember(int member)
         {
 
             _clubRepo.LeaveClub(member);

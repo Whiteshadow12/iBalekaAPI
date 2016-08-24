@@ -506,14 +506,14 @@ namespace iBalekaAPI.Core.Controllers
                as ISingleModelResponse<Run>;
             try
             {
-                if (runId < 1)
+                if (runId.ToString()!=null)
                     throw new Exception("Run Id is missing");
                 response.Model = await Task.Run(() =>
                 {
                     Run run = _context.GetRunByID(runId);
                     if (run == null)
                         throw new Exception("Run does not exist");
-                    _context.Delete(run);
+                    _context.Delete(runId);
                     _context.SaveRun();
                     return run;
                 });

@@ -86,9 +86,9 @@ namespace iBalekaAPI.Data.Repositories
         {
             return GetAthleteRunsQuery(id);
         }
-        public override void Delete(Run entity)
+        public override void Delete(int entity)
         {
-            Run deletedRun = DbContext.Run.FirstOrDefault(x => x.RunId == entity.RunId);
+            Run deletedRun = DbContext.Run.FirstOrDefault(x => x.RunId == entity);
             if (deletedRun != null)
             {
                 deletedRun.Deleted = true;

@@ -50,7 +50,7 @@ namespace iBalekaAPI.Services
         {
             _eventRegistrationRepository.DeRegister(reg);
         }
-        public void Delete(EventRegistration evntReg)
+        public void Delete(int evntReg)
         {
             _eventRegistrationRepository.DeleteEventReg(evntReg);
         }

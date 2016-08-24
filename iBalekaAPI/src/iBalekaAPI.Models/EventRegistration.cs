@@ -11,7 +11,7 @@ namespace iBalekaAPI.Models
         Active,
         Closed
     }
-    public partial class EventRegistration
+    public class EventRegistration
     {
         public int RegistrationId { get; set; }
         public RegistrationType EventStatus { get; set; }

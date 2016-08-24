@@ -8,32 +8,41 @@
             <summary>
             Gets all athletes
             </summary>
-            
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response> 
         </member>
         <member name="M:iBalekaAPI.Core.Controllers.AthleteController.GetAthlete(System.Int32)">
             <summary>
             Returns a specific athlete 
             </summary>
             <param name="athleteId" type="int">AthleteId</param>
-            <returns></returns>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
         </member>
         <member name="M:iBalekaAPI.Core.Controllers.AthleteController.AddAthlete(iBalekaAPI.Models.Athlete)">
             <summary>
             Adds an Athlete to db
             </summary>
             <paramref name="athlete"/>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
         </member>
         <member name="M:iBalekaAPI.Core.Controllers.AthleteController.UpdateAthlete(iBalekaAPI.Models.Athlete)">
             <summary>
             Updates some properties of a athlete
             </summary>
             <param name="athlete" type="Athlete"></param>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.DeleteAthlete(iBalekaAPI.Models.Athlete)">
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.DeleteAthlete(System.Int32)">
             <summary>
             Deletes a specific athlete
             </summary>
-            <param name="athlete"></param>
+            <param name="athlete" type="int">Athlete Id</param>
+            <remarks>Delete an Athlete</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
         </member>
         <member name="M:iBalekaAPI.Core.Controllers.ClubController.GetAllClubs">
             <summary>
@@ -79,11 +88,11 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:iBalekaAPI.Core.Controllers.ClubController.DeleteClub(iBalekaAPI.Models.Club)">
+        <member name="M:iBalekaAPI.Core.Controllers.ClubController.DeleteClub(System.Int32)">
             <summary>
             Delete a club
             </summary>
-            <param name="club" type="Club">Club Model</param>
+            <param name="club" type="int">Club Id</param>
             <remarks>Delete a club</remarks>
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
@@ -115,11 +124,11 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:iBalekaAPI.Core.Controllers.ClubMemberController.DeRegisterMember(iBalekaAPI.Models.ClubMember)">
+        <member name="M:iBalekaAPI.Core.Controllers.ClubMemberController.DeRegisterMember(System.Int32)">
             <summary>
             DeRegister athlete from a particular club
             </summary>
-            <param name="clubmember" type="ClubMember">ClubMember Model</param>
+            <param name="clubmember" type="int">ClubMember Id</param>
             <remarks>DeRegister club member</remarks>
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
@@ -168,11 +177,11 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:iBalekaAPI.Core.Controllers.EventController.DeleteEvent(iBalekaAPI.Models.Event)">
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.DeleteEvent(System.Int32)">
             <summary>
             Delete an event
             </summary>
-            <param name="evnt" type="Event">Event Model</param>
+            <param name="evnt" type="int">Event Id</param>
             <remarks>Delete an event</remarks>
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
@@ -267,11 +276,11 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:iBalekaAPI.Core.Controllers.MapController.DeleteRoute(iBalekaAPI.Models.Route)">
+        <member name="M:iBalekaAPI.Core.Controllers.MapController.DeleteRoute(System.Int32)">
             <summary>
             Delete a Route
             </summary>
-            <param name="route" type="Route">Route Model</param>
+            <param name="routeId" type="int">Route Id</param>
             <remarks>Delete a Route</remarks>
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>

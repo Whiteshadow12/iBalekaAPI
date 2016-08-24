@@ -120,19 +120,19 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// DeRegister athlete from a particular club
         /// </summary>
-        /// <param name="clubmember" type="ClubMember">ClubMember Model</param>
+        /// <param name="clubmember" type="int">ClubMember Id</param>
         /// <remarks>DeRegister club member</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPut]
         [Route("[action]")]
-        public async Task<IActionResult> DeRegisterMember([FromBody]ClubMember clubmember)
+        public async Task<IActionResult> DeRegisterMember([FromQuery]int clubmember)
         {
-            var response = new SingleModelResponse<ClubMember>()
-              as ISingleModelResponse<ClubMember>;
+            var response = new SingleModelResponse<int>()
+              as ISingleModelResponse<int>;
             try
             {
-                if (clubmember == null)
+                if (clubmember.ToString() == null)
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {

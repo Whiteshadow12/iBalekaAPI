@@ -15,7 +15,9 @@ namespace iBalekaAPI.Data.Repositories
     {
         Athlete GetAthleteByID(int id);
         ICollection<Athlete> GetAthletesQuery();
-        
+       // void Delete(int entity);
+
+
     }
     public class AthleteRepository:RepositoryBase<Athlete>,IAthleteRepository
     {
@@ -34,10 +36,11 @@ namespace iBalekaAPI.Data.Repositories
         {
             return GetAthletesQuery().AsEnumerable();
         }
-        public override void Delete(Athlete entity)
+        public override void Delete(int entity)
         {
-            entity.Deleted = true;
-            Update(entity);
+            Athlete athlete = GetAthleteByID(entity);
+            athlete.Deleted = true;
+            
         }
         
         //queries

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace iBalekaAPI.Models
 {
-    public partial class Route
+    public class Route
     {
         public Route()
         {

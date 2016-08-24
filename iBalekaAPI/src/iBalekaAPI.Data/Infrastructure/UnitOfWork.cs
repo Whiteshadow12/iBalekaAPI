@@ -12,7 +12,6 @@ namespace iBalekaAPI.Data.Infastructure
     public class UnitOfWork : IUnitOfWork
     {
         private iBalekaDBContext DbContext;
-        DbContextFactoryOptions opt { get; set; }
 
         public UnitOfWork(iBalekaDBContext dbContext)
         {

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace iBalekaAPI.Models
 {
-    public partial class Club
+    public class Club
     {
         public Club()
         {

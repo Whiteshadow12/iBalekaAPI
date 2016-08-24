@@ -27,7 +27,8 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// Gets all athletes
         /// </summary>
-        /// 
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet]
         [Route("[action]")]
         public async Task<IActionResult> GetAthletes()
@@ -54,7 +55,8 @@ namespace iBalekaAPI.Core.Controllers
         /// Returns a specific athlete 
         /// </summary>
         /// <param name="athleteId" type="int">AthleteId</param>
-        /// <returns></returns>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpGet]
         [Route("[action]")]
         public async Task<IActionResult> GetAthlete([FromQuery] int athleteId)
@@ -88,6 +90,8 @@ namespace iBalekaAPI.Core.Controllers
         /// Adds an Athlete to db
         /// </summary>
         /// <paramref name="athlete"/>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> AddAthlete([FromBody]Athlete athlete)
@@ -119,6 +123,8 @@ namespace iBalekaAPI.Core.Controllers
         /// Updates some properties of a athlete
         /// </summary>
         /// <param name="athlete" type="Athlete"></param>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpPut]
         [Route("[action]")]
         public async Task<IActionResult> UpdateAthlete([FromBody]Athlete athlete)
@@ -150,16 +156,19 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// Deletes a specific athlete
         /// </summary>
-        /// <param name="athlete"></param>
+        /// <param name="athlete" type="int">Athlete Id</param>
+        /// <remarks>Delete an Athlete</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpPut]
         [Route("[action]")]
-        public async Task<IActionResult> DeleteAthlete([FromBody]Athlete athlete)
+        public async Task<IActionResult> DeleteAthlete([FromQuery]int athlete)
         {
-            var response = new SingleModelResponse<Athlete>()
-               as ISingleModelResponse<Athlete>;
+            var response = new SingleModelResponse<int>()
+               as ISingleModelResponse<int>;
             try
             {
-                if (athlete == null)
+                if (athlete.ToString() == null)
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {

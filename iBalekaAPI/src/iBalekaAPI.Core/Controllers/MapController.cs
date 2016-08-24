@@ -201,25 +201,25 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// Delete a Route
         /// </summary>
-        /// <param name="route" type="Route">Route Model</param>
+        /// <param name="routeId" type="int">Route Id</param>
         /// <remarks>Delete a Route</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPut]
         [Route("Delete/[action]")]
-        public async Task<IActionResult> DeleteRoute([FromQuery]Route route)
+        public async Task<IActionResult> DeleteRoute([FromQuery]int routeId)
         {
-            var response = new SingleModelResponse<Route>()
-               as ISingleModelResponse<Route>;
+            var response = new SingleModelResponse<int>()
+               as ISingleModelResponse<int>;
             try
             {
-                if (route ==null)
+                if (routeId.ToString() ==null)
                     throw new Exception("Route Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.DeleteRoute(route);
+                    _context.DeleteRoute(routeId);
                     _context.SaveRoute();
-                    return route;
+                    return routeId;
                 });
             }
             catch (Exception ex)

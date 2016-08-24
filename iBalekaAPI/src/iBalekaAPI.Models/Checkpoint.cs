@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace iBalekaAPI.Models
 {
-    public partial class Checkpoint
+    public class Checkpoint
     {
         public Checkpoint() { }
         public Checkpoint(double lat, double lng)

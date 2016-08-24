@@ -34,9 +34,9 @@ namespace iBalekaAPI.Data.Infastructure
             DbContext.Entry(entity).State = EntityState.Modified;
         }
 
-        public virtual void Delete(T entity)
+        public virtual void Delete(int entity)
         {
-            dbSet.Remove(entity);
+            
         }
         public virtual IEnumerable<T> GetAll()
         {

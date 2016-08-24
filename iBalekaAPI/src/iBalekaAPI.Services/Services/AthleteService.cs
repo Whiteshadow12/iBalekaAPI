@@ -16,7 +16,7 @@ namespace iBalekaAPI.Services
 
         void AddAthlete(Athlete athlete);
         void UpdateAthlete(Athlete athlete);
-        void DeleteAthlete(Athlete athlete);
+        void DeleteAthlete(int athlete);
         void SaveAthlete();
     }
 
@@ -47,7 +47,7 @@ namespace iBalekaAPI.Services
         {
             _athleteRepo.Update(athlete);
         }
-        public void DeleteAthlete(Athlete athlete)
+        public void DeleteAthlete(int athlete)
         {
             _athleteRepo.Delete(athlete);
         }

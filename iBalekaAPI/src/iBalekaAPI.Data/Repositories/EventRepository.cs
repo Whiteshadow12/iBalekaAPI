@@ -11,7 +11,7 @@ using iBalekaAPI.Data.Configurations;
 
 namespace iBalekaAPI.Data.Repositories
 {
-    public interface IEventRepository : IRepository<Event>
+    public interface IEventRepository 
     {
         void AddEvent(Event evnt);
         void UpdateEvent(Event evnt);
@@ -20,6 +20,7 @@ namespace iBalekaAPI.Data.Repositories
         IEnumerable<EventRoute> GetEventRoutes(int id);
         IEnumerable<Event> GetUserEvents(string userId);
         IEnumerable<Event> GetEvents();
+        void DeleteEvent(int evntId);
         //Queries
         ICollection<Event> GetEventsQuery();
         ICollection<EventRoute> GetEventRoutesQuery(int evntId);
@@ -30,19 +31,18 @@ namespace iBalekaAPI.Data.Repositories
         IEnumerable<EventRegistration> GetAthleteRegistrations(int athleteId);
         void Register(EventRegistration reg);
         void DeRegister(int reg);
-        void DeleteEventReg(EventRegistration entity);
+        void DeleteEventReg(int entity);
         //queries
         ICollection<EventRegistration> GetEventRegistrationsQuery();
     }
 
 
-    public class EventRepository : RepositoryBase<Event>, IEventRepository
+    public class EventRepository : IEventRepository
     {
         private IRouteRepository _routeRepo;
         private IAthleteRepository _athleteRepo;
         private iBalekaDBContext DbContext;
         public EventRepository(iBalekaDBContext dbContext, IRouteRepository repo,IAthleteRepository athleteRepo)
-            : base(dbContext)
         {
             DbContext = dbContext;
             _athleteRepo = athleteRepo;
@@ -58,6 +58,7 @@ namespace iBalekaAPI.Data.Repositories
             newEvent.Time = evnt.Time;
             newEvent.Location = evnt.Location;
             newEvent.UserID = evnt.UserID;
+            newEvent.ClubID = evnt.ClubID;
 
             foreach (EventRoute evntRoute in evnt.EventRoute)
             {
@@ -125,18 +126,18 @@ namespace iBalekaAPI.Data.Repositories
         {
             return GetEventsQuery();
         }
-        public override void Delete(Event evnt)
+        public void DeleteEvent(int evntId)
         {
-            IEnumerable<EventRoute> evntRoutes = GetEventRoutes(evnt.EventId);
+            IEnumerable<EventRoute> evntRoutes = GetEventRoutes(evntId);
             if (evntRoutes != null)
             {
-                foreach (EventRoute route in evnt.EventRoute)
+                foreach (EventRoute route in evntRoutes)
                 {
                     route.Deleted = true;
                     DbContext.Entry(route).State = EntityState.Modified;
                 }
             }
-            Event deletedEvent = DbContext.Event.Single(x => x.EventId == evnt.EventId);
+            Event deletedEvent = DbContext.Event.Single(x => x.EventId == evntId);
             if (deletedEvent != null)
             {
                 deletedEvent.Deleted = true;
@@ -204,10 +205,11 @@ namespace iBalekaAPI.Data.Repositories
             entity.EventStatus = RegistrationType.Deregistered;
             DbContext.EventRegistration.Update(entity);
         }
-        public void DeleteEventReg(EventRegistration entity)
+        public void DeleteEventReg(int entity)
         {
-            entity.Deleted = true;
-           DbContext.EventRegistration.Update(entity);
+            EventRegistration reg = GetEventRegByID(entity);
+            reg.Deleted = true;
+           DbContext.EventRegistration.Update(reg);
         }
 
         //queries

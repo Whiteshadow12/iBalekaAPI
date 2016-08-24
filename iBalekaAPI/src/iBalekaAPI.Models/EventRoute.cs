@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace iBalekaAPI.Models
 {
-    public partial class EventRoute
+    public class EventRoute
     {
         public EventRoute() { }
         public EventRoute(string dateAdded)

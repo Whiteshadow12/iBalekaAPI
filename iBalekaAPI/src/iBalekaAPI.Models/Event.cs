@@ -11,7 +11,7 @@ namespace iBalekaAPI.Models
         Active,
         Closed
     }
-    public partial class Event
+    public class Event
     {
         public Event()
         {

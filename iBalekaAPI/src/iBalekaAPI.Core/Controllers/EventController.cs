@@ -133,11 +133,7 @@ namespace iBalekaAPI.Core.Controllers
                as ISingleModelResponse<Event>;
             try
             {
-                if (evnt.UserID ==null && evnt == null)
-                    throw new Exception("Your whole request is messed up. Event and UserId are blank");
-                else if(evnt.UserID == null)
-                    throw new Exception("UserId Missing");
-                else if(evnt==null)
+                if(evnt==null)
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
@@ -192,20 +188,20 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// Delete an event
         /// </summary>
-        /// <param name="evnt" type="Event">Event Model</param>
+        /// <param name="evnt" type="int">Event Id</param>
         /// <remarks>Delete an event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPut]
         [Route("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteEvent([FromQuery]Event evnt)
+        public async Task<IActionResult> DeleteEvent([FromQuery]int evnt)
         {
-            var response = new SingleModelResponse<Event>()
-               as ISingleModelResponse<Event>;
+            var response = new SingleModelResponse<int>()
+               as ISingleModelResponse<int>;
             try
             {
-                if (evnt == null)
+                if (evnt.ToString() == null)
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {

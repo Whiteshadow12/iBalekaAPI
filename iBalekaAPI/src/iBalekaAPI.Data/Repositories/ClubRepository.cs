@@ -18,7 +18,7 @@ namespace iBalekaAPI.Data.Repositories
         ClubMember GetMemberByID(int id);
         IEnumerable<ClubMember> GetMembers(int clubId);
         void JoinClub(ClubMember entity);
-        void LeaveClub(ClubMember entity);
+        void LeaveClub(int entityId);
 
         ICollection<ClubMember> GetClubMembersQuery();
     }
@@ -46,10 +46,11 @@ namespace iBalekaAPI.Data.Repositories
         {
             return GetClubsQuery();
         }
-        public override void Delete(Club entity)
+        public override void Delete(int entity)
         {
-            entity.Deleted = true;
-            Update(entity);
+            Club cl = GetClubByID(entity);
+            cl.Deleted = true;
+            
         }
 
         //query
@@ -94,8 +95,9 @@ namespace iBalekaAPI.Data.Repositories
                DbContext.ClubMember.Update(exist);
             }
         }
-        public void LeaveClub(ClubMember entity)
+        public void LeaveClub(int entityId)
         {
+            ClubMember entity = GetMemberByID(entityId);
             entity.Status = ClubStatus.Left;
             entity.DateLeft = DateTime.Now;
             DbContext.ClubMember.Update(entity);

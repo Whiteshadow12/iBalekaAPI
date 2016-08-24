@@ -10,7 +10,7 @@ namespace iBalekaAPI.Models
         Personal,
         Event
     }
-    public partial class Run
+    public class Run
     {
         [Key]
         public int RunId { get; set; }
