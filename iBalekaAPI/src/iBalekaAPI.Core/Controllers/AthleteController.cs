@@ -164,8 +164,8 @@ namespace iBalekaAPI.Core.Controllers
         [Route("[action]")]
         public async Task<IActionResult> DeleteAthlete([FromQuery]int athlete)
         {
-            var response = new SingleModelResponse<int>()
-               as ISingleModelResponse<int>;
+            var response = new SingleModelResponse<Athlete>()
+               as ISingleModelResponse<Athlete>;
             try
             {
                 if (athlete.ToString() == null)
@@ -174,7 +174,11 @@ namespace iBalekaAPI.Core.Controllers
                 {
                     _context.DeleteAthlete(athlete);
                     _context.SaveAthlete();
-                    return athlete;
+                    Athlete at = new Athlete
+                    {
+                        AthleteId = athlete
+                    };
+                    return at;
                 });
             }
             catch (Exception ex)

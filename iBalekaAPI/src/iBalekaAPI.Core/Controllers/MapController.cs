@@ -209,8 +209,8 @@ namespace iBalekaAPI.Core.Controllers
         [Route("Delete/[action]")]
         public async Task<IActionResult> DeleteRoute([FromQuery]int routeId)
         {
-            var response = new SingleModelResponse<int>()
-               as ISingleModelResponse<int>;
+            var response = new SingleModelResponse<Route>()
+               as ISingleModelResponse<Route>;
             try
             {
                 if (routeId.ToString() ==null)
@@ -219,7 +219,9 @@ namespace iBalekaAPI.Core.Controllers
                 {
                     _context.DeleteRoute(routeId);
                     _context.SaveRoute();
-                    return routeId;
+                    Route route = new Route();
+                    route.RouteId = routeId;
+                    return route;
                 });
             }
             catch (Exception ex)

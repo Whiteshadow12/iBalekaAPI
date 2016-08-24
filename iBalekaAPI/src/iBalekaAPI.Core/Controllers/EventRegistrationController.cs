@@ -176,7 +176,9 @@ namespace iBalekaAPI.Core.Controllers
                 {
                     _context.DeRegister(regId);
                     _context.SaveEventRegistration();
-                    return new EventRegistration();
+                    EventRegistration reg = new EventRegistration();
+                    reg.RegistrationId = regId;
+                    return reg;
                 });
             }
             catch (Exception ex)

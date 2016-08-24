@@ -37,7 +37,7 @@ namespace iBalekaAPI.Core.Controllers
                 as IListModelResponse<ClubMember>;
             try
             {
-                if (clubId <1)
+                if (clubId < 1)
                     throw new Exception("Club Id is null");
                 response.Model = await Task.Run(() =>
                 {
@@ -69,12 +69,12 @@ namespace iBalekaAPI.Core.Controllers
               as ISingleModelResponse<ClubMember>;
             try
             {
-                if (memberId <1)
+                if (memberId < 1)
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    ClubMember member =_context.GetMemberByID(memberId);
-                    if(member==null)
+                    ClubMember member = _context.GetMemberByID(memberId);
+                    if (member == null)
                         throw new Exception("Club Member does not Exist");
                     return member;
                 });
@@ -128,8 +128,8 @@ namespace iBalekaAPI.Core.Controllers
         [Route("[action]")]
         public async Task<IActionResult> DeRegisterMember([FromQuery]int clubmember)
         {
-            var response = new SingleModelResponse<int>()
-              as ISingleModelResponse<int>;
+            var response = new SingleModelResponse<ClubMember>()
+              as ISingleModelResponse<ClubMember>;
             try
             {
                 if (clubmember.ToString() == null)
@@ -138,7 +138,11 @@ namespace iBalekaAPI.Core.Controllers
                 {
                     _context.DeRegisterMember(clubmember);
                     _context.SaveMember();
-                    return clubmember;
+                    ClubMember member = new ClubMember
+                    {
+                        MemberId = clubmember
+                    };
+                    return member;
                 });
             }
             catch (Exception ex)

@@ -197,8 +197,8 @@ namespace iBalekaAPI.Core.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteEvent([FromQuery]int evnt)
         {
-            var response = new SingleModelResponse<int>()
-               as ISingleModelResponse<int>;
+            var response = new SingleModelResponse<Event>()
+               as ISingleModelResponse<Event>;
             try
             {
                 if (evnt.ToString() == null)
@@ -207,7 +207,9 @@ namespace iBalekaAPI.Core.Controllers
                 {
                     _context.Delete(evnt);
                     _context.SaveEvent();
-                    return evnt;
+                    Event dEvent = new Event();
+                    dEvent.EventId = evnt;
+                    return dEvent;
                 });
             }
             catch (Exception ex)

@@ -189,8 +189,8 @@ namespace iBalekaAPI.Core.Controllers
         [Route("[action]")]
         public async Task<IActionResult> DeleteClub([FromQuery]int club)
         {
-            var response = new SingleModelResponse<int>()
-                as ISingleModelResponse<int>;
+            var response = new SingleModelResponse<Club>()
+                as ISingleModelResponse<Club>;
             try
             {
                 if (club.ToString() == null)
@@ -199,7 +199,11 @@ namespace iBalekaAPI.Core.Controllers
                 {
                     _context.Delete(club);
                     _context.SaveClub();
-                    return club;
+                    Club cclub = new Club
+                    {
+                        ClubId = club
+                    };
+                    return cclub;
                 });
             }
             catch (Exception ex)
