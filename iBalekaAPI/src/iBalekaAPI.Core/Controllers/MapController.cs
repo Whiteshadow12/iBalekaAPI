@@ -100,7 +100,7 @@ namespace iBalekaAPI.Core.Controllers
         [HttpPost]
         [Route("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddRoute([FromQuery]Route route, [FromQuery]string userId)
+        public async Task<IActionResult> AddRoute([FromBody]Route route, [FromQuery]string userId)
         {
             var response = new SingleModelResponse<Route>()
                as ISingleModelResponse<Route>;
@@ -174,7 +174,7 @@ namespace iBalekaAPI.Core.Controllers
         [HttpPut]
         [Route("Update/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditRoute([FromQuery]Route route)
+        public async Task<IActionResult> EditRoute([FromBody]Route route)
         {
             var response = new SingleModelResponse<Route>()
                as ISingleModelResponse<Route>;

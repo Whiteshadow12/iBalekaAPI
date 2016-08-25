@@ -127,7 +127,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> SaveEvent([FromQuery]Event evnt)
+        public async Task<IActionResult> SaveEvent([FromBody]Event evnt)
         {
             var response = new SingleModelResponse<Event>()
                as ISingleModelResponse<Event>;
@@ -160,7 +160,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [HttpPut]
         [Route("Update/[action]")]
-        public async Task<IActionResult> EditEvent([FromQuery]Event evnt)
+        public async Task<IActionResult> EditEvent([FromBody]Event evnt)
         {
 
             var response = new SingleModelResponse<Event>()

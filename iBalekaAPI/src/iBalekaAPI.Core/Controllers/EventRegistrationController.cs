@@ -131,7 +131,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Register([FromQuery]EventRegistration reg)
+        public async Task<IActionResult> Register([FromBody]EventRegistration reg)
         {
             var response = new SingleModelResponse<EventRegistration>()
                 as ISingleModelResponse<EventRegistration>;
