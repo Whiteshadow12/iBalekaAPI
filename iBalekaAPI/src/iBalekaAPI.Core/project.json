@@ -68,5 +68,6 @@
       "version": "1.0.0-preview1-final",
       "imports": "portable-net45+win8+dnxcore50"
     }
-  }
+  },
+  "userSecretsId": "aspnet-iBalekaAPI.Core-20160829050756"
 }

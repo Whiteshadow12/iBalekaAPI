@@ -99,7 +99,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [HttpPost]
         [Route("[action]")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> AddRoute([FromBody]Route route, [FromQuery]string userId)
         {
             var response = new SingleModelResponse<Route>()
@@ -173,7 +173,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [HttpPut]
         [Route("Update/[action]")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> EditRoute([FromBody]Route route)
         {
             var response = new SingleModelResponse<Route>()

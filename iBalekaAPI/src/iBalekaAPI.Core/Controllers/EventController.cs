@@ -194,7 +194,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="500">Internal Server Error</response>
         [HttpPut]
         [Route("[action]")]
-        [ValidateAntiForgeryToken]
+       // [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteEvent([FromQuery]int evnt)
         {
             var response = new SingleModelResponse<Event>()
