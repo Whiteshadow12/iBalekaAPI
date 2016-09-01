@@ -14,8 +14,8 @@ namespace iBalekaAPI.Services
         Club GetClubByID(int id);
         IEnumerable<Club> GetAll();
         IEnumerable<Club> GetUserClubs(string userId);
-        void AddClub(Club club);
-        void UpdateClub(Club club);
+        Club AddClub(Club club);
+        Club UpdateClub(Club club);
         void Delete(int club);
         void SaveClub();
     }
@@ -23,7 +23,7 @@ namespace iBalekaAPI.Services
     {
         ClubMember GetMemberByID(int id);
         IEnumerable<ClubMember> GetMembers(int clubId);
-        void RegisterMember(ClubMember member);
+        ClubMember RegisterMember(ClubMember member);
         void DeRegisterMember(int memberId);
         void SaveMember();
 
@@ -51,19 +51,29 @@ namespace iBalekaAPI.Services
         {
             return _clubRepo.GetAll();
         }
-        public void AddClub(Club club)
+        public Club AddClub(Club club)
         {
             club.Deleted = false;
             club.DateCreated = DateTime.Now;
             _clubRepo.Add(club);
+            SaveClub();
+            return GetUserClubs(club.UserId)
+                            .Where(a=>a.DateCreated == club.DateCreated
+                                    && a.Description==club.Description
+                                    && a.Name == club.Name
+                                    && a.Location == club.Location)
+                            .Single();
         }
-        public void UpdateClub(Club club)
+        public Club UpdateClub(Club club)
         {
             _clubRepo.Update(club);
+            SaveClub();
+            return GetClubByID(club.ClubId);
         }
         public void Delete(int club)
         {
-            _clubRepo.Delete(club);
+
+            _clubRepo.DeleteClub(club);
         }
         public void SaveClub()
         {
@@ -79,9 +89,9 @@ namespace iBalekaAPI.Services
         {
             return _clubRepo.GetMembers(clubId);
         }
-        public void RegisterMember(ClubMember member)
+        public ClubMember RegisterMember(ClubMember member)
         {
-            _clubRepo.JoinClub(member);
+            return _clubRepo.JoinClub(member);
         }
         public void DeRegisterMember(int member)
         {

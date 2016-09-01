@@ -478,9 +478,8 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Run is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.AddRun(run);
-                    _context.SaveRun();
-                    return run;
+                   Run runn= _context.AddRun(run);
+                    return runn;
                 });
             }
             catch (Exception ex)
@@ -514,7 +513,6 @@ namespace iBalekaAPI.Core.Controllers
                     if (run == null)
                         throw new Exception("Run does not exist");
                     _context.Delete(runId);
-                    _context.SaveRun();
                     return run;
                 });
             }

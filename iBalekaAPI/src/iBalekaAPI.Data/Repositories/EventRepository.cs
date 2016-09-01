@@ -13,8 +13,8 @@ namespace iBalekaAPI.Data.Repositories
 {
     public interface IEventRepository 
     {
-        void AddEvent(Event evnt);
-        void UpdateEvent(Event evnt);
+        Event AddEvent(Event evnt);
+        Event UpdateEvent(Event evnt);
         void DeleteEventRoutes(IEnumerable<EventRoute> evntRoute);
         Event GetEventByID(int id);
         IEnumerable<EventRoute> GetEventRoutes(int id);
@@ -29,7 +29,7 @@ namespace iBalekaAPI.Data.Repositories
         EventRegistration GetEventRegByID(int id);
         IEnumerable<EventRegistration> GetAll(int eventId);
         IEnumerable<EventRegistration> GetAthleteRegistrations(int athleteId);
-        void Register(EventRegistration reg);
+        EventRegistration Register(EventRegistration reg);
         void DeRegister(int reg);
         void DeleteEventReg(int entity);
         //queries
@@ -49,7 +49,7 @@ namespace iBalekaAPI.Data.Repositories
             _routeRepo = repo;
         }
         //add addEvent
-        public void AddEvent(Event evnt)
+        public Event AddEvent(Event evnt)
         {
             Event newEvent = new Event();
             newEvent.Title = evnt.Title;
@@ -70,8 +70,15 @@ namespace iBalekaAPI.Data.Repositories
             }
             DbContext.Event.Add(newEvent);
             DbContext.SaveChanges();
+            Event retu = GetUserEvents(newEvent.UserID)
+                            .Where(a=>a.Title==newEvent.Title
+                                    && a.Location==newEvent.Location
+                                    && a.Description == newEvent.Description
+                                    && a.DateCreated==newEvent.DateCreated)
+                            .Single();
+            return retu;
         }
-        public void UpdateEvent(Event evnt)
+        public Event UpdateEvent(Event evnt)
         {
             IEnumerable<EventRoute> evntRoutes = GetEventRoutes(evnt.EventId);
             Event newEvent = GetEventByID(evnt.EventId);
@@ -101,6 +108,9 @@ namespace iBalekaAPI.Data.Repositories
 
 
             DbContext.Event.Update(newEvent);
+            DbContext.SaveChanges();
+            Event retu = GetEventByID(newEvent.EventId);
+            return retu;
         }
         public void DeleteEventRoutes(IEnumerable<EventRoute> evntRoute)
         {
@@ -109,6 +119,7 @@ namespace iBalekaAPI.Data.Repositories
                 route.Deleted = true;
                 DbContext.Entry(route).State = EntityState.Modified;
             }
+            DbContext.SaveChanges();
         }
         public IEnumerable<EventRoute> GetEventRoutes(int evntId)
         {
@@ -142,7 +153,9 @@ namespace iBalekaAPI.Data.Repositories
             {
                 deletedEvent.Deleted = true;
                 DbContext.Entry(deletedEvent).State = EntityState.Modified;
+                DbContext.SaveChanges();
             }
+
         }
 
         //Queries
@@ -193,23 +206,31 @@ namespace iBalekaAPI.Data.Repositories
         {
             return GetEventRegistrationsQuery().GetRegByEventId(eventId);
         }
-        public void Register(EventRegistration reg)
+        public EventRegistration Register(EventRegistration reg)
         {
             reg.EventStatus = RegistrationType.Registered;
             reg.Deleted = false;
             DbContext.EventRegistration.Add(reg);
+            DbContext.SaveChanges();
+            return GetEventRegistrationsQuery()
+                    .Where(a=>a.DateRegistered==reg.DateRegistered
+                            &&a.AthleteId==reg.AthleteId
+                            &&a.EventId==reg.EventId)
+                    .Single();
         }
         public void DeRegister(int regId)
         {
             EventRegistration entity = GetEventRegByID(regId);
             entity.EventStatus = RegistrationType.Deregistered;
             DbContext.EventRegistration.Update(entity);
+            DbContext.SaveChanges();
         }
         public void DeleteEventReg(int entity)
         {
             EventRegistration reg = GetEventRegByID(entity);
             reg.Deleted = true;
            DbContext.EventRegistration.Update(reg);
+            DbContext.SaveChanges();
         }
 
         //queries

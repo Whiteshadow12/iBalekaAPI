@@ -17,8 +17,8 @@ namespace iBalekaAPI.Data.Repositories
         IEnumerable<Route> GetUserRoutes(string UserID);
         IEnumerable<Route> GetRoutes();
         void DeleteCheckPoints(IEnumerable<Checkpoint> checkpoints);
-        void AddRoute(Route route);
-        void UpdateRoute(Route route);
+        Route AddRoute(Route route);
+        Route UpdateRoute(Route route);
         void DeleteRoute(int routeId);
         ICollection<Route> GetRoutesQuery();
     }
@@ -32,7 +32,7 @@ namespace iBalekaAPI.Data.Repositories
         }
         
 
-        public void AddRoute(Route route)
+        public Route AddRoute(Route route)
         {
             Route savingRoute = new Route();
             savingRoute.UserID = route.UserID;
@@ -43,13 +43,18 @@ namespace iBalekaAPI.Data.Repositories
                 Checkpoint checks = new Checkpoint(chps.Latitude, chps.Longitude);
                 DbContext.Checkpoint.Add(checks);
                 savingRoute.Checkpoint.Add(checks);
-            }    
-            
+            }           
             
             //create map image?
             DbContext.Route.Add(savingRoute);
+            DbContext.SaveChanges();
+            Route newRoute = GetUserRoutes(route.UserID)
+                            .Where(a => a.Title == savingRoute.Title
+                                   && a.Distance==savingRoute.Distance)
+                            .Single();
+            return newRoute;
         }
-        public void UpdateRoute(Route updatedRoute)
+        public Route UpdateRoute(Route updatedRoute)
         {
             IEnumerable<Checkpoint> checkpoints = GetCheckpoints(updatedRoute.RouteId);            
             DeleteCheckPoints(checkpoints);
@@ -68,6 +73,9 @@ namespace iBalekaAPI.Data.Repositories
             route.DateModified = DateTime.Now.Date;
             
             DbContext.Route.Update(route);
+            DbContext.SaveChanges();
+            Route newRoute = GetRouteByID(updatedRoute.RouteId);
+            return newRoute;
         }
         public Route GetRouteByID(int id)
         {
@@ -109,7 +117,7 @@ namespace iBalekaAPI.Data.Repositories
 
                 deletedRoute.Deleted = true;
                 DbContext.Entry(deletedRoute).State = EntityState.Modified;
-
+                DbContext.SaveChanges();
             }
         }
         //queries

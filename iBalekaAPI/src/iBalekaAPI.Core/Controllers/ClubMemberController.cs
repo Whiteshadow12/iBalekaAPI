@@ -105,9 +105,8 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.RegisterMember(clubmember);
-                    _context.SaveMember();
-                    return clubmember;
+                   ClubMember clb =  _context.RegisterMember(clubmember);
+                    return clb;
                 });
             }
             catch (Exception ex)
@@ -137,7 +136,6 @@ namespace iBalekaAPI.Core.Controllers
                 response.Model = await Task.Run(() =>
                 {
                     _context.DeRegisterMember(clubmember);
-                    _context.SaveMember();
                     ClubMember member = new ClubMember
                     {
                         MemberId = clubmember

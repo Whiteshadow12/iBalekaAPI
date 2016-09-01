@@ -15,9 +15,9 @@ namespace iBalekaAPI.Services
         IEnumerable<EventRoute> GetEventRoutes(int id);
         IEnumerable<Event> GetUserEvents(string userId);
         IEnumerable<Event> GetEvents();
-        void AddEvent(Event evnt);
+        Event AddEvent(Event evnt);
 
-        void UpdateEvent(Event evnt);
+        Event UpdateEvent(Event evnt);
         void Delete(int evnt);
         void DeleteEventRoutes(IEnumerable<EventRoute> evntRoute);
         void SaveEvent();
@@ -48,14 +48,14 @@ namespace iBalekaAPI.Services
         {
             return _eventRepo.GetEventRoutes(id);
         }
-        public void AddEvent(Event evnt)
+        public Event AddEvent(Event evnt)
         {
-            _eventRepo.AddEvent(evnt);
+            return _eventRepo.AddEvent(evnt);
         }
        
-        public void UpdateEvent(Event evnt)
+        public Event UpdateEvent(Event evnt)
         {
-            _eventRepo.UpdateEvent(evnt);
+           return _eventRepo.UpdateEvent(evnt);
         }
         public void Delete(int evnt)
         {

@@ -141,9 +141,9 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Model is null");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.Register(reg);
-                    _context.SaveEventRegistration();
-                    return reg;
+                    EventRegistration rreg= _context.Register(reg);
+                    
+                    return rreg;
                 });
             }
             catch (Exception ex)
@@ -175,7 +175,6 @@ namespace iBalekaAPI.Core.Controllers
                 response.Model = await Task.Run(() =>
                 {
                     _context.DeRegister(regId);
-                    _context.SaveEventRegistration();
                     EventRegistration reg = new EventRegistration();
                     reg.RegistrationId = regId;
                     return reg;

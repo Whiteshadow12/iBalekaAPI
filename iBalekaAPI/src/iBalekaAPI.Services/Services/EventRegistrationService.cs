@@ -14,7 +14,7 @@ namespace iBalekaAPI.Services
     {
         EventRegistration GetEventRegByID(int id);
         IEnumerable<EventRegistration> GetAll(int eventId);
-        void Register(EventRegistration reg);
+        EventRegistration Register(EventRegistration reg);
         IEnumerable<EventRegistration> GetAthleteRegistrations(int athleteId);
         void DeRegister(int reg);
         void SaveEventRegistration();
@@ -42,9 +42,9 @@ namespace iBalekaAPI.Services
         {
             return _eventRegistrationRepository.GetAll(eventId);
         }
-        public void Register(EventRegistration reg)
+        public EventRegistration Register(EventRegistration reg)
         {
-            _eventRegistrationRepository.Register(reg);
+            return _eventRegistrationRepository.Register(reg);
         }
         public void DeRegister(int reg)
         {

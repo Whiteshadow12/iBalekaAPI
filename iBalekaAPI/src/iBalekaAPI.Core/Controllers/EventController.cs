@@ -137,9 +137,9 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.AddEvent(evnt);
-                    _context.SaveEvent();
-                    return evnt;                   
+                   Event nevnt= _context.AddEvent(evnt);
+
+                    return nevnt;                   
                 });
             }
             catch (Exception ex)
@@ -171,9 +171,9 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.UpdateEvent(evnt);
-                    _context.SaveEvent();
-                    return evnt;
+                    Event nevnt=_context.UpdateEvent(evnt);
+
+                    return nevnt;
                 });
             }
             catch (Exception ex)
@@ -206,7 +206,6 @@ namespace iBalekaAPI.Core.Controllers
                 response.Model = await Task.Run(() =>
                 {
                     _context.Delete(evnt);
-                    _context.SaveEvent();
                     Event dEvent = new Event();
                     dEvent.EventId = evnt;
                     return dEvent;

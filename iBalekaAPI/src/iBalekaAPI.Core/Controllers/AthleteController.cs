@@ -83,6 +83,72 @@ namespace iBalekaAPI.Core.Controllers
             return response.ToHttpResponse();
         }
 
+        /// <summary>
+        /// Logs athlete in(Returns athlete Id) 
+        /// </summary>
+        /// <param name="email" type="int">Athlete Email</param>
+        /// <param name="password" type="int">Athlete Password</param>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> LoginAthlete([FromQuery] string email, [FromQuery] string password)
+        {
+            var response = new SingleModelResponse<Athlete>()
+                as ISingleModelResponse<Athlete>;
+            try
+            {
+                if (email ==null)
+                    throw new Exception("Athlete Email is null");
+                if (password == null)
+                    throw new Exception("Athlete Password is null");
+                response.Model = await Task.Run(() =>
+                {
+                    Athlete athlete = _context.LoginAthlete(email,password);
+                    if (athlete == null)
+                        throw new Exception("Invalid attempt");
+                    return athlete;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+        }
+
+        // POST api/values
+        /// <summary>
+        /// Change Athlete Password6
+        /// </summary>
+        /// <paramref name="athlete"/>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> ChangePassword([FromBody]Athlete athlete)
+        {
+
+            var response = new SingleModelResponse<Athlete>()
+                as ISingleModelResponse<Athlete>;
+            try
+            {
+                if (athlete == null)
+                    throw new Exception("Model is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    return _context.AddAthlete(athlete);
+
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+        }
 
 
         // POST api/values
@@ -105,9 +171,8 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.AddAthlete(athlete);
-                    _context.SaveAthlete();
-                    return athlete;
+                    return _context.AddAthlete(athlete);
+                    
                 });
             }
             catch (Exception ex)
@@ -138,9 +203,8 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.UpdateAthlete(athlete);
-                    _context.SaveAthlete();
-                    return athlete;
+                    return _context.UpdateAthlete(athlete);
+                    
                 });
             }
             catch (Exception ex)

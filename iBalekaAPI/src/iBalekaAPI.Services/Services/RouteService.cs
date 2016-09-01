@@ -15,8 +15,8 @@ namespace iBalekaAPI.Services
         IEnumerable<Checkpoint> GetCheckpoints(int id);
         IEnumerable<Route> GetUserRoutes(string UserID);
         IEnumerable<Route> GetRoutes();
-        void AddRoute(Route route);
-        void UpdateRoute(Route route);
+        Route AddRoute(Route route);
+        Route UpdateRoute(Route route);
         void DeleteRoute(int route);
         void SaveRoute();
     }
@@ -47,13 +47,13 @@ namespace iBalekaAPI.Services
         {
             return _routeRepo.GetRouteByID(id);
         }
-        public void AddRoute(Route route)
+        public Route AddRoute(Route route)
         { 
-            _routeRepo.AddRoute(route);
+            return _routeRepo.AddRoute(route);
         }
-        public void UpdateRoute(Route route)
+        public Route UpdateRoute(Route route)
         {
-            _routeRepo.UpdateRoute(route);
+            return _routeRepo.UpdateRoute(route);
         }
         public void DeleteRoute(int route)
         {

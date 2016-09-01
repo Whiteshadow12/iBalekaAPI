@@ -21,7 +21,7 @@ namespace iBalekaAPI.Data.Infastructure
 
         public void Commit()
         {
-            DbContext.Commit();
+            DbContext.SaveChanges();
         }
     }
 }

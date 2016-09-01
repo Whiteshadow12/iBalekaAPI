@@ -22,7 +22,7 @@ namespace iBalekaAPI.Data.Repositories
         //queries
         ICollection<Run> GetRunsQuery();
         ICollection<Run> GetAthleteRunsQuery(int athleteId);
-        void AddRun(Run run);
+        Run AddRun(Run run);
         double GetTotalDistanceRan(int athleteId);
         double GetRunCount(int athleteId);
         double GetEventRunCount(int athleteId);
@@ -93,13 +93,21 @@ namespace iBalekaAPI.Data.Repositories
             {
                 deletedRun.Deleted = true;
                 DbContext.Entry(deletedRun).State = EntityState.Modified;
+                DbContext.SaveChanges();
             }
         }
-        public void AddRun(Run run)
+        public Run AddRun(Run run)
         {
             run.Deleted = false;
             run.DateRecorded = DateTime.Now;
             DbContext.Entry(run).State = EntityState.Added;
+            DbContext.SaveChanges();
+            Run newRun = GetAthleteRunsQuery(run.AthleteId)
+                            .Where(a => a.DateRecorded == run.DateRecorded
+                                    && a.StartTime == run.StartTime
+                                    && a.EndTime == run.EndTime)
+                             .Single();
+            return run;
         }
 
         //queries

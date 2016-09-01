@@ -111,13 +111,14 @@ namespace iBalekaAPI.Core.Controllers
                 else if(route == null)
                     throw new Exception("Route is missing");
                 else if(userId==null)
-                    throw new Exception("Route is missing");
+                    throw new Exception("User ID is missing");
                 response.Model = await Task.Run(() =>
                 {
                     route.UserID = userId;
-                    _context.AddRoute(route);
-                    _context.SaveRoute();
-                    return route;
+                   Route newRoute = _context.AddRoute(route);
+                   
+
+                    return newRoute;
                 });
             }
             catch (Exception ex)
@@ -184,9 +185,8 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Route Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.UpdateRoute(route);
-                    _context.SaveRoute();
-                    return route;
+                    Route uproute =_context.UpdateRoute(route);
+                    return uproute;
                 });
             }
             catch (Exception ex)
@@ -218,7 +218,6 @@ namespace iBalekaAPI.Core.Controllers
                 response.Model = await Task.Run(() =>
                 {
                     _context.DeleteRoute(routeId);
-                    _context.SaveRoute();
                     Route route = new Route();
                     route.RouteId = routeId;
                     return route;

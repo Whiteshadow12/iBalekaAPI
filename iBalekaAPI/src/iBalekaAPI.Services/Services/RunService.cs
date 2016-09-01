@@ -17,7 +17,7 @@ namespace iBalekaAPI.Services
         IEnumerable<Run> GetEventRuns(int id);
         IEnumerable<Run> GetRouteRuns(int id);
         IEnumerable<Run> GetAllRuns(int id);
-        void AddRun(Run run);
+        Run AddRun(Run run);
         void UpdateRun(Run run);
         void Delete(int run);
         void SaveRun();
@@ -86,9 +86,9 @@ namespace iBalekaAPI.Services
         {
             return _runRepo.GetAllRuns(id);
         }
-        public void AddRun(Run run)
+        public Run AddRun(Run run)
         {
-            _runRepo.Add(run);
+            return _runRepo.AddRun(run);
         }
         public void UpdateRun(Run run)
         {

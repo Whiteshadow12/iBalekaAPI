@@ -13,9 +13,10 @@ namespace iBalekaAPI.Services
     {
         IEnumerable<Athlete> GetAthletes();
         Athlete GetAthlete(int id);
-
-        void AddAthlete(Athlete athlete);
-        void UpdateAthlete(Athlete athlete);
+        Athlete LoginAthlete(string email, string password);
+        Athlete ChangePassword(Athlete athlete);
+        Athlete AddAthlete(Athlete athlete);
+        Athlete UpdateAthlete(Athlete athlete);
         void DeleteAthlete(int athlete);
         void SaveAthlete();
     }
@@ -35,21 +36,30 @@ namespace iBalekaAPI.Services
         {
             return _athleteRepo.GetAll();
         }
+        public Athlete ChangePassword(Athlete athlete)
+        {
+            return _athleteRepo.ChangePassword(athlete);
+        }
+        public Athlete LoginAthlete(string email, string password)
+        {
+            return _athleteRepo.LoginAthlete(email, password);
+        }
         public Athlete GetAthlete(int id)
         {
             return _athleteRepo.GetAthleteByID(id);
         }
-        public void AddAthlete(Athlete athlete)
+        public Athlete AddAthlete(Athlete athlete)
         {
-            _athleteRepo.Add(athlete);
+            return _athleteRepo.AddAthlete(athlete);
+            
         }
-        public void UpdateAthlete(Athlete athlete)
+        public Athlete UpdateAthlete(Athlete athlete)
         {
-            _athleteRepo.Update(athlete);
+            return _athleteRepo.UpdateAthlete(athlete);
         }
         public void DeleteAthlete(int athlete)
         {
-            _athleteRepo.Delete(athlete);
+            _athleteRepo.DeleteAthlete(athlete);
         }
         public void SaveAthlete()
         {

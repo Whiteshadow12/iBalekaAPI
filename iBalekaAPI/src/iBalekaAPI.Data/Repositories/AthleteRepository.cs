@@ -11,15 +11,20 @@ using iBalekaAPI.Data.Configurations;
 
 namespace iBalekaAPI.Data.Repositories
 {
-    public interface IAthleteRepository:IRepository<Athlete>
+    public interface IAthleteRepository : IRepository<Athlete>
     {
         Athlete GetAthleteByID(int id);
+        Athlete LoginAthlete(string email, string password);
+        Athlete ChangePassword(Athlete athlete);
+        Athlete AddAthlete(Athlete athlete);
+        Athlete UpdateAthlete(Athlete athlete);
+        void DeleteAthlete(int athlete);
         ICollection<Athlete> GetAthletesQuery();
-       // void Delete(int entity);
+        // void Delete(int entity);
 
 
     }
-    public class AthleteRepository:RepositoryBase<Athlete>,IAthleteRepository
+    public class AthleteRepository : RepositoryBase<Athlete>, IAthleteRepository
     {
         private iBalekaDBContext DbContext;
         public AthleteRepository(iBalekaDBContext dbContext)
@@ -27,10 +32,49 @@ namespace iBalekaAPI.Data.Repositories
         {
             DbContext = dbContext;
         }
-       
+
         public Athlete GetAthleteByID(int athleteId)
         {
             return GetAthletesQuery().GetAthleteByAthleteId(athleteId);
+        }
+        public Athlete LoginAthlete(string email, string password)
+        {
+            Athlete loginAthlete = GetAthletesQuery()
+                                    .Where(a => a.EmailAddress == email
+                                            && a.Password == password)
+                                    .Single();
+
+            return loginAthlete;
+
+        }
+        public Athlete ChangePassword(Athlete athlete)
+        {
+            DbContext.Athlete.Update(athlete);
+            DbContext.SaveChanges();
+            return athlete;
+        }
+        public Athlete AddAthlete(Athlete athlete)
+        {
+            athlete.Deleted = false;
+            DbContext.Athlete.Add(athlete);
+            DbContext.SaveChanges();
+            return GetAthletesQuery()
+                                    .Where(a => a.Name == athlete.Name
+                                            && a.EmailAddress == athlete.EmailAddress
+                                            && a.Password == athlete.Password)
+                                    .Single();
+        }
+        public Athlete UpdateAthlete(Athlete athlete)
+        {
+            DbContext.Athlete.Update(athlete);
+            DbContext.SaveChanges();
+            return athlete;
+        }
+        public void DeleteAthlete(int athlete)
+        {
+            Athlete dlete = GetAthleteByID(athlete);
+            dlete.Deleted = true;
+            DbContext.SaveChanges();
         }
         public override IEnumerable<Athlete> GetAll()
         {
@@ -40,16 +84,16 @@ namespace iBalekaAPI.Data.Repositories
         {
             Athlete athlete = GetAthleteByID(entity);
             athlete.Deleted = true;
-            
+            DbContext.SaveChanges();
         }
-        
+
         //queries
         public ICollection<Athlete> GetAthletesQuery()
         {
             ICollection<Athlete> athlete = DbContext.Athlete
-                                .Where(p => p.Deleted ==false)
+                                .Where(p => p.Deleted == false)
                                 .ToList();
-            
+
             return athlete;
         }
 
