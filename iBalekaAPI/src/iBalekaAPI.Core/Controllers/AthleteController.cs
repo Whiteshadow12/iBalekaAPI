@@ -91,7 +91,7 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         [HttpGet]
-        [Route("[action]")]
+        [Route("Account/[action]")]
         public async Task<IActionResult> LoginAthlete([FromQuery] string email, [FromQuery] string password)
         {
             var response = new SingleModelResponse<Athlete>()
@@ -120,13 +120,13 @@ namespace iBalekaAPI.Core.Controllers
 
         // POST api/values
         /// <summary>
-        /// Change Athlete Password6
+        /// Change Athlete Password
         /// </summary>
         /// <paramref name="athlete"/>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPost]
-        [Route("[action]")]
+        [Route("Account/[action]")]
         public async Task<IActionResult> ChangePassword([FromBody]Athlete athlete)
         {
 
@@ -138,7 +138,7 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    return _context.AddAthlete(athlete);
+                    return _context.UpdateAthlete(athlete);
 
                 });
             }
