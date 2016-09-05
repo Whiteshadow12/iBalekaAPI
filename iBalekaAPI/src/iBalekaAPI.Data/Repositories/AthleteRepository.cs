@@ -37,10 +37,10 @@ namespace iBalekaAPI.Data.Repositories
         {
             return GetAthletesQuery().GetAthleteByAthleteId(athleteId);
         }
-        public Athlete LoginAthlete(string email, string password)
+        public Athlete LoginAthlete(string username, string password)
         {
             Athlete loginAthlete = GetAthletesQuery()
-                                    .Where(a => a.EmailAddress == email
+                                    .Where(a => a.UserName == username
                                             && a.Password == password)
                                     .Single();
 
@@ -55,14 +55,30 @@ namespace iBalekaAPI.Data.Repositories
         }
         public Athlete AddAthlete(Athlete athlete)
         {
-            athlete.Deleted = false;
-            DbContext.Athlete.Add(athlete);
+            Athlete savingAthlete = new Athlete()
+            {
+                UserName = athlete.UserName,
+                Surname = athlete.Surname,
+                Country = athlete.Country,
+                Name = athlete.Name,
+                DateOfBirth = athlete.DateOfBirth,
+                EmailAddress = athlete.EmailAddress,
+                Gender = athlete.Gender,
+                Password = athlete.Password,
+                SecurityQuestion = athlete.SecurityQuestion,
+                SecurityAnswer = athlete.SecurityAnswer,
+                Deleted = false,
+                DateJoined = DateTime.Now.ToString()
+            };
+            DbContext.Athlete.Add(savingAthlete);
+
             DbContext.SaveChanges();
-            return GetAthletesQuery()
+            Athlete newAthlete = GetAthletesQuery()
                                     .Where(a => a.Name == athlete.Name
                                             && a.EmailAddress == athlete.EmailAddress
                                             && a.Password == athlete.Password)
                                     .Single();
+            return newAthlete;
         }
         public Athlete UpdateAthlete(Athlete athlete)
         {

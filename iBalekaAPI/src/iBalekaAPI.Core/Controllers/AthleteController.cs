@@ -86,25 +86,25 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// Logs athlete in(Returns athlete Id) 
         /// </summary>
-        /// <param name="email" type="int">Athlete Email</param>
+        /// <param name="username" type="int">Athlete Email</param>
         /// <param name="password" type="int">Athlete Password</param>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         [HttpGet]
         [Route("Account/[action]")]
-        public async Task<IActionResult> LoginAthlete([FromQuery] string email, [FromQuery] string password)
+        public async Task<IActionResult> LoginAthlete([FromQuery] string username, [FromQuery] string password)
         {
             var response = new SingleModelResponse<Athlete>()
                 as ISingleModelResponse<Athlete>;
             try
             {
-                if (email ==null)
+                if (username ==null)
                     throw new Exception("Athlete Email is null");
                 if (password == null)
                     throw new Exception("Athlete Password is null");
                 response.Model = await Task.Run(() =>
                 {
-                    Athlete athlete = _context.LoginAthlete(email,password);
+                    Athlete athlete = _context.LoginAthlete(username,password);
                     if (athlete == null)
                         throw new Exception("Invalid attempt");
                     return athlete;

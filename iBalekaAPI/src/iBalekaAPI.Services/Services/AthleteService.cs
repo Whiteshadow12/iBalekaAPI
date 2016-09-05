@@ -13,7 +13,7 @@ namespace iBalekaAPI.Services
     {
         IEnumerable<Athlete> GetAthletes();
         Athlete GetAthlete(int id);
-        Athlete LoginAthlete(string email, string password);
+        Athlete LoginAthlete(string username, string password);
         Athlete ChangePassword(Athlete athlete);
         Athlete AddAthlete(Athlete athlete);
         Athlete UpdateAthlete(Athlete athlete);
@@ -40,9 +40,9 @@ namespace iBalekaAPI.Services
         {
             return _athleteRepo.ChangePassword(athlete);
         }
-        public Athlete LoginAthlete(string email, string password)
+        public Athlete LoginAthlete(string username, string password)
         {
-            return _athleteRepo.LoginAthlete(email, password);
+            return _athleteRepo.LoginAthlete(username, password);
         }
         public Athlete GetAthlete(int id)
         {

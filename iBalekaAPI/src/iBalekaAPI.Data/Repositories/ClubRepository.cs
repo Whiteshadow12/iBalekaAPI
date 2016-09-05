@@ -16,8 +16,9 @@ namespace iBalekaAPI.Data.Repositories
         IEnumerable<Club> GetUserClubs(string userId);
         void DeleteClub(int clubId);
         //createclub
+        Club CreateClub(Club club);
+        Club UpdateClub(Club club);
         //pass on ownership
-        //deleteclub
         ICollection<Club> GetClubsQuery();
         ClubMember GetMemberByID(int id);
         IEnumerable<ClubMember> GetMembers(int clubId);
@@ -57,7 +58,25 @@ namespace iBalekaAPI.Data.Repositories
             DbContext.SaveChanges();
             
         }
-
+        public Club CreateClub(Club club)
+        {
+            var newClub = new Club
+            {
+                Name = club.Name,
+                DateCreated = DateTime.Now.ToString(),
+                Deleted = false,
+                Description = club.Description,
+                Location = club.Location,
+                UserId = club.UserId
+            };
+            DbContext.Club.Add(newClub);
+            DbContext.SaveChanges();
+            return GetUserClubs(club.UserId)
+                            .Where(a => a.Name == club.Name
+                                    && a.Description == club.Description
+                                    && a.DateCreated == newClub.DateCreated)
+                            .Single();
+        }
         //query
         public ICollection<Club> GetClubsQuery()
         {
@@ -73,6 +92,12 @@ namespace iBalekaAPI.Data.Repositories
                 }
             }
             return clubs;
+        }
+        public Club UpdateClub(Club club)
+        {
+            DbContext.Club.Update(club);
+            DbContext.SaveChanges();
+            return club;
         }
         public void DeleteClub(int club)
         {

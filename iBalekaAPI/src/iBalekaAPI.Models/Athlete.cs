@@ -21,7 +21,8 @@ namespace iBalekaAPI.Models
         [Key]
         public int AthleteId { get; set; }
         [DisplayName("Date of Birth")]
-        public DateTime DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
+        public string DateJoined { get; set; }
         public bool Deleted { get; set; }
         public string Name { get; set; }
         [DisplayName("Surname")]

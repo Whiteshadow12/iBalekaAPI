@@ -53,22 +53,11 @@ namespace iBalekaAPI.Services
         }
         public Club AddClub(Club club)
         {
-            club.Deleted = false;
-            club.DateCreated = DateTime.Now;
-            _clubRepo.Add(club);
-            SaveClub();
-            return GetUserClubs(club.UserId)
-                            .Where(a=>a.DateCreated == club.DateCreated
-                                    && a.Description==club.Description
-                                    && a.Name == club.Name
-                                    && a.Location == club.Location)
-                            .Single();
+            return _clubRepo.CreateClub(club);
         }
         public Club UpdateClub(Club club)
         {
-            _clubRepo.Update(club);
-            SaveClub();
-            return GetClubByID(club.ClubId);
+            return _clubRepo.UpdateClub(club);
         }
         public void Delete(int club)
         {

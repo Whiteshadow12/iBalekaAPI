@@ -19,6 +19,23 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.LoginAthlete(System.String,System.String)">
+            <summary>
+            Logs athlete in(Returns athlete Id) 
+            </summary>
+            <param name="username" type="int">Athlete Email</param>
+            <param name="password" type="int">Athlete Password</param>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.ChangePassword(iBalekaAPI.Models.Athlete)">
+            <summary>
+            Change Athlete Password
+            </summary>
+            <paramref name="athlete"/>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
         <member name="M:iBalekaAPI.Core.Controllers.AthleteController.AddAthlete(iBalekaAPI.Models.Athlete)">
             <summary>
             Adds an Athlete to db
