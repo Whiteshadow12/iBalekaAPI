@@ -9,8 +9,6 @@ namespace iBalekaAPI.Models
     {
         public Club()
         {
-            ClubMember = new HashSet<ClubMember>();
-            Event = new HashSet<Event>();
         }
         [Key]
         public int ClubId { get; set; }

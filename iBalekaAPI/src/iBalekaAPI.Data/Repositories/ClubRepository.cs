@@ -2,6 +2,7 @@
 using iBalekaAPI.Data.Configurations;
 using iBalekaAPI.Data.Infastructure;
 using iBalekaAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,10 +59,20 @@ namespace iBalekaAPI.Data.Repositories
             DbContext.SaveChanges();
             
         }
+        public bool CheckValid(int id)
+        {
+            Club club = GetClubByID(id);
+            if (club == null)
+                return true;
+            else
+                return false;
+        }
         public Club CreateClub(Club club)
         {
             var newClub = new Club
             {
+
+                //ClubId = id,
                 Name = club.Name,
                 DateCreated = DateTime.Now.ToString(),
                 Deleted = false,
@@ -70,7 +81,15 @@ namespace iBalekaAPI.Data.Repositories
                 UserId = club.UserId
             };
             DbContext.Club.Add(newClub);
-            DbContext.SaveChanges();
+            //DbContext.Entry(newClub).State = EntityState.Added;
+            try
+            {
+                DbContext.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                DbContext.SaveChanges();
+            }
             return GetUserClubs(club.UserId)
                             .Where(a => a.Name == club.Name
                                     && a.Description == club.Description

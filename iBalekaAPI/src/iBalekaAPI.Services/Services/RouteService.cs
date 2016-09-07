@@ -57,7 +57,7 @@ namespace iBalekaAPI.Services
         }
         public void DeleteRoute(int route)
         {
-            _routeRepo.Delete(route);
+            _routeRepo.DeleteRoute(route);
         }
         public void SaveRoute()
         {

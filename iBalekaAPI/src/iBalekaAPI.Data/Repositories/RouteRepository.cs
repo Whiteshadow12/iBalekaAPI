@@ -70,7 +70,7 @@ namespace iBalekaAPI.Data.Repositories
             }
             route.Distance = updatedRoute.Distance;
             route.Title = updatedRoute.Title;
-            route.DateModified = DateTime.Now.Date;
+            route.DateModified = DateTime.Now.ToString();
             
             DbContext.Route.Update(route);
             DbContext.SaveChanges();

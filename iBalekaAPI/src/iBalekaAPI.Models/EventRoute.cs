@@ -45,6 +45,7 @@ namespace iBalekaAPI.Models
         [Required(ErrorMessage = "Description is required")]
         public string Description { get; set; }
         public int EventID { get; set; }
+        public double Distance { get; set; }
         public int RouteID { get; set; }
         [JsonIgnore]
         public virtual Route Route { get; set; }

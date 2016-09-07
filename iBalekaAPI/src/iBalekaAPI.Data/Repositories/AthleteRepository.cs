@@ -60,7 +60,7 @@ namespace iBalekaAPI.Data.Repositories
                 UserName = athlete.UserName,
                 Surname = athlete.Surname,
                 Country = athlete.Country,
-                Name = athlete.Name,
+                FirstName = athlete.FirstName,
                 DateOfBirth = athlete.DateOfBirth,
                 EmailAddress = athlete.EmailAddress,
                 Gender = athlete.Gender,
@@ -74,7 +74,7 @@ namespace iBalekaAPI.Data.Repositories
 
             DbContext.SaveChanges();
             Athlete newAthlete = GetAthletesQuery()
-                                    .Where(a => a.Name == athlete.Name
+                                    .Where(a => a.FirstName == athlete.FirstName
                                             && a.EmailAddress == athlete.EmailAddress
                                             && a.Password == athlete.Password)
                                     .Single();

@@ -66,6 +66,7 @@ namespace iBalekaAPI.Data.Repositories
                 route.Title = evntRoute.Title;
                 route.Description = evnt.Description; 
                 route.RouteID = evntRoute.RouteID;
+                route.Distance = evntRoute.Distance;
                 newEvent.EventRoute.Add(route);
             }
             DbContext.Event.Add(newEvent);
@@ -103,6 +104,7 @@ namespace iBalekaAPI.Data.Repositories
                 route.Title = evntRoute.Title;
                 route.Description = evnt.Description;
                 route.RouteID = evntRoute.RouteID;
+                route.Distance = evntRoute.Distance;
                 newEvent.EventRoute.Add(route);
             }
 
@@ -176,7 +178,7 @@ namespace iBalekaAPI.Data.Repositories
         public ICollection<EventRoute> GetEventRoutesQuery(int evntId)
         {
 
-            ICollection<EventRoute> evntRoutes;
+            List<EventRoute> evntRoutes = new List<EventRoute>();
           
                 evntRoutes = DbContext.EventRoute
                                      .Where(p => p.Deleted == false && p.EventID == evntId)

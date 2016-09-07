@@ -80,7 +80,7 @@ namespace iBalekaAPI.Data.Configurations
                 entity.Property(e => e.AthleteId).HasColumnName("AthleteID");
                 
 
-                entity.Property(e => e.ClubId).HasColumnName("ClubID");
+                entity.Property(e => e.ClubId).HasColumnName("ClubID").UseSqlServerIdentityColumn();
              
 
                 //entity.HasOne(d => d.Athlete)

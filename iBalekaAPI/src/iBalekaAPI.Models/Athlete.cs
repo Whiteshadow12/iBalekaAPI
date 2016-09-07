@@ -24,7 +24,8 @@ namespace iBalekaAPI.Models
         public string DateOfBirth { get; set; }
         public string DateJoined { get; set; }
         public bool Deleted { get; set; }
-        public string Name { get; set; }
+        [DisplayName("First Name")]
+        public string FirstName { get; set; }
         [DisplayName("Surname")]
         public string UserName { get; set; }
         public int? Gender { get; set; }
