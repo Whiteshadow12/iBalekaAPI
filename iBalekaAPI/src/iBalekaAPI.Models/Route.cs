@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace iBalekaAPI.Models
 {
@@ -25,6 +26,7 @@ namespace iBalekaAPI.Models
             DateRecorded = dateRecorded;
             DateModified = dateModified;
         }
+        [Key]
         public int RouteId { get; set; }
         public string UserID { get; set; }
         public string Title { get; set; }

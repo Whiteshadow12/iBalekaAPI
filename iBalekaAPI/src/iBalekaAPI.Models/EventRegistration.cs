@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace iBalekaAPI.Models
 {
@@ -13,6 +14,7 @@ namespace iBalekaAPI.Models
     }
     public class EventRegistration
     {
+        [Key]
         public int RegistrationId { get; set; }
         public RegistrationType EventStatus { get; set; }
         public int AthleteId { get; set; }

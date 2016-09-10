@@ -69,25 +69,47 @@ namespace iBalekaAPI.Data.Repositories
         }
         public Club CreateClub(Club club)
         {
-            var newClub = new Club
-            {
-
-                //ClubId = id,
-                Name = club.Name,
-                DateCreated = DateTime.Now.ToString(),
-                Deleted = false,
-                Description = club.Description,
-                Location = club.Location,
-                UserId = club.UserId
-            };
+            var newClub = DbContext.Add(new Club()).Entity;
+            newClub.Name = club.Name;
+            newClub.DateCreated = DateTime.Now.ToString();
+            newClub.Deleted = false;
+            newClub.Description = club.Description;
+            newClub.Location = club.Location;
+            newClub.UserId = club.UserId;
             DbContext.Club.Add(newClub);
-            //DbContext.Entry(newClub).State = EntityState.Added;
+           
             try
             {
                 DbContext.SaveChanges();
             }
             catch (DbUpdateConcurrencyException ex)
             {
+                foreach (var entry in ex.Entries)
+                {
+                    if (entry.Entity is Club)
+                    {
+                        // Using a NoTracking query means we get the entity but it is not tracked by the context
+                        // and will not be merged with existing entities in the context.
+
+                        foreach (var property in entry.Metadata.GetProperties())
+                        {
+                            var proposedValue = entry.Property(property.Name).CurrentValue;
+                            var originalValue = entry.Property(property.Name).OriginalValue;
+
+                            // TODO: Logic to decide which value should be written to database
+                            // entry.Property(property.Name).CurrentValue = <value to be saved>;
+
+                            // Update original values to 
+                            entry.Property(property.Name).OriginalValue = proposedValue;
+                        }
+                    }
+                    else
+                    {
+                        throw new NotSupportedException("Don't know how to handle concurrency conflicts for " + entry.Metadata.Name);
+                    }
+                }
+
+                // Retry the save operation
                 DbContext.SaveChanges();
             }
             return GetUserClubs(club.UserId)
@@ -114,7 +136,14 @@ namespace iBalekaAPI.Data.Repositories
         }
         public Club UpdateClub(Club club)
         {
-            DbContext.Club.Update(club);
+            var updatedClub = DbContext.Club.Single(a => a.ClubId == club.ClubId);
+            updatedClub.Name = club.Name;
+            updatedClub.DateCreated = DateTime.Now.ToString();
+            updatedClub.Deleted = false;
+            updatedClub.Description = club.Description;
+            updatedClub.Location = club.Location;
+            updatedClub.UserId = club.UserId;
+            DbContext.Club.Update(updatedClub);
             DbContext.SaveChanges();
             return club;
         }

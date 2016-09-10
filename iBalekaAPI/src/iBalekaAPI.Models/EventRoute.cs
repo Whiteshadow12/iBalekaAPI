@@ -37,9 +37,11 @@ namespace iBalekaAPI.Models
             RouteID = evntRoute.RouteId;
             DateAdded = DateTime.Now.Date.ToString();
         }
+        [Key]
+        public int EventRouteID { get; set; }
         [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }
-        public int EventRouteID { get; set; }
+        
         public string DateAdded { get; set; }
         public bool Deleted { get; set; }
         [Required(ErrorMessage = "Description is required")]

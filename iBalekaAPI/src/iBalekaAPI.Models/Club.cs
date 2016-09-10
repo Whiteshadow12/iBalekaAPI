@@ -12,10 +12,12 @@ namespace iBalekaAPI.Models
         }
         [Key]
         public int ClubId { get; set; }
+        [ConcurrencyCheck]
         public string DateCreated { get; set; }
         public bool Deleted { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
+        [ConcurrencyCheck]
         public string Name { get; set; }
 
         public string UserId { get; set; }
