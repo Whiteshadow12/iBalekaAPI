@@ -21,6 +21,7 @@ namespace iBalekaAPI.Data.Repositories
         Club UpdateClub(Club club);
         //pass on ownership
         ICollection<Club> GetClubsQuery();
+        Club GetClubQuery(int clubid);
         ClubMember GetMemberByID(int id);
         IEnumerable<ClubMember> GetMembers(int clubId);
         ClubMember JoinClub(ClubMember entity);
@@ -42,7 +43,7 @@ namespace iBalekaAPI.Data.Repositories
 
         public Club GetClubByID(int id)
         {
-            return GetClubsQuery().GetClubByClubId(id);
+            return GetClubQuery(id);
         }
         public IEnumerable<Club> GetUserClubs(string userId)
         {
@@ -125,13 +126,14 @@ namespace iBalekaAPI.Data.Repositories
             clubs = DbContext.Club
                     .Where(p => p.Deleted == false)
                     .ToList();
-            if (clubs.Count() > 0)
-            {
-                foreach (Club club in clubs)
-                {
-                    club.ClubMember = GetClubMembersQuery().GetMembersByClubId(club.ClubId);
-                }
-            }
+            return clubs;
+        }
+        public Club GetClubQuery(int clubId)
+        {
+            Club clubs;
+            clubs = DbContext.Club
+                    .Where(p => p.Deleted == false && p.ClubId==clubId)
+                    .Single();
             return clubs;
         }
         public Club UpdateClub(Club club)
@@ -168,13 +170,13 @@ namespace iBalekaAPI.Data.Repositories
             ClubMember exist = DbContext.ClubMember.Single(a => a.ClubId == entity.ClubId && a.AthleteId == entity.AthleteId);
             if (exist == null)
             {
-                entity.DateJoined = DateTime.Now;
+                entity.DateJoined = DateTime.Now.ToString();
                 entity.Status = ClubStatus.Joined;
                 DbContext.ClubMember.Add(entity);
             }
             else
             {
-                exist.DateJoined = DateTime.Now;
+                exist.DateJoined = DateTime.Now.ToString();
                 exist.Status = ClubStatus.Joined;
                DbContext.ClubMember.Update(exist);
             }
@@ -186,7 +188,7 @@ namespace iBalekaAPI.Data.Repositories
         {
             ClubMember entity = GetMemberByID(entityId);
             entity.Status = ClubStatus.Left;
-            entity.DateLeft = DateTime.Now;
+            entity.DateLeft = DateTime.Now.ToString();
             DbContext.ClubMember.Update(entity);
             DbContext.SaveChanges();
         }
@@ -201,7 +203,7 @@ namespace iBalekaAPI.Data.Repositories
             {
                 foreach (ClubMember member in clubMembers)
                 {
-                    member.Club = GetClubsQuery().GetClubByClubId(member.ClubId);
+                    member.Club = GetClubQuery(member.ClubId);
                     member.Athlete = _athleteRepo.GetAthletesQuery().GetAthleteByAthleteId(member.AthleteId);
                 }
             }

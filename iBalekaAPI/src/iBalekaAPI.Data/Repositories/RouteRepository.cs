@@ -21,6 +21,7 @@ namespace iBalekaAPI.Data.Repositories
         Route UpdateRoute(Route route);
         void DeleteRoute(int routeId);
         ICollection<Route> GetRoutesQuery();
+        Route GetRouteQuery(int routeId);
     }
     public class RouteRepository : RepositoryBase<Route>, IRouteRepository
     {
@@ -30,7 +31,7 @@ namespace iBalekaAPI.Data.Repositories
         {
             DbContext = dbContext;
         }
-        
+
 
         public Route AddRoute(Route route)
         {
@@ -39,24 +40,24 @@ namespace iBalekaAPI.Data.Repositories
             savingRoute.Title = route.Title;
             savingRoute.Distance = route.Distance;
             foreach (Checkpoint chps in route.Checkpoint)
-            {                
+            {
                 Checkpoint checks = new Checkpoint(chps.Latitude, chps.Longitude);
                 DbContext.Checkpoint.Add(checks);
                 savingRoute.Checkpoint.Add(checks);
-            }           
-            
+            }
+
             //create map image?
             DbContext.Route.Add(savingRoute);
             DbContext.SaveChanges();
             Route newRoute = GetUserRoutes(route.UserID)
                             .Where(a => a.Title == savingRoute.Title
-                                   && a.Distance==savingRoute.Distance)
+                                   && a.Distance == savingRoute.Distance)
                             .Single();
             return newRoute;
         }
         public Route UpdateRoute(Route updatedRoute)
         {
-            IEnumerable<Checkpoint> checkpoints = GetCheckpoints(updatedRoute.RouteId);            
+            IEnumerable<Checkpoint> checkpoints = GetCheckpoints(updatedRoute.RouteId);
             DeleteCheckPoints(checkpoints);
             Route route = GetRouteByID(updatedRoute.RouteId);
             route.Checkpoint = null;
@@ -65,13 +66,13 @@ namespace iBalekaAPI.Data.Repositories
                 Checkpoint check = new Checkpoint(chp.Latitude, chp.Longitude);
                 check.RouteId = updatedRoute.RouteId;
                 DbContext.Checkpoint.Add(check);
-                route.Checkpoint.Add(check);            
-                
+                route.Checkpoint.Add(check);
+
             }
             route.Distance = updatedRoute.Distance;
             route.Title = updatedRoute.Title;
             route.DateModified = DateTime.Now.ToString();
-            
+
             DbContext.Route.Update(route);
             DbContext.SaveChanges();
             Route newRoute = GetRouteByID(updatedRoute.RouteId);
@@ -79,7 +80,7 @@ namespace iBalekaAPI.Data.Repositories
         }
         public Route GetRouteByID(int id)
         {
-            return GetRoutesQuery().GetRouteByRouteId(id);
+            return GetRouteQuery(id);
         }
         public IEnumerable<Checkpoint> GetCheckpoints(int id)
         {
@@ -127,13 +128,17 @@ namespace iBalekaAPI.Data.Repositories
             routes = DbContext.Route
                         .Where(r => r.Deleted == false)
                         .ToList();
-            if (routes.Count()>0)
-            {
-                foreach (Route rte in routes)
-                {
-                    rte.Checkpoint = (ICollection<Checkpoint>)GetCheckpoints(rte.RouteId);
-                } 
-            }
+            return routes;
+        }
+        public Route GetRouteQuery(int routeId)
+        {
+            Route routes;
+            routes = DbContext.Route
+                        .Where(r => r.Deleted == false && r.RouteId == routeId)
+                        .Single();
+
+            routes.Checkpoint = (ICollection<Checkpoint>)GetCheckpoints(routeId);
+
             return routes;
         }
     }

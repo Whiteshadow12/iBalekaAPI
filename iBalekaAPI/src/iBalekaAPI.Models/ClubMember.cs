@@ -16,8 +16,8 @@ namespace iBalekaAPI.Models
         public int MemberId { get; set; }
         public int AthleteId { get; set; }
         public int ClubId { get; set; }
-        public DateTime DateJoined { get; set; }
-        public DateTime? DateLeft { get; set; }
+        public string DateJoined { get; set; }
+        public string DateLeft { get; set; }
         public ClubStatus Status { get; set; }
         [JsonIgnore]
 
