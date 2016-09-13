@@ -23,7 +23,6 @@ namespace iBalekaAPI.Models
         public string UserId { get; set; }
 
         public virtual ICollection<ClubMember> ClubMember { get; set; }
-        public virtual ICollection<Event> Event { get; set; }
         public virtual ApplicationUser User { get; set; }
     }
 }

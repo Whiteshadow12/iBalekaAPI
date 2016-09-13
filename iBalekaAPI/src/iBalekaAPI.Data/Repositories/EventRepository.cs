@@ -43,12 +43,14 @@ namespace iBalekaAPI.Data.Repositories
     {
         private IRouteRepository _routeRepo;
         private IAthleteRepository _athleteRepo;
+        private IClubRepository _clubRepo;
         private iBalekaDBContext DbContext;
-        public EventRepository(iBalekaDBContext dbContext, IRouteRepository repo, IAthleteRepository athleteRepo)
+        public EventRepository(iBalekaDBContext dbContext, IRouteRepository repo, IAthleteRepository athleteRepo, IClubRepository clubRep)
         {
             DbContext = dbContext;
             _athleteRepo = athleteRepo;
             _routeRepo = repo;
+            _clubRepo = clubRep;
         }
         //add addEvent
         public Event AddEvent(Event evnt)
@@ -179,6 +181,8 @@ namespace iBalekaAPI.Data.Repositories
                                     .Where(p => p.Deleted == false && p.EventId == eventId)
                                     .Single();
             events.EventRoute = GetEventRoutesQuery(eventId);
+            if (events.ClubID != 0)
+                events.Club = _clubRepo.GetClubByID(events.ClubID);
             return events;
         }
         public ICollection<EventRoute> GetEventRoutesQuery(int evntId)
