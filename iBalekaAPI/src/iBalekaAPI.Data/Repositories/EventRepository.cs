@@ -193,6 +193,7 @@ namespace iBalekaAPI.Data.Repositories
             evntRoutes = DbContext.EventRoute
                                  .Where(p => p.Deleted == false && p.EventID == evntId)
                                  .ToList();
+           
             return evntRoutes;
 
         }

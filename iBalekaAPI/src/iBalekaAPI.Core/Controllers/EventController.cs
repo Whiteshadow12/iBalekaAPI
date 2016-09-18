@@ -31,7 +31,6 @@ namespace iBalekaAPI.Core.Controllers
         // GET: Event/Events
         [HttpGet]
         [Route("User/[action]")]
-
         public async Task<IActionResult> GetUserEvents([FromQuery]string userId)
         {
             var response = new ListModelResponse<Event>() 
@@ -74,6 +73,38 @@ namespace iBalekaAPI.Core.Controllers
                     IEnumerable<Event> evnts =_context.GetEvents();
                     if(evnts==null)
                         throw new Exception("No Events");
+                    return evnts;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+        }
+        /// <summary>
+        /// Get all Event EventRoutes
+        /// </summary>
+        /// <param name="evntId" type="int">Event Id</param>
+        /// <remarks>Get all Event EventRoutes</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> GetEventRoutes([FromQuery]int evntId)
+        {
+            var response = new ListModelResponse<EventRoute>()
+                as IListModelResponse<EventRoute>;
+            try
+            {
+                if (evntId <=0)
+                    throw new Exception("Event Id is null");
+                response.Model = await Task.Run(() =>
+                {
+                    IEnumerable<EventRoute> evnts = _context.GetEventRoutes(evntId);
+                    if (evnts == null)
+                        throw new Exception("No Event Routes");
                     return evnts;
                 });
             }

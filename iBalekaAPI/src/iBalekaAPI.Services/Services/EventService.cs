@@ -12,12 +12,10 @@ namespace iBalekaAPI.Services
     public interface IEventService
     {
         Event GetEventByID(int id);
-        IEnumerable<EventRoute> GetEventRoutes(int id);
+        IEnumerable<EventRoute> GetEventRoutes(int eventId);
         IEnumerable<Event> GetUserEvents(string userId);
         IEnumerable<Event> GetEvents();
-        Event AddEvent(Event evnt);
-
-        Event UpdateEvent(Event evnt);
+        Event AddEvent(Event evnt);        Event UpdateEvent(Event evnt);
         void Delete(int evnt);
         void DeleteEventRoutes(IEnumerable<EventRoute> evntRoute);
         void SaveEvent();
