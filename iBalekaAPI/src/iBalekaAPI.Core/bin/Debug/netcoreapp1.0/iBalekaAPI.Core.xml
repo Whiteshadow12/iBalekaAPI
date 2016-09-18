@@ -28,17 +28,17 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.ChangePassword(iBalekaAPI.Models.Athlete)">
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.ForgotPassword(System.String)">
             <summary>
-            Change Athlete Password
+            Return forgotton athlete
             </summary>
-            <paramref name="athlete"/>
+            <paramref name="email"/>
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.AddAthlete(iBalekaAPI.Models.Athlete)">
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.RegisterAthlete(iBalekaAPI.Models.Athlete)">
             <summary>
-            Adds an Athlete to db
+            Registers an Athlete to db
             </summary>
             <paramref name="athlete"/>
             <response code="400">Bad request</response>

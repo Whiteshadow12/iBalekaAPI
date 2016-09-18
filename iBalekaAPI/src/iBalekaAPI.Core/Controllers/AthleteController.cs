@@ -106,7 +106,7 @@ namespace iBalekaAPI.Core.Controllers
                 {
                     Athlete athlete = _context.LoginAthlete(username,password);
                     if (athlete == null)
-                        throw new Exception("Invalid attempt");
+                        throw new Exception("Invalid Login Attempt");
                     return athlete;
                 });
             }
@@ -120,25 +120,25 @@ namespace iBalekaAPI.Core.Controllers
 
         // POST api/values
         /// <summary>
-        /// Change Athlete Password
+        /// Return forgotton athlete
         /// </summary>
-        /// <paramref name="athlete"/>
+        /// <paramref name="email"/>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPost]
         [Route("Account/[action]")]
-        public async Task<IActionResult> ChangePassword([FromBody]Athlete athlete)
+        public async Task<IActionResult> ForgotPassword([FromBody]string email)
         {
 
             var response = new SingleModelResponse<Athlete>()
                 as ISingleModelResponse<Athlete>;
             try
             {
-                if (athlete == null)
-                    throw new Exception("Model is missing");
+                if (email==null)
+                    throw new Exception("Email Address is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    return _context.UpdateAthlete(athlete);
+                    return _context.ForgotPassword(email);
 
                 });
             }
@@ -153,25 +153,39 @@ namespace iBalekaAPI.Core.Controllers
 
         // POST api/values
         /// <summary>
-        /// Adds an Athlete to db
+        /// Registers an Athlete to db
         /// </summary>
         /// <paramref name="athlete"/>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> AddAthlete([FromBody]Athlete athlete)
+        public async Task<IActionResult> RegisterAthlete([FromBody]Athlete athlete)
         {
 
             var response = new SingleModelResponse<Athlete>()
                 as ISingleModelResponse<Athlete>;
+            var listResponse = new ListModelResponse<Athlete>()
+                as IListModelResponse<Athlete>;
             try
             {
                 if (athlete == null)
                     throw new Exception("Model is missing");
+                listResponse.Model = await Task.Run(() =>
+                {
+                    return _context.GetAthletes();
+
+                });
+                foreach(Athlete existing in listResponse.Model)
+                {
+                    if(existing.EmailAddress == athlete.EmailAddress)
+                        throw new Exception("Email address already in use.");
+                    if (existing.UserName == athlete.UserName)
+                        throw new Exception("Username is already in use.");
+                }
                 response.Model = await Task.Run(() =>
                 {
-                    return _context.AddAthlete(athlete);
+                    return _context.RegisterAthlete(athlete);
                     
                 });
             }

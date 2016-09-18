@@ -257,5 +257,6 @@ namespace iBalekaAPI.Data.Repositories
             return evntRegs;
         }
 
+
     }
 }

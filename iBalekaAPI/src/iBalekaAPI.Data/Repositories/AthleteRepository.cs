@@ -15,11 +15,12 @@ namespace iBalekaAPI.Data.Repositories
     {
         Athlete GetAthleteByID(int id);
         Athlete LoginAthlete(string email, string password);
-        Athlete ChangePassword(Athlete athlete);
-        Athlete AddAthlete(Athlete athlete);
+        Athlete ForgotPassword(string email);
+        Athlete RegisterAthlete(Athlete athlete);
         Athlete UpdateAthlete(Athlete athlete);
         void DeleteAthlete(int athlete);
         ICollection<Athlete> GetAthletesQuery();
+        Athlete GetAthleteQuery(int athleteId);
         // void Delete(int entity);
 
 
@@ -35,25 +36,22 @@ namespace iBalekaAPI.Data.Repositories
 
         public Athlete GetAthleteByID(int athleteId)
         {
-            return GetAthletesQuery().GetAthleteByAthleteId(athleteId);
+            return GetAthleteQuery(athleteId);
         }
         public Athlete LoginAthlete(string username, string password)
         {
-            Athlete loginAthlete = GetAthletesQuery()
-                                    .Where(a => a.UserName == username
-                                            && a.Password == password)
-                                    .Single();
-
+            int athleteId = DbContext.Athlete.Single(a => a.UserName == username
+                                            && a.Password == password).AthleteId;
+            Athlete loginAthlete = GetAthleteQuery(athleteId);
             return loginAthlete;
 
         }
-        public Athlete ChangePassword(Athlete athlete)
+        public Athlete ForgotPassword(string email)
         {
-            DbContext.Athlete.Update(athlete);
-            DbContext.SaveChanges();
+            Athlete athlete = DbContext.Athlete.Single(a => a.EmailAddress == email);
             return athlete;
         }
-        public Athlete AddAthlete(Athlete athlete)
+        public Athlete RegisterAthlete(Athlete athlete)
         {
             Athlete savingAthlete = new Athlete()
             {
@@ -111,6 +109,14 @@ namespace iBalekaAPI.Data.Repositories
                                 .ToList();
 
             return athlete;
+        }
+        public Athlete GetAthleteQuery(int athleteId)
+        {
+            Athlete existingAthlete = DbContext.Athlete.Single(a => a.AthleteId == athleteId && a.Deleted == false);
+            existingAthlete.EventRegistration = DbContext.EventRegistration.Where(a => a.AthleteId == athleteId).ToList();
+            existingAthlete.Run = DbContext.Run.Where(a => a.AthleteId == athleteId).ToList();
+            existingAthlete.ClubMember = DbContext.ClubMember.Where(a => a.AthleteId == athleteId && a.Status == ClubStatus.Joined).ToList();
+            return existingAthlete;
         }
 
     }
