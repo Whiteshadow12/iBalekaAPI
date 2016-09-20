@@ -49,10 +49,8 @@ namespace iBalekaAPI.Data.Repositories
             //create map image?
             DbContext.Route.Add(savingRoute);
             DbContext.SaveChanges();
-            Route newRoute = GetUserRoutes(route.UserID)
-                            .Where(a => a.Title == savingRoute.Title
-                                   && a.Distance == savingRoute.Distance)
-                            .Single();
+            Route newRoute = GetRouteQuery(savingRoute.RouteId);
+                            
             return newRoute;
         }
         public Route UpdateRoute(Route updatedRoute)
