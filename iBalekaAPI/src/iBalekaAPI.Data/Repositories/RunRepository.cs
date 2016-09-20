@@ -99,7 +99,7 @@ namespace iBalekaAPI.Data.Repositories
         public Run AddRun(Run run)
         {
             run.Deleted = false;
-            run.DateRecorded = DateTime.Now;
+            run.DateRecorded = DateTime.Now.ToString();
             DbContext.Entry(run).State = EntityState.Added;
             DbContext.SaveChanges();
             Run newRun = GetAthleteRunsQuery(run.AthleteId)

@@ -111,7 +111,7 @@ namespace Data.Extentions
             DateTime start, end;
             start = DateTime.Parse(startDate);
             end = DateTime.Parse(endDate);
-            return run.Where(a => a.DateRecorded >= start && a.DateRecorded <= end)
+            return run.Where(a => DateTime.Parse(a.DateRecorded) >= start && DateTime.Parse(a.DateRecorded) <= end)
                       .Sum(a => a.CaloriesBurnt);
         }
         public static double GetDistanceOverTime(this IEnumerable<Run> run, string startDate, string endDate)
@@ -119,7 +119,7 @@ namespace Data.Extentions
             DateTime start, end;
             start = DateTime.Parse(startDate);
             end = DateTime.Parse(endDate);
-            return run.Where(a => a.DateRecorded >= start && a.DateRecorded <= end)
+            return run.Where(a => DateTime.Parse(a.DateRecorded) >= start && DateTime.Parse(a.DateRecorded) <= end)
                       .Sum(a => a.Distance);
         }
     }
