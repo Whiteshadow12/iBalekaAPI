@@ -180,7 +180,7 @@ namespace iBalekaAPI.Data.Repositories
             ICollection<Event> events;
 
             events = DbContext.Event
-                                .Where(p =>p.UserID==userId && p.Deleted == false && p.EventStatus == EventType.Open && p.EventStatus==EventType.Active)
+                                .Where(p =>p.UserID==userId && p.Deleted == false && p.EventStatus == EventType.Open || p.EventStatus==EventType.Active)
                                 .ToList();
             return events;
         }
