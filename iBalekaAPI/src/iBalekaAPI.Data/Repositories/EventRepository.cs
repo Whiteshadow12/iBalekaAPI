@@ -24,6 +24,7 @@ namespace iBalekaAPI.Data.Repositories
         //Queries
         ICollection<Event> GetEventsQuery();
         Event GetEventQuery(int eventId);
+        ICollection<Event> GetUserEventsQuery(string userId);
         ICollection<EventRoute> GetEventRoutesQuery(int evntId);
 
         //event reg
@@ -137,7 +138,7 @@ namespace iBalekaAPI.Data.Repositories
         }
         public IEnumerable<Event> GetUserEvents(string userId)
         {
-            return GetEventsQuery().GetEventByUserId(userId);
+            return GetUserEventsQuery(userId);
         }
         public IEnumerable<Event> GetEvents()
         {
@@ -171,6 +172,15 @@ namespace iBalekaAPI.Data.Repositories
 
             events = DbContext.Event
                                 .Where(p => p.Deleted == false && p.EventStatus == EventType.Open)
+                                .ToList();
+            return events;
+        }
+        public ICollection<Event> GetUserEventsQuery(string userId)
+        {
+            ICollection<Event> events;
+
+            events = DbContext.Event
+                                .Where(p =>p.UserID==userId && p.Deleted == false && p.EventStatus == EventType.Open && p.EventStatus==EventType.Active)
                                 .ToList();
             return events;
         }
