@@ -29,10 +29,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         // GET: Event/Events
-        [Route("GetUserEvents/{userId}")]
-        [HttpPost]
-        
-        public async Task<IActionResult> GetUserEvents(string userId)
+        [HttpGet]
+        [Route("User/[action]")]
+        public async Task<IActionResult> GetUserEvents([FromQuery]string userId)
         {
             var response = new ListModelResponse<Event>() 
                 as IListModelResponse<Event>;
@@ -61,8 +60,8 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get all events</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetEvents")]
         [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> GetEvents()
         {
             var response = new ListModelResponse<Event>()
@@ -84,6 +83,38 @@ namespace iBalekaAPI.Core.Controllers
             }
             return response.ToHttpResponse();
         }
+        /// <summary>
+        /// Get all Event EventRoutes
+        /// </summary>
+        /// <param name="evntId" type="int">Event Id</param>
+        /// <remarks>Get all Event EventRoutes</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> GetEventRoutes([FromQuery]int evntId)
+        {
+            var response = new ListModelResponse<EventRoute>()
+                as IListModelResponse<EventRoute>;
+            try
+            {
+                if (evntId <=0)
+                    throw new Exception("Event Id is null");
+                response.Model = await Task.Run(() =>
+                {
+                    IEnumerable<EventRoute> evnts = _context.GetEventRoutes(evntId);
+                    if (evnts == null)
+                        throw new Exception("No Event Routes");
+                    return evnts;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+        }
         // GET: Event/Details/5
         /// <summary>
         /// Get a particular event
@@ -92,9 +123,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get an event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetEvent/{eventId}")]
         [HttpGet]
-        public async Task<IActionResult> GetEvent(int eventId)
+        [Route("[action]")]
+        public async Task<IActionResult> GetEvent([FromQuery]int eventId)
         {
             var response = new SingleModelResponse<Event>()
                 as ISingleModelResponse<Event>;
@@ -125,25 +156,21 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Saves an event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("SaveEvent/{evnt}")]
         [HttpPost]
-        public async Task<IActionResult> SaveEvent(Event evnt)
+        [Route("[action]")]
+        public async Task<IActionResult> SaveEvent([FromBody]Event evnt)
         {
             var response = new SingleModelResponse<Event>()
                as ISingleModelResponse<Event>;
             try
             {
-                if (evnt.UserID ==null && evnt == null)
-                    throw new Exception("Your whole request is messed up. Event and UserId are blank");
-                else if(evnt.UserID == null)
-                    throw new Exception("UserId Missing");
-                else if(evnt==null)
+                if(evnt==null)
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.AddEvent(evnt);
-                    _context.SaveEvent();
-                    return evnt;                   
+                   Event nevnt= _context.AddEvent(evnt);
+
+                    return nevnt;                   
                 });
             }
             catch (Exception ex)
@@ -162,9 +189,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Update an event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("EditEvent/{evnt}")]
         [HttpPut]
-        public async Task<IActionResult> EditEvent(Event evnt)
+        [Route("Update/[action]")]
+        public async Task<IActionResult> EditEvent([FromBody]Event evnt)
         {
 
             var response = new SingleModelResponse<Event>()
@@ -175,9 +202,9 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.UpdateEvent(evnt);
-                    _context.SaveEvent();
-                    return evnt;
+                    Event nevnt=_context.UpdateEvent(evnt);
+
+                    return nevnt;
                 });
             }
             catch (Exception ex)
@@ -192,26 +219,27 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// Delete an event
         /// </summary>
-        /// <param name="evnt" type="Event">Event Model</param>
+        /// <param name="evnt" type="int">Event Id</param>
         /// <remarks>Delete an event</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("DeleteEvent/{evnt}")]
         [HttpPut]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteEvent(Event evnt)
+        [Route("[action]")]
+       // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteEvent([FromQuery]int evnt)
         {
             var response = new SingleModelResponse<Event>()
                as ISingleModelResponse<Event>;
             try
             {
-                if (evnt == null)
+                if (evnt.ToString() == null)
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
                     _context.Delete(evnt);
-                    _context.SaveEvent();
-                    return evnt;
+                    Event dEvent = new Event();
+                    dEvent.EventId = evnt;
+                    return dEvent;
                 });
             }
             catch (Exception ex)

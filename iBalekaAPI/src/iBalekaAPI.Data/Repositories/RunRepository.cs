@@ -21,7 +21,14 @@ namespace iBalekaAPI.Data.Repositories
         IEnumerable<Run> GetAllRuns(int id);
         //queries
         ICollection<Run> GetRunsQuery();
-        void AddRun(Run run);
+        ICollection<Run> GetAthleteRunsQuery(int athleteId);
+        Run AddRun(Run run);
+        double GetTotalDistanceRan(int athleteId);
+        double GetRunCount(int athleteId);
+        double GetEventRunCount(int athleteId);
+        double GetPersonalRunCount(int athleteId);
+        double GetCaloriesOverTime(int athleteId, string startDate, string endDate);
+        double GetDistanceOverTime(int athleteId, string startDate, string endDate);
     }
     public class RunRepository : RepositoryBase<Run>, IRunRepository
     {
@@ -35,13 +42,37 @@ namespace iBalekaAPI.Data.Repositories
         {
             return GetRunsQuery().GetRunByRunId(id);
         }
+        public double GetDistanceOverTime(int athleteId, string startDate, string endDate)
+        {
+            return GetAthleteRunsQuery(athleteId).GetDistanceOverTime(startDate, endDate);
+        }
+        public double GetCaloriesOverTime(int athleteId,string startDate, string endDate)
+        {
+            return GetAthleteRunsQuery(athleteId).GetCaloriesOverTime(startDate, endDate);
+        }
+        public double GetPersonalRunCount(int athleteId)
+        {
+            return GetAthleteRunsQuery(athleteId).GetPersonalRunCount();
+        }
+        public double GetEventRunCount(int athleteId)
+        {
+            return GetAthleteRunsQuery(athleteId).GetEventRunCount();
+        }
+        public double GetRunCount(int athleteId)
+        {
+            return GetAthleteRunsQuery(athleteId).GetRunCount();
+        }
+        public double GetTotalDistanceRan(int athleteId)
+        {
+            return GetAthleteRunsQuery(athleteId).GetTotalDistanceRan();
+        }
         public IEnumerable<Run> GetAthleteEventRuns(int athleteId)
         {
-            return GetRunsQuery().GetRunsByAthleteEventRuns(athleteId);
+            return GetAthleteRunsQuery(athleteId).GetRunsByAthleteEventRuns();
         }
         public IEnumerable<Run> GetAthletePersonalRuns(int athleteId)
         {
-            return GetRunsQuery().GetRunsByAthletePersonalRuns(athleteId);
+            return GetAthleteRunsQuery(athleteId).GetRunsByAthletePersonalRuns();
         }
         public IEnumerable<Run> GetEventRuns(int id)
         {
@@ -53,22 +84,30 @@ namespace iBalekaAPI.Data.Repositories
         }
         public IEnumerable<Run> GetAllRuns(int id)
         {
-            return GetRunsQuery();
+            return GetAthleteRunsQuery(id);
         }
-        public override void Delete(Run entity)
+        public override void Delete(int entity)
         {
-            Run deletedRun = DbContext.Run.FirstOrDefault(x => x.RunId == entity.RunId);
+            Run deletedRun = DbContext.Run.FirstOrDefault(x => x.RunId == entity);
             if (deletedRun != null)
             {
                 deletedRun.Deleted = true;
                 DbContext.Entry(deletedRun).State = EntityState.Modified;
+                DbContext.SaveChanges();
             }
         }
-        public void AddRun(Run run)
+        public Run AddRun(Run run)
         {
             run.Deleted = false;
-            run.DateRecorded = DateTime.Now;
+            run.DateRecorded = DateTime.Now.ToString();
             DbContext.Entry(run).State = EntityState.Added;
+            DbContext.SaveChanges();
+            Run newRun = GetAthleteRunsQuery(run.AthleteId)
+                            .Where(a => a.DateRecorded == run.DateRecorded
+                                    && a.StartTime == run.StartTime
+                                    && a.EndTime == run.EndTime)
+                             .Single();
+            return run;
         }
 
         //queries
@@ -76,6 +115,14 @@ namespace iBalekaAPI.Data.Repositories
         {
             ICollection<Run> runs = DbContext.Run
                         .Where(p => p.Deleted == false)
+                        .ToList();
+            return runs;
+        }
+        public ICollection<Run> GetAthleteRunsQuery(int athleteId)
+        {
+            ICollection<Run> runs = DbContext.Run
+                        .Where(p => p.Deleted == false
+                                    && p.AthleteId == athleteId)
                         .ToList();
             return runs;
         }

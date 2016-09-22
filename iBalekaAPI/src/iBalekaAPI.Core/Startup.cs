@@ -21,6 +21,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
 using iBalekaAPI.Core.Swagger;
 using Newtonsoft.Json.Serialization;
+using System.Reflection.Metadata;
 
 namespace iBalekaAPI.Core
 {
@@ -41,14 +42,14 @@ namespace iBalekaAPI.Core
         }
 
         public IConfigurationRoot Configuration { get; }
-        
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
 
             services.AddMvc()
-               .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver()) 
+               .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver())
                .AddJsonOptions(jsonOptions =>
                {
                    jsonOptions.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -62,11 +63,11 @@ namespace iBalekaAPI.Core
                     Version = "v1",
                     Title = "iBaleka API",
                     Description = "iBaleka API for mobile and web inegration",
-                    TermsOfService = "None"
+                    Contact = new Contact { Name = "AllBlacks", Email = "allblacks2026@gmail.com"}
                 });
                 options.OperationFilter<AssignOperationVendorExtensions>();
                 options.DescribeAllEnumsAsStrings();
-                
+
             });
             if (_hostingEnv.IsDevelopment())
             {
@@ -76,11 +77,12 @@ namespace iBalekaAPI.Core
                 });
             }
             //services.AddScoped<ISearchProvider, SearchProvider>();
+
             services.AddDbContext<iBalekaDBContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ServerConnection")));
 
             services.AddDistributedMemoryCache();
-           
+
             //repos
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAthleteRepository, AthleteRepository>();
@@ -114,16 +116,12 @@ namespace iBalekaAPI.Core
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "api",
-                    template: "{controller}/{action}/{id?}");
-            });
+            app.UseMvcWithDefaultRoute();
             app.UseSwagger((httpRequest, swaggerDoc) =>
             {
                 swaggerDoc.Host = httpRequest.Host.Value;
             });
+            app.UseSwagger();
             app.UseSwaggerUi();
         }
         private string GetXmlCommentsPath(ApplicationEnvironment appEnvironment)

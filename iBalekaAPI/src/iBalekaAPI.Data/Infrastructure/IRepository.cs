@@ -11,7 +11,7 @@ namespace iBalekaAPI.Data.Infastructure
     {
         void Add(T entity);
         void Update(T entity);
-        void Delete(T entity);
+        void Delete(int entity);
         IEnumerable<T> GetAll();
     }
 }

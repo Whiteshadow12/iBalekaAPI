@@ -17,10 +17,16 @@ namespace iBalekaAPI.Services
         IEnumerable<Run> GetEventRuns(int id);
         IEnumerable<Run> GetRouteRuns(int id);
         IEnumerable<Run> GetAllRuns(int id);
-        void AddRun(Run run);
+        Run AddRun(Run run);
         void UpdateRun(Run run);
-        void Delete(Run run);
+        void Delete(int run);
         void SaveRun();
+        double GetTotalDistanceRan(int athleteId);
+        double GetRunCount(int athleteId);
+        double GetEventRunCount(int athleteId);
+        double GetPersonalRunCount(int athleteId);
+        double GetCaloriesOverTime(int athleteId, string startDate, string endDate);
+        double GetDistanceOverTime(int athleteId, string startDate, string endDate);
     }
     public class RunService:IRunService
     {
@@ -32,7 +38,30 @@ namespace iBalekaAPI.Services
             _runRepo = _repo;
             unitOfWork = _unitOfWork;
         }
-
+        public double GetRunCount(int athleteId)
+        {
+            return _runRepo.GetRunCount(athleteId);
+        }
+        public double GetEventRunCount(int athleteId)
+        {
+            return _runRepo.GetEventRunCount(athleteId);
+        }
+        public double GetPersonalRunCount(int athleteId)
+        {
+            return _runRepo.GetPersonalRunCount(athleteId);
+        }
+        public double GetCaloriesOverTime(int athleteId, string startDate, string endDate)
+        {
+            return _runRepo.GetCaloriesOverTime(athleteId, startDate, endDate);
+        }
+        public double GetDistanceOverTime(int athleteId, string startDate, string endDate)
+        {
+            return _runRepo.GetDistanceOverTime(athleteId, startDate, endDate);
+        }
+        public double GetTotalDistanceRan(int athleteId)
+        {
+            return _runRepo.GetTotalDistanceRan(athleteId);
+        }
         public Run GetRunByID(int id)
         {
             return _runRepo.GetRunByID(id);
@@ -57,15 +86,15 @@ namespace iBalekaAPI.Services
         {
             return _runRepo.GetAllRuns(id);
         }
-        public void AddRun(Run run)
+        public Run AddRun(Run run)
         {
-            _runRepo.Add(run);
+            return _runRepo.AddRun(run);
         }
         public void UpdateRun(Run run)
         {
             _runRepo.Update(run);
         }
-        public void Delete(Run run)
+        public void Delete(int run)
         {
             _runRepo.Delete(run);
         }

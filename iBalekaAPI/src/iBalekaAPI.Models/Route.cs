@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace iBalekaAPI.Models
 {
-    public partial class Route
+    public class Route
     {
         public Route()
         {
@@ -11,11 +12,11 @@ namespace iBalekaAPI.Models
             EventRoute = new HashSet<EventRoute>();
             Rating = new HashSet<Rating>();
             Run = new HashSet<Run>();
-            DateRecorded = DateTime.Now;
-            DateModified = DateTime.Now;
+            DateRecorded = DateTime.Now.ToString();
+            DateModified = DateTime.Now.ToString();
             Deleted = false;
         }
-        public Route(int routeId, string title, string userId, double distance, List<Checkpoint> checks, DateTime dateRecorded, DateTime dateModified)
+        public Route(int routeId, string title, string userId, double distance, List<Checkpoint> checks, string dateRecorded, string dateModified)
         {
             RouteId = routeId;
             Title = title;
@@ -25,11 +26,12 @@ namespace iBalekaAPI.Models
             DateRecorded = dateRecorded;
             DateModified = dateModified;
         }
+        [Key]
         public int RouteId { get; set; }
         public string UserID { get; set; }
         public string Title { get; set; }
-        public DateTime DateModified { get; set; }
-        public DateTime DateRecorded { get; set; }
+        public string DateModified { get; set; }
+        public string DateRecorded { get; set; }
         public bool Deleted { get; set; }
         public double Distance { get; set; }
         public string MapImage { get; set; }

@@ -28,8 +28,8 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get all clubs</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetAllClubs")]
         [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> GetAllClubs()
         {
             var response = new ListModelResponse<Club>()
@@ -58,9 +58,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get all user created clubs</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetUserClubs/{userId}")]
         [HttpGet]
-        public async Task<IActionResult> GetUserClubs(string userId)
+        [Route("User/[action]")]
+        public async Task<IActionResult> GetUserClubs([FromQuery]string userId)
         {
             var response = new ListModelResponse<Club>()
                 as IListModelResponse<Club>;
@@ -90,9 +90,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get a particular club</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetClub/{clubId}")]
         [HttpGet]
-        public async Task<IActionResult> GetClub(int clubId)
+        [Route("[action]")]
+        public async Task<IActionResult> GetClub([FromQuery]int clubId)
         {
             var response = new SingleModelResponse<Club>()
                 as ISingleModelResponse<Club>;
@@ -123,9 +123,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Create a Club</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("CreateClub/{club}")]
         [HttpPost]
-        public async Task<IActionResult> CreateClub(Club club)
+        [Route("[action]")]
+        public async Task<IActionResult> CreateClub([FromBody]Club club)
         {
             var response = new SingleModelResponse<Club>()
               as ISingleModelResponse<Club>;
@@ -135,9 +135,9 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.AddClub(club);
-                    _context.SaveClub();
-                    return club;
+                    Club cl=_context.AddClub(club);
+                    
+                    return cl;
                 });
             }
             catch (Exception ex)
@@ -154,9 +154,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Update a Club</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("UpdateClub/{club}")]
         [HttpPut]
-        public async Task<IActionResult> UpdateClub(Club club)
+        [Route("Update/[action]")]
+        public async Task<IActionResult> UpdateClub([FromBody]Club club)
         {
             var response = new SingleModelResponse<Club>()
                as ISingleModelResponse<Club>;
@@ -166,9 +166,8 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.UpdateClub(club);
-                    _context.SaveClub();
-                    return club;
+                    Club cl = _context.UpdateClub(club);
+                    return cl;
                 });
             }
             catch (Exception ex)
@@ -181,25 +180,28 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// Delete a club
         /// </summary>
-        /// <param name="club" type="Club">Club Model</param>
+        /// <param name="club" type="int">Club Id</param>
         /// <remarks>Delete a club</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("DeleteClub/{club}")]
         [HttpPut]
-        public async Task<IActionResult> DeleteClub(Club club)
+        [Route("[action]")]
+        public async Task<IActionResult> DeleteClub([FromQuery]int club)
         {
             var response = new SingleModelResponse<Club>()
                 as ISingleModelResponse<Club>;
             try
             {
-                if (club == null)
+                if (club.ToString() == null)
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
                     _context.Delete(club);
-                    _context.SaveClub();
-                    return club;
+                    Club cclub = new Club
+                    {
+                        ClubId = club
+                    };
+                    return cclub;
                 });
             }
             catch (Exception ex)
