@@ -29,15 +29,15 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get club members</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetClubMembers/{clubId}")]
         [HttpGet]
-        public async Task<IActionResult> GetClubMembers(int clubId)
+        [Route("[action]")]
+        public async Task<IActionResult> GetClubMembers([FromQuery]int clubId)
         {
             var response = new ListModelResponse<ClubMember>()
                 as IListModelResponse<ClubMember>;
             try
             {
-                if (clubId <1)
+                if (clubId < 1)
                     throw new Exception("Club Id is null");
                 response.Model = await Task.Run(() =>
                 {
@@ -61,20 +61,20 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Get club member</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("GetClubMember/{memberId}")]
         [HttpGet]
-        public async Task<IActionResult> GetClubMember(int memberId)
+        [Route("Member/[action]")]
+        public async Task<IActionResult> GetClubMember([FromQuery]int memberId)
         {
             var response = new SingleModelResponse<ClubMember>()
               as ISingleModelResponse<ClubMember>;
             try
             {
-                if (memberId <1)
+                if (memberId < 1)
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    ClubMember member =_context.GetMemberByID(memberId);
-                    if(member==null)
+                    ClubMember member = _context.GetMemberByID(memberId);
+                    if (member == null)
                         throw new Exception("Club Member does not Exist");
                     return member;
                 });
@@ -93,9 +93,9 @@ namespace iBalekaAPI.Core.Controllers
         /// <remarks>Register club member</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("RegisterMember/{clubmember}")]
         [HttpPost]
-        public async Task<IActionResult> RegisterMember(ClubMember clubmember)
+        [Route("[action]")]
+        public async Task<IActionResult> RegisterMember([FromBody]ClubMember clubmember)
         {
             var response = new SingleModelResponse<ClubMember>()
               as ISingleModelResponse<ClubMember>;
@@ -105,9 +105,8 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.RegisterMember(clubmember);
-                    _context.SaveMember();
-                    return clubmember;
+                   ClubMember clb =  _context.RegisterMember(clubmember);
+                    return clb;
                 });
             }
             catch (Exception ex)
@@ -120,25 +119,28 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// DeRegister athlete from a particular club
         /// </summary>
-        /// <param name="clubmember" type="ClubMember">ClubMember Model</param>
+        /// <param name="clubmember" type="int">ClubMember Id</param>
         /// <remarks>DeRegister club member</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("DeRegisterMember/{clubmember}")]
         [HttpPut]
-        public async Task<IActionResult> DeRegisterMember(ClubMember clubmember)
+        [Route("[action]")]
+        public async Task<IActionResult> DeRegisterMember([FromQuery]int clubmember)
         {
             var response = new SingleModelResponse<ClubMember>()
               as ISingleModelResponse<ClubMember>;
             try
             {
-                if (clubmember == null)
+                if (clubmember.ToString() == null)
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
                     _context.DeRegisterMember(clubmember);
-                    _context.SaveMember();
-                    return clubmember;
+                    ClubMember member = new ClubMember
+                    {
+                        MemberId = clubmember
+                    };
+                    return member;
                 });
             }
             catch (Exception ex)

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace iBalekaAPI.Models
 {
-    public partial class EventRoute
+    public class EventRoute
     {
         public EventRoute() { }
         public EventRoute(string dateAdded)
@@ -37,14 +37,17 @@ namespace iBalekaAPI.Models
             RouteID = evntRoute.RouteId;
             DateAdded = DateTime.Now.Date.ToString();
         }
+        [Key]
+        public int EventRouteID { get; set; }
         [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }
-        public int EventRouteID { get; set; }
+        
         public string DateAdded { get; set; }
         public bool Deleted { get; set; }
         [Required(ErrorMessage = "Description is required")]
         public string Description { get; set; }
         public int EventID { get; set; }
+        public double Distance { get; set; }
         public int RouteID { get; set; }
         [JsonIgnore]
         public virtual Route Route { get; set; }

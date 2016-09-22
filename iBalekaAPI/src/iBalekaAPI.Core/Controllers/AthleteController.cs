@@ -27,9 +27,10 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// Gets all athletes
         /// </summary>
-        /// 
-        [Route("GetAthletes")]
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> GetAthletes()
         {
             var response = new ListModelResponse<Athlete>()
@@ -54,10 +55,11 @@ namespace iBalekaAPI.Core.Controllers
         /// Returns a specific athlete 
         /// </summary>
         /// <param name="athleteId" type="int">AthleteId</param>
-        /// <returns></returns>
-        [Route("GetAthlete/{athleteId}")]
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpGet]
-        public async Task<IActionResult> GetAthlete(int athleteId)
+        [Route("[action]")]
+        public async Task<IActionResult> GetAthlete([FromQuery] int athleteId)
         {
             var response = new SingleModelResponse<Athlete>()
                 as ISingleModelResponse<Athlete>;
@@ -81,27 +83,110 @@ namespace iBalekaAPI.Core.Controllers
             return response.ToHttpResponse();
         }
 
+        /// <summary>
+        /// Logs athlete in(Returns athlete Id) 
+        /// </summary>
+        /// <param name="username" type="int">Athlete Email</param>
+        /// <param name="password" type="int">Athlete Password</param>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpGet]
+        [Route("Account/[action]")]
+        public async Task<IActionResult> LoginAthlete([FromQuery] string username, [FromQuery] string password)
+        {
+            var response = new SingleModelResponse<Athlete>()
+                as ISingleModelResponse<Athlete>;
+            try
+            {
+                if (username ==null)
+                    throw new Exception("Athlete Email is null");
+                if (password == null)
+                    throw new Exception("Athlete Password is null");
+                response.Model = await Task.Run(() =>
+                {
+                    Athlete athlete = _context.LoginAthlete(username,password);
+                    if (athlete == null)
+                        throw new Exception("Invalid Login Attempt");
+                    return athlete;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+        }
+
         // POST api/values
         /// <summary>
-        /// Adds an Athlete to db
+        /// Return forgotton athlete
         /// </summary>
-        /// <paramref name="athlete"/>
-        [Route("AddAthlete/{athlete}")]
+        /// <paramref name="email"/>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpPost]
-        public async Task<IActionResult> AddAthlete(Athlete athlete)
+        [Route("Account/[action]")]
+        public async Task<IActionResult> ForgotPassword([FromBody]string email)
         {
 
             var response = new SingleModelResponse<Athlete>()
                 as ISingleModelResponse<Athlete>;
             try
             {
-                if (athlete == null)
-                    throw new Exception("Model is missing");
+                if (email==null)
+                    throw new Exception("Email Address is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.AddAthlete(athlete);
-                    _context.SaveAthlete();
-                    return athlete;
+                    return _context.ForgotPassword(email);
+
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+        }
+
+
+        // POST api/values
+        /// <summary>
+        /// Registers an Athlete to db
+        /// </summary>
+        /// <paramref name="athlete"/>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> RegisterAthlete([FromBody]Athlete athlete)
+        {
+
+            var response = new SingleModelResponse<Athlete>()
+                as ISingleModelResponse<Athlete>;
+            var listResponse = new ListModelResponse<Athlete>()
+                as IListModelResponse<Athlete>;
+            try
+            {
+                if (athlete == null)
+                    throw new Exception("Model is missing");
+                listResponse.Model = await Task.Run(() =>
+                {
+                    return _context.GetAthletes();
+
+                });
+                foreach(Athlete existing in listResponse.Model)
+                {
+                    if(existing.EmailAddress == athlete.EmailAddress)
+                        throw new Exception("Email address already in use.");
+                    if (existing.UserName == athlete.UserName)
+                        throw new Exception("Username is already in use.");
+                }
+                response.Model = await Task.Run(() =>
+                {
+                    return _context.RegisterAthlete(athlete);
+                    
                 });
             }
             catch (Exception ex)
@@ -117,9 +202,11 @@ namespace iBalekaAPI.Core.Controllers
         /// Updates some properties of a athlete
         /// </summary>
         /// <param name="athlete" type="Athlete"></param>
-        [Route("UpdateAthlete/{athlete}")]
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpPut]
-        public async Task<IActionResult> UpdateAthlete(Athlete athlete)
+        [Route("[action]")]
+        public async Task<IActionResult> UpdateAthlete([FromBody]Athlete athlete)
         {
 
             var response = new SingleModelResponse<Athlete>()
@@ -130,9 +217,8 @@ namespace iBalekaAPI.Core.Controllers
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    _context.UpdateAthlete(athlete);
-                    _context.SaveAthlete();
-                    return athlete;
+                    return _context.UpdateAthlete(athlete);
+                    
                 });
             }
             catch (Exception ex)
@@ -148,22 +234,29 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// Deletes a specific athlete
         /// </summary>
-        /// <param name="athlete"></param>
-        [Route("DeleteAthlete/{athlete}")]
+        /// <param name="athlete" type="int">Athlete Id</param>
+        /// <remarks>Delete an Athlete</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpPut]
-        public async Task<IActionResult> DeleteAthlete(Athlete athlete)
+        [Route("[action]")]
+        public async Task<IActionResult> DeleteAthlete([FromQuery]int athlete)
         {
             var response = new SingleModelResponse<Athlete>()
                as ISingleModelResponse<Athlete>;
             try
             {
-                if (athlete == null)
+                if (athlete.ToString() == null)
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
                     _context.DeleteAthlete(athlete);
                     _context.SaveAthlete();
-                    return athlete;
+                    Athlete at = new Athlete
+                    {
+                        AthleteId = athlete
+                    };
+                    return at;
                 });
             }
             catch (Exception ex)

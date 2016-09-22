@@ -11,7 +11,7 @@ namespace iBalekaAPI.Models
         Active,
         Closed
     }
-    public partial class Event
+    public class Event
     {
         public Event()
         {
@@ -78,6 +78,7 @@ namespace iBalekaAPI.Models
         [DisplayName("Club ID")]
         public int ClubID { get; set; }
         [DisplayName("Event Registrations")]
+        public virtual Club Club { get; set; }
         public virtual ICollection<EventRegistration> EventRegistration { get; set; }
         [DisplayName("Event Routes")]
         public virtual ICollection<EventRoute> EventRoute { get; set; }

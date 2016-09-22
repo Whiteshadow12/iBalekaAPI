@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace iBalekaAPI.Models
 {
     public partial class Rating
     {
+        [Key]
         public int RatingId { get; set; }
         public string Comment { get; set; }
         public DateTime DateAdded { get; set; }

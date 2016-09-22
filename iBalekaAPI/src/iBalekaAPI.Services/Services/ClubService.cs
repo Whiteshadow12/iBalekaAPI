@@ -14,17 +14,17 @@ namespace iBalekaAPI.Services
         Club GetClubByID(int id);
         IEnumerable<Club> GetAll();
         IEnumerable<Club> GetUserClubs(string userId);
-        void AddClub(Club club);
-        void UpdateClub(Club club);
-        void Delete(Club club);
+        Club AddClub(Club club);
+        Club UpdateClub(Club club);
+        void Delete(int club);
         void SaveClub();
     }
     public interface IClubMemberService
     {
         ClubMember GetMemberByID(int id);
         IEnumerable<ClubMember> GetMembers(int clubId);
-        void RegisterMember(ClubMember member);
-        void DeRegisterMember(ClubMember memberId);
+        ClubMember RegisterMember(ClubMember member);
+        void DeRegisterMember(int memberId);
         void SaveMember();
 
     }
@@ -51,19 +51,18 @@ namespace iBalekaAPI.Services
         {
             return _clubRepo.GetAll();
         }
-        public void AddClub(Club club)
+        public Club AddClub(Club club)
         {
-            club.Deleted = false;
-            club.DateCreated = DateTime.Now;
-            _clubRepo.Add(club);
+            return _clubRepo.CreateClub(club);
         }
-        public void UpdateClub(Club club)
+        public Club UpdateClub(Club club)
         {
-            _clubRepo.Update(club);
+            return _clubRepo.UpdateClub(club);
         }
-        public void Delete(Club club)
+        public void Delete(int club)
         {
-            _clubRepo.Delete(club);
+
+            _clubRepo.DeleteClub(club);
         }
         public void SaveClub()
         {
@@ -79,11 +78,11 @@ namespace iBalekaAPI.Services
         {
             return _clubRepo.GetMembers(clubId);
         }
-        public void RegisterMember(ClubMember member)
+        public ClubMember RegisterMember(ClubMember member)
         {
-            _clubRepo.JoinClub(member);
+            return _clubRepo.JoinClub(member);
         }
-        public void DeRegisterMember(ClubMember member)
+        public void DeRegisterMember(int member)
         {
 
             _clubRepo.LeaveClub(member);
