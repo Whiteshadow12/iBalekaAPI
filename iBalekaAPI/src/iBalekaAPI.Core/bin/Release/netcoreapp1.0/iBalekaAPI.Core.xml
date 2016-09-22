@@ -167,6 +167,15 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.GetEventRoutes(System.Int32)">
+            <summary>
+            Get all Event EventRoutes
+            </summary>
+            <param name="evntId" type="int">Event Id</param>
+            <remarks>Get all Event EventRoutes</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
         <member name="M:iBalekaAPI.Core.Controllers.EventController.GetEvent(System.Int32)">
             <summary>
             Get a particular event
