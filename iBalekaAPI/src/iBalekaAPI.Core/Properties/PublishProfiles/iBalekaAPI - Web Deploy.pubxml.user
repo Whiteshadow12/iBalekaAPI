@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAApGK2c2/G2Uqwatq4r19D2wAAAAACAAAAAAAQZgAAAAEAACAAAADYTG9OhuMz+uFMbj3X4/o/9bVjIMOdvoPYtjv2mkT5UQAAAAAOgAAAAAIAACAAAAArc4+uViEfaB8aUIbNX3bYo5YPTdNvyXUamLyKG47ZZIAAAABXKFkOX5AK0o9/NgR8178jCRQfuYNMu42SFpF8WrAd2uSwZ7WZpVXBV1A9NMe7NF4Nw9dbmBLfKC7Dy2OWxeDESf3szMONPAVa+HRgXnM/hLSyxR9pABfpl0OqC1qUjVP93oZHOMCjAYxzAQPNYjNCLbIPB/XqkXpcT0i50nXFWkAAAAD8aDJlxSychJ362D19uadua9Ctu1QHZ+WVuPkCWP+iFwM99sfNKghkoNeqw8HELkO7PY6NoCzhAmf1S5m4L1VV</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="ServerConnection">
+      <Value>Data Source=tcp:ibalekadb.database.windows.net,1433;Initial Catalog = iBalekaDB; User Id = iBalekaAdmin@ibalekadb;Password=WeWillWin2026;MultipleActiveResultSets=true;</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>
