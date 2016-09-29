@@ -524,5 +524,36 @@ namespace iBalekaAPI.Core.Controllers
             return response.ToHttpResponse();
 
         }
+
+        /// <summary>
+        /// Updates a run
+        /// </summary>
+        /// <param name="run" type="Run">Run Model</param>
+        /// <remarks>Updatess a run</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpPut]
+        [Route("UpdateRun")]
+        public async Task<IActionResult> UpdateRun([FromBody]Run run)
+        {
+            var response = new SingleModelResponse<Run>()
+               as ISingleModelResponse<Run>;
+            try
+            {
+                if (run == null)
+                    throw new Exception("Run is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    Run runn = _context.UpdateRun(run);
+                    return runn;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+        }
     }
 }
