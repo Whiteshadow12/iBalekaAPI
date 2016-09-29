@@ -441,5 +441,14 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.UpdateRun(iBalekaAPI.Models.Run)">
+            <summary>
+            Updates a run
+            </summary>
+            <param name="run" type="Run">Run Model</param>
+            <remarks>Updatess a run</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
     </members>
 </doc>

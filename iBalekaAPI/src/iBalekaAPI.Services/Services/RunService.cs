@@ -18,7 +18,7 @@ namespace iBalekaAPI.Services
         IEnumerable<Run> GetRouteRuns(int id);
         IEnumerable<Run> GetAllRuns(int id);
         Run AddRun(Run run);
-        void UpdateRun(Run run);
+        Run UpdateRun(Run run);
         void Delete(int run);
         void SaveRun();
         double GetTotalDistanceRan(int athleteId);
@@ -90,9 +90,9 @@ namespace iBalekaAPI.Services
         {
             return _runRepo.AddRun(run);
         }
-        public void UpdateRun(Run run)
+        public Run UpdateRun(Run run)
         {
-            _runRepo.Update(run);
+            return _runRepo.UpdateRun(run);
         }
         public void Delete(int run)
         {
