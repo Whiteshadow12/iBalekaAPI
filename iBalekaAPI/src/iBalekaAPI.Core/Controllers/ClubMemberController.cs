@@ -97,15 +97,30 @@ namespace iBalekaAPI.Core.Controllers
         [Route("[action]")]
         public async Task<IActionResult> RegisterMember([FromBody]ClubMember clubmember)
         {
+            var existingMember = new ListModelResponse<ClubMember>()
+              as IListModelResponse<ClubMember>;
             var response = new SingleModelResponse<ClubMember>()
               as ISingleModelResponse<ClubMember>;
             try
             {
                 if (clubmember == null)
                     throw new Exception("Model is missing");
+                existingMember.Model = await Task.Run(() =>
+                {
+                    return _context.AthletClubs(clubmember.AthleteId);
+                });
+                //check if member is part of club
+                if(existingMember.Model!=null)
+                {
+                    foreach(ClubMember member in existingMember.Model)
+                    {
+                        if(member.Status==ClubStatus.Joined)
+                            throw new Exception("Athlete is already part of a club");
+                    }
+                }
                 response.Model = await Task.Run(() =>
                 {
-                   ClubMember clb =  _context.RegisterMember(clubmember);
+                    ClubMember clb = _context.RegisterMember(clubmember);
                     return clb;
                 });
             }

@@ -34,6 +34,7 @@ namespace iBalekaAPI.Models
         public string DateRecorded { get; set; }
         public bool Deleted { get; set; }
         public double Distance { get; set; }
+        public string Location { get; set; }
         public string MapImage { get; set; }
 
         public virtual ICollection<Checkpoint> Checkpoint { get; set; }

@@ -39,6 +39,7 @@ namespace iBalekaAPI.Data.Repositories
             savingRoute.UserID = route.UserID;
             savingRoute.Title = route.Title;
             savingRoute.Distance = route.Distance;
+            savingRoute.Location = route.Location;
             foreach (Checkpoint chps in route.Checkpoint)
             {
                 Checkpoint checks = new Checkpoint(chps.Latitude, chps.Longitude);
@@ -69,6 +70,7 @@ namespace iBalekaAPI.Data.Repositories
             }
             route.Distance = updatedRoute.Distance;
             route.Title = updatedRoute.Title;
+            route.Location = updatedRoute.Location;
             route.DateModified = DateTime.Now.ToString();
 
             DbContext.Route.Update(route);

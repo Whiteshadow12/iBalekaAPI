@@ -27,7 +27,7 @@ namespace iBalekaAPI.Data.Repositories
         ClubMember JoinClub(ClubMember entity);
         void LeaveClub(int entityId);
 
-        ICollection<ClubMember> GetClubMembersQuery();
+        ICollection<ClubMember> GetAthleteClubs(int athleteId);
     }
     public class ClubRepository : RepositoryBase<Club>, IClubRepository
     {
@@ -159,11 +159,24 @@ namespace iBalekaAPI.Data.Repositories
         //club members
         public ClubMember GetMemberByID(int id)
         {
-            return GetClubMembersQuery().GetMembersById(id);
+            ClubMember clubMembers;
+            clubMembers = DbContext.ClubMember
+                            .Where(p => p.MemberId==id)
+                            .Single();
+            if (clubMembers!=null)
+            {
+                clubMembers.Club = GetClubQuery(clubMembers.ClubId);
+                clubMembers.Athlete = _athleteRepo.GetAthletesQuery().GetAthleteByAthleteId(clubMembers.AthleteId);          
+            }
+            return clubMembers;
         }
         public IEnumerable<ClubMember> GetMembers(int clubId)
         {
-            return GetClubMembersQuery().GetMembersByClubId(clubId);
+            ICollection<ClubMember> clubMembers;
+            clubMembers = DbContext.ClubMember
+                            .Where(p => p.Status == ClubStatus.Joined && p.ClubId==clubId)
+                            .ToList();
+            return clubMembers;
         }
         public ClubMember JoinClub(ClubMember entity)
         {
@@ -193,18 +206,17 @@ namespace iBalekaAPI.Data.Repositories
             DbContext.SaveChanges();
         }
 
-        public ICollection<ClubMember> GetClubMembersQuery()
+        public ICollection<ClubMember> GetAthleteClubs(int athleteId)
         {
             ICollection<ClubMember> clubMembers;
             clubMembers = DbContext.ClubMember
-                            .Where(p => p.Status == ClubStatus.Joined)
+                            .Where(p => p.AthleteId == athleteId)
                             .ToList();
             if (clubMembers.Count() > 0)
             {
                 foreach (ClubMember member in clubMembers)
                 {
                     member.Club = GetClubQuery(member.ClubId);
-                    member.Athlete = _athleteRepo.GetAthletesQuery().GetAthleteByAthleteId(member.AthleteId);
                 }
             }
             return clubMembers;
