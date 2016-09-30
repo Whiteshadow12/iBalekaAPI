@@ -55,6 +55,39 @@ namespace iBalekaAPI.Core.Controllers
             return response.ToHttpResponse();
         }
         /// <summary>
+        /// Get all club created events
+        /// </summary>
+        /// <param name="clubId" type="int">Club Id</param>
+        /// <remarks>Get club created events</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        // GET: Event/Events
+        [HttpGet]
+        [Route("Club/[action]")]
+        public async Task<IActionResult> GetClubEvents([FromQuery]int clubId)
+        {
+            var response = new ListModelResponse<Event>()
+                as IListModelResponse<Event>;
+            try
+            {
+                if (clubId<=0)
+                    throw new Exception("Club Id is null");
+                response.Model = await Task.Run(() =>
+                {
+                    IEnumerable<Event> evnts = _context.GetClubEvents(clubId); ;
+                    if (evnts == null)
+                        throw new Exception("No Events");
+                    return evnts;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+        }
+        /// <summary>
         /// Get all events
         /// </summary>
         /// <remarks>Get all events</remarks>
