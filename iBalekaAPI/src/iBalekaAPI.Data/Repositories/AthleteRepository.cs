@@ -66,7 +66,7 @@ namespace iBalekaAPI.Data.Repositories
                 SecurityQuestion = athlete.SecurityQuestion,
                 SecurityAnswer = athlete.SecurityAnswer,
                 Deleted = false,
-                DateJoined = DateTime.Now.ToString()
+                DateJoined = athlete.DateJoined
             };
             DbContext.Athlete.Add(savingAthlete);
 
