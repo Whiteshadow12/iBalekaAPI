@@ -17,9 +17,6 @@ namespace iBalekaAPI.Models
         {
             EventRegistration = new HashSet<EventRegistration>();
             EventRoute = new HashSet<EventRoute>();
-            
-            DateCreated = DateTime.Now.ToString();
-            ClubID = 0;
             EventStatus = EventType.Open;
             Deleted = false;
         }

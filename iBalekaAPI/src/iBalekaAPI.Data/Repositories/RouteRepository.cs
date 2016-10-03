@@ -38,6 +38,7 @@ namespace iBalekaAPI.Data.Repositories
             Route savingRoute = new Route();
             savingRoute.UserID = route.UserID;
             savingRoute.Title = route.Title;
+            savingRoute.DateRecorded = route.DateRecorded;
             savingRoute.Distance = route.Distance;
             savingRoute.Location = route.Location;
             foreach (Checkpoint chps in route.Checkpoint)
@@ -49,10 +50,8 @@ namespace iBalekaAPI.Data.Repositories
 
             //create map image?
             DbContext.Route.Add(savingRoute);
-            DbContext.SaveChanges();
-            Route newRoute = GetRouteQuery(savingRoute.RouteId);
-                            
-            return newRoute;
+            DbContext.SaveChanges();  
+            return savingRoute;
         }
         public Route UpdateRoute(Route updatedRoute)
         {
@@ -71,12 +70,11 @@ namespace iBalekaAPI.Data.Repositories
             route.Distance = updatedRoute.Distance;
             route.Title = updatedRoute.Title;
             route.Location = updatedRoute.Location;
-            route.DateModified = DateTime.Now.ToString();
+            route.DateModified = updatedRoute.DateModified;
 
             DbContext.Route.Update(route);
             DbContext.SaveChanges();
-            Route newRoute = GetRouteByID(updatedRoute.RouteId);
-            return newRoute;
+            return route;
         }
         public Route GetRouteByID(int id)
         {

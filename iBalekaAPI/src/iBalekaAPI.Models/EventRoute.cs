@@ -7,19 +7,14 @@ namespace iBalekaAPI.Models
 {
     public class EventRoute
     {
-        public EventRoute() { }
-        public EventRoute(string dateAdded)
+        public EventRoute()
         {            
-            
-            DateAdded = dateAdded;
             Deleted = false;
         }
-        public EventRoute(int routeId, string dateAdd, string title)
+        public EventRoute(int routeId,string title)
         {
             Title = title;
             RouteID = routeId;
-            DateAdded = dateAdd;
-
 
         }
         public EventRoute(int eventRouteId, int eventId, int routeId, string dateAdded,string title, string description)
@@ -35,7 +30,6 @@ namespace iBalekaAPI.Models
         {
             Title = evntRoute.Title;
             RouteID = evntRoute.RouteId;
-            DateAdded = DateTime.Now.Date.ToString();
         }
         [Key]
         public int EventRouteID { get; set; }

@@ -60,19 +60,11 @@ namespace iBalekaAPI.Data.Repositories
             DbContext.SaveChanges();
             
         }
-        public bool CheckValid(int id)
-        {
-            Club club = GetClubByID(id);
-            if (club == null)
-                return true;
-            else
-                return false;
-        }
         public Club CreateClub(Club club)
         {
             var newClub = DbContext.Add(new Club()).Entity;
             newClub.Name = club.Name;
-            newClub.DateCreated = DateTime.Now.ToString();
+            newClub.DateCreated = club.DateCreated;
             newClub.Deleted = false;
             newClub.Description = club.Description;
             newClub.Location = club.Location;
@@ -82,6 +74,7 @@ namespace iBalekaAPI.Data.Repositories
             try
             {
                 DbContext.SaveChanges();
+                
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -113,11 +106,7 @@ namespace iBalekaAPI.Data.Repositories
                 // Retry the save operation
                 DbContext.SaveChanges();
             }
-            return GetUserClubs(club.UserId)
-                            .Where(a => a.Name == club.Name
-                                    && a.Description == club.Description
-                                    && a.DateCreated == newClub.DateCreated)
-                            .Single();
+            return newClub;
         }
         //query
         public ICollection<Club> GetClubsQuery()
@@ -140,7 +129,7 @@ namespace iBalekaAPI.Data.Repositories
         {
             var updatedClub = DbContext.Club.Single(a => a.ClubId == club.ClubId);
             updatedClub.Name = club.Name;
-            updatedClub.DateCreated = DateTime.Now.ToString();
+            updatedClub.DateCreated = club.DateCreated;
             updatedClub.Deleted = false;
             updatedClub.Description = club.Description;
             updatedClub.Location = club.Location;
@@ -183,13 +172,13 @@ namespace iBalekaAPI.Data.Repositories
             ClubMember exist = DbContext.ClubMember.Single(a => a.ClubId == entity.ClubId && a.AthleteId == entity.AthleteId);
             if (exist == null)
             {
-                entity.DateJoined = DateTime.Now.ToString();
+                entity.DateJoined = entity.DateJoined;
                 entity.Status = ClubStatus.Joined;
                 DbContext.ClubMember.Add(entity);
             }
             else
             {
-                exist.DateJoined = DateTime.Now.ToString();
+                exist.DateJoined = entity.DateJoined;
                 exist.Status = ClubStatus.Joined;
                DbContext.ClubMember.Update(exist);
             }
