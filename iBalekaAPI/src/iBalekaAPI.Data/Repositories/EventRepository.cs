@@ -19,12 +19,10 @@ namespace iBalekaAPI.Data.Repositories
         Event GetEventByID(int id);
         IEnumerable<EventRoute> GetEventRoutes(int id);
         IEnumerable<Event> GetUserEvents(string userId);
+        IEnumerable<Event> GetClubEvents(int clubId);
         IEnumerable<Event> GetEvents();
         void DeleteEvent(int evntId);
         //Queries
-        ICollection<Event> GetEventsQuery();
-        Event GetEventQuery(int eventId);
-        ICollection<Event> GetUserEventsQuery(string userId);
         ICollection<EventRoute> GetEventRoutesQuery(int evntId);
 
         //event reg
@@ -34,8 +32,6 @@ namespace iBalekaAPI.Data.Repositories
         EventRegistration Register(EventRegistration reg);
         void DeRegister(int reg);
         void DeleteEventReg(int entity);
-        //queries
-        ICollection<EventRegistration> GetEventRegistrationsQuery();
 
     }
 
@@ -132,17 +128,42 @@ namespace iBalekaAPI.Data.Repositories
         {
             return GetEventRoutesQuery(evntId);
         }
-        public Event GetEventByID(int id)
+        public Event GetEventByID(int eventId)
         {
-            return GetEventQuery(id);
+            Event events;
+            events = DbContext.Event
+                                    .Where(p => p.Deleted == false && p.EventId == eventId)
+                                    .Single();
+            events.EventRoute = GetEventRoutesQuery(eventId);
+            if (events.ClubID != 0)
+                events.Club = _clubRepo.GetClubByID(events.ClubID);
+            return events;
         }
         public IEnumerable<Event> GetUserEvents(string userId)
         {
-            return GetUserEventsQuery(userId);
+            ICollection<Event> events;
+
+            events = DbContext.Event
+                                .Where(p => p.UserID == userId && p.Deleted == false && p.EventStatus == EventType.Open || p.EventStatus == EventType.Active)
+                                .ToList();
+            return events;
+        }
+        public IEnumerable<Event> GetClubEvents(int clubId)
+        {
+            ICollection<Event> events;
+            events = DbContext.Event
+                                .Where(p => p.ClubID == clubId && p.Deleted == false)
+                                .ToList();
+            return events;
         }
         public IEnumerable<Event> GetEvents()
         {
-            return GetEventsQuery();
+            ICollection<Event> events;
+
+            events = DbContext.Event
+                                .Where(p => p.Deleted == false && p.EventStatus == EventType.Open)
+                                .ToList();
+            return events;
         }
         public void DeleteEvent(int evntId)
         {
@@ -166,35 +187,6 @@ namespace iBalekaAPI.Data.Repositories
         }
 
         //Queries
-        public ICollection<Event> GetEventsQuery()
-        {
-            ICollection<Event> events;
-
-            events = DbContext.Event
-                                .Where(p => p.Deleted == false && p.EventStatus == EventType.Open)
-                                .ToList();
-            return events;
-        }
-        public ICollection<Event> GetUserEventsQuery(string userId)
-        {
-            ICollection<Event> events;
-
-            events = DbContext.Event
-                                .Where(p =>p.UserID==userId && p.Deleted == false && p.EventStatus == EventType.Open || p.EventStatus==EventType.Active)
-                                .ToList();
-            return events;
-        }
-        public Event GetEventQuery(int eventId)
-        {
-            Event events;
-            events = DbContext.Event
-                                    .Where(p => p.Deleted == false && p.EventId == eventId)
-                                    .Single();
-            events.EventRoute = GetEventRoutesQuery(eventId);
-            if (events.ClubID != 0)
-                events.Club = _clubRepo.GetClubByID(events.ClubID);
-            return events;
-        }
         public ICollection<EventRoute> GetEventRoutesQuery(int evntId)
         {
 
@@ -211,15 +203,39 @@ namespace iBalekaAPI.Data.Repositories
         //event reg
         public EventRegistration GetEventRegByID(int regId)
         {
-            return GetEventRegistrationsQuery().GetRegByRegId(regId);
+            EventRegistration evntRegs = DbContext.EventRegistration
+                          .Where(p => p.Deleted == false
+                                 && p.RegistrationId == regId)
+                                 .Single();
+            return evntRegs;
         }
         public IEnumerable<EventRegistration> GetAthleteRegistrations(int athleteId)
         {
-            return GetEventRegistrationsQuery().GetRegByAthleteId(athleteId);
+            ICollection<EventRegistration> evntRegs;
+            evntRegs = DbContext.EventRegistration
+                           .Where(p => p.Deleted == false
+                                  && p.EventStatus != RegistrationType.Deregistered
+                                  && p.EventStatus != RegistrationType.Closed
+                                  && p.AthleteId == athleteId)
+                           .ToList();
+            return evntRegs;
         }
         public IEnumerable<EventRegistration> GetAll(int eventId)
         {
-            return GetEventRegistrationsQuery().GetRegByEventId(eventId);
+            ICollection<EventRegistration> evntRegs;
+            evntRegs = DbContext.EventRegistration
+                           .Where(p => p.Deleted == false
+                                  && p.EventStatus != RegistrationType.Deregistered
+                                  && p.EventId == eventId)
+                           .ToList();
+            if (evntRegs.Count() > 0)
+            {
+                foreach (EventRegistration reg in evntRegs)
+                {
+                    reg.Athlete = _athleteRepo.GetAthletesQuery().GetAthleteByAthleteId(reg.AthleteId);
+                }
+            }
+            return evntRegs;
         }
         public EventRegistration Register(EventRegistration reg)
         {
@@ -227,11 +243,7 @@ namespace iBalekaAPI.Data.Repositories
             reg.Deleted = false;
             DbContext.EventRegistration.Add(reg);
             DbContext.SaveChanges();
-            return GetEventRegistrationsQuery()
-                    .Where(a => a.DateRegistered == reg.DateRegistered
-                            && a.AthleteId == reg.AthleteId
-                            && a.EventId == reg.EventId)
-                    .Single();
+            return GetEventRegByID(reg.RegistrationId);
         }
         public void DeRegister(int regId)
         {
@@ -247,27 +259,6 @@ namespace iBalekaAPI.Data.Repositories
             DbContext.EventRegistration.Update(reg);
             DbContext.SaveChanges();
         }
-
-        //queries
-        public ICollection<EventRegistration> GetEventRegistrationsQuery()
-        {
-            ICollection<EventRegistration> evntRegs;
-            evntRegs = DbContext.EventRegistration
-                           .Where(p => p.Deleted == false
-                                  && p.EventStatus != RegistrationType.Deregistered
-                                  && p.EventStatus != RegistrationType.Closed)
-                           .ToList();
-            if (evntRegs.Count() > 0)
-            {
-                foreach (EventRegistration reg in evntRegs)
-                {
-                    reg.Athlete = _athleteRepo.GetAthletesQuery().GetAthleteByAthleteId(reg.AthleteId);
-                    reg.Event = GetEventsQuery().GetEventByEventId(reg.EventId);
-                }
-            }
-            return evntRegs;
-        }
-
 
     }
 }

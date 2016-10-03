@@ -159,6 +159,15 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.GetClubEvents(System.Int32)">
+            <summary>
+            Get all club created events
+            </summary>
+            <param name="clubId" type="int">Club Id</param>
+            <remarks>Get club created events</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
         <member name="M:iBalekaAPI.Core.Controllers.EventController.GetEvents">
             <summary>
             Get all events
@@ -438,6 +447,15 @@
             </summary>
             <param name="runId" type="int">Run Id</param>
             <remarks>Deletes a particular run</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.UpdateRun(iBalekaAPI.Models.Run)">
+            <summary>
+            Updates a run
+            </summary>
+            <param name="run" type="Run">Run Model</param>
+            <remarks>Updatess a run</remarks>
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>

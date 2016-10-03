@@ -23,6 +23,7 @@ namespace iBalekaAPI.Data.Repositories
         ICollection<Run> GetRunsQuery();
         ICollection<Run> GetAthleteRunsQuery(int athleteId);
         Run AddRun(Run run);
+        Run UpdateRun(Run run);
         double GetTotalDistanceRan(int athleteId);
         double GetRunCount(int athleteId);
         double GetEventRunCount(int athleteId);
@@ -102,14 +103,24 @@ namespace iBalekaAPI.Data.Repositories
             run.DateRecorded = DateTime.Now.ToString();
             DbContext.Entry(run).State = EntityState.Added;
             DbContext.SaveChanges();
-            Run newRun = GetAthleteRunsQuery(run.AthleteId)
-                            .Where(a => a.DateRecorded == run.DateRecorded
-                                    && a.StartTime == run.StartTime
-                                    && a.EndTime == run.EndTime)
-                             .Single();
             return run;
         }
-
+        public Run UpdateRun(Run run)
+        {
+            Run updatedRun = GetRunByID(run.RunId);
+            updatedRun.StartTime = run.StartTime;
+            updatedRun.EndTime = run.EndTime;
+            updatedRun.Distance = run.Distance;
+            updatedRun.AthleteId = run.AthleteId;
+            updatedRun.CaloriesBurnt = run.CaloriesBurnt;
+            if (run.RouteId <= 0)
+                updatedRun.EventId = run.EventId;
+            else
+                updatedRun.RouteId = run.RouteId;
+            DbContext.Entry(run).State = EntityState.Modified;
+            DbContext.SaveChanges();
+            return run;
+        }
         //queries
         public ICollection<Run> GetRunsQuery()
         {

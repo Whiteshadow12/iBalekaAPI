@@ -23,6 +23,7 @@ namespace iBalekaAPI.Services
     {
         ClubMember GetMemberByID(int id);
         IEnumerable<ClubMember> GetMembers(int clubId);
+        IEnumerable<ClubMember> AthletClubs(int athleteId);
         ClubMember RegisterMember(ClubMember member);
         void DeRegisterMember(int memberId);
         void SaveMember();
@@ -37,6 +38,10 @@ namespace iBalekaAPI.Services
         {
             _clubRepo = _repo;
             unitOfWork = _unitOfWork;
+        }
+        public IEnumerable<ClubMember> AthletClubs(int athleteId)
+        {
+            return _clubRepo.GetAthleteClubs(athleteId);
         }
         public IEnumerable<Club> GetUserClubs(string userId)
         {
