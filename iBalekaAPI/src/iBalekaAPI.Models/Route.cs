@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace iBalekaAPI.Models
 {
@@ -36,7 +37,10 @@ namespace iBalekaAPI.Models
         public double Distance { get; set; }
         public string Location { get; set; }
         public string MapImage { get; set; }
-
+        [NotMapped]
+        public int EventCount { get; set; }
+        [NotMapped]
+        public int RunCount { get; set; }
         public virtual ICollection<Checkpoint> Checkpoint { get; set; }
         public virtual ICollection<EventRoute> EventRoute { get; set; }
         public virtual ICollection<Rating> Rating { get; set; }

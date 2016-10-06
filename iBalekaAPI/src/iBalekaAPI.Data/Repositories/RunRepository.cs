@@ -17,13 +17,14 @@ namespace iBalekaAPI.Data.Repositories
         IEnumerable<Run> GetAthleteEventRuns(int id);
         IEnumerable<Run> GetAthletePersonalRuns(int id);
         IEnumerable<Run> GetEventRuns(int id);
-        IEnumerable<Run> GetRouteRuns(int id);
+        IEnumerable<Run> GetRouteRun(int id);
         IEnumerable<Run> GetAllRuns(int id);
         //queries
         ICollection<Run> GetRunsQuery();
         ICollection<Run> GetAthleteRunsQuery(int athleteId);
         Run AddRun(Run run);
         Run UpdateRun(Run run);
+        int GetRouteRunCount(int routeId);
         double GetTotalDistanceRan(int athleteId);
         double GetRunCount(int athleteId);
         double GetEventRunCount(int athleteId);
@@ -34,10 +35,14 @@ namespace iBalekaAPI.Data.Repositories
     public class RunRepository : RepositoryBase<Run>, IRunRepository
     {
         private iBalekaDBContext DbContext;
-        public RunRepository(iBalekaDBContext dbContext)
+        private IEventRepository eventRepo;
+        private IEventRegistrationRepository eventRegRepo;
+        public RunRepository(iBalekaDBContext dbContext, IEventRepository _eventRepo, IEventRegistrationRepository _eventRegRepo)
             : base(dbContext)
         {
             DbContext = dbContext;
+            eventRepo = _eventRepo;
+            eventRegRepo = _eventRegRepo;
         }
         public Run GetRunByID(int id)
         {
@@ -79,7 +84,29 @@ namespace iBalekaAPI.Data.Repositories
         {
             return GetRunsQuery().GetRunsByEventId(id);
         }
-        public IEnumerable<Run> GetRouteRuns(int id)
+        public int GetRouteRunCount(int routeId)
+        {
+            IEnumerable<Run> runs = GetRunsQuery();
+            int count = runs.GetRunsByRouteId(routeId).Count;
+            var evntRegs = eventRegRepo.GetEventRegByRoute(routeId);
+            //get event runs
+            foreach(Run run in runs)
+            {
+                if(run.EventId!=0)
+                {
+                    foreach(EventRegistration reg in evntRegs)
+                    {
+                        if(run.EventId==reg.EventId)
+                        {
+                            count++;
+                            break;
+                        }
+                    }
+                }
+            }
+            return count;
+        }
+        public IEnumerable<Run> GetRouteRun(int id)
         {
             return GetRunsQuery().GetRunsByRouteId(id);
         }

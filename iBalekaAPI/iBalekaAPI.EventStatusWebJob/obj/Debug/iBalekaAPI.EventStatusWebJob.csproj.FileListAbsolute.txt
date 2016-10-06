@@ -56,7 +56,6 @@ C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\iBalekaAPI.EventStatusWebJob
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\iBalekaAPI.EventStatusWebJob\bin\Debug\ru\Microsoft.Data.Services.Client.resources.dll
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\iBalekaAPI.EventStatusWebJob\bin\Debug\zh-Hans\Microsoft.Data.Services.Client.resources.dll
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\iBalekaAPI.EventStatusWebJob\bin\Debug\zh-Hant\Microsoft.Data.Services.Client.resources.dll
-C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\iBalekaAPI.EventStatusWebJob\obj\Debug\iBalekaAPI.EventStatusWebJob.csprojResolveAssemblyReference.cache
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\iBalekaAPI.EventStatusWebJob\obj\Debug\iBalekaAPI.EventStatusWebJob.csproj.iBalekaAPI.EventStatusWebJob.exe.config
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\iBalekaAPI.EventStatusWebJob\obj\Debug\iBalekaAPI.EventStatusWebJob.exe
 C:\Users\Tulonga\Source\Repos\iBalekaAPI\iBalekaAPI\iBalekaAPI.EventStatusWebJob\obj\Debug\iBalekaAPI.EventStatusWebJob.pdb

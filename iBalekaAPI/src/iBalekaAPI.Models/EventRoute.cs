@@ -45,5 +45,7 @@ namespace iBalekaAPI.Models
         public int RouteID { get; set; }
         [JsonIgnore]
         public virtual Route Route { get; set; }
+        [JsonIgnore]
+        public virtual Event Event { get; set; }
     }
 }

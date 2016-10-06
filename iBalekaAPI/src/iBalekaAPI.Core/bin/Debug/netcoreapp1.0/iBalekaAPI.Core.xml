@@ -194,6 +194,15 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.GetEventByRoute(System.Int32)">
+            <summary>
+            Get a events by route
+            </summary>
+            <param name="routeId" type="int">Route Id</param>
+            <remarks>Gets events by route</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
         <member name="M:iBalekaAPI.Core.Controllers.EventController.SaveEvent(iBalekaAPI.Models.Event)">
             <summary>
             Saves an event
@@ -244,6 +253,15 @@
             Get all athlete registrations 
             </summary>
             <param name="athleteId" type="int">Athlete Id</param>
+            <remarks>Get all athlete registrations</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventRegistrationController.GetRegistrationsByRoute(System.Int32)">
+            <summary>
+            Get all registrations by route
+            </summary>
+            <param name="routeId" type="int">Route Id</param>
             <remarks>Get all athlete registrations</remarks>
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
@@ -370,6 +388,15 @@
              Gets a particular run
             </summary>
             <param name="runId" type="int">Run Id</param>
+            <remarks>Gets a particular run</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetRouteRunCount(System.Int32)">
+            <summary>
+             Get route Run count
+            </summary>
+            <param name="routeId" type="int">Route Id</param>
             <remarks>Gets a particular run</remarks>
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>

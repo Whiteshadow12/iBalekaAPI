@@ -15,6 +15,7 @@ namespace iBalekaAPI.Services
         IEnumerable<Run> GetAthleteEventRuns(int id);
         IEnumerable<Run> GetAthletePersonalRuns(int id);
         IEnumerable<Run> GetEventRuns(int id);
+        int GetRouteRunCount(int routeId);
         IEnumerable<Run> GetRouteRuns(int id);
         IEnumerable<Run> GetAllRuns(int id);
         Run AddRun(Run run);
@@ -37,6 +38,10 @@ namespace iBalekaAPI.Services
         {
             _runRepo = _repo;
             unitOfWork = _unitOfWork;
+        }
+        public int GetRouteRunCount(int routeId)
+        {
+            return _runRepo.GetRouteRunCount(routeId);
         }
         public double GetRunCount(int athleteId)
         {
@@ -76,7 +81,7 @@ namespace iBalekaAPI.Services
         }
         public IEnumerable<Run> GetRouteRuns(int id)
         {
-            return _runRepo.GetRouteRuns(id);
+            return _runRepo.GetRouteRun(id);
         }
         public IEnumerable<Run> GetAthletePersonalRuns(int id)
         {
