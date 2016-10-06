@@ -121,6 +121,43 @@ namespace iBalekaAPI.Core.Controllers
             }
             return response.ToHttpResponse();
         }
+
+
+        /// <summary>
+        /// Get all registrations by route
+        /// </summary>
+        /// <param name="routeId" type="int">Route Id</param>
+        /// <remarks>Get all athlete registrations</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpGet]
+        [Route("Route/[action]")]
+        public async Task<IActionResult> GetRegistrationsByRoute([FromQuery]int routeId)
+        {
+
+            var response = new ListModelResponse<EventRegistration>()
+                as IListModelResponse<EventRegistration>;
+            try
+            {
+                if (routeId < 1)
+                    throw new Exception("Athlete Id is null");
+                response.Model = await Task.Run(() =>
+                {
+                    IEnumerable<EventRegistration> regs = _context.GetEventRegByRoute(routeId);
+                    if (regs == null)
+                        throw new Exception("No registrations");
+                    _context.SaveEventRegistration();
+                    return regs;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+        }
+
         // POST api/values
         /// <summary>
         /// Register athlete

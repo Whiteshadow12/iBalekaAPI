@@ -14,6 +14,7 @@ namespace iBalekaAPI.Services
     {
         EventRegistration GetEventRegByID(int id);
         IEnumerable<EventRegistration> GetAll(int eventId);
+        IEnumerable<EventRegistration> GetEventRegByRoute(int routeId);
         EventRegistration Register(EventRegistration reg);
         IEnumerable<EventRegistration> GetAthleteRegistrations(int athleteId);
         void DeRegister(int reg);
@@ -21,10 +22,10 @@ namespace iBalekaAPI.Services
     }
     public class EventRegistrationService:IEventRegService
     {
-        private readonly IEventRepository _eventRegistrationRepository;
+        private readonly IEventRegistrationRepository _eventRegistrationRepository;
         private readonly IUnitOfWork unitOfWork;
 
-        public EventRegistrationService(IEventRepository _repo,IUnitOfWork _unitOfWork)
+        public EventRegistrationService(IEventRegistrationRepository _repo,IUnitOfWork _unitOfWork)
         {
             _eventRegistrationRepository = _repo;
             unitOfWork = _unitOfWork;
@@ -33,6 +34,10 @@ namespace iBalekaAPI.Services
         public EventRegistration GetEventRegByID(int id)
         {
             return _eventRegistrationRepository.GetEventRegByID(id);
+        }
+        public IEnumerable<EventRegistration> GetEventRegByRoute(int routeId)
+        {
+            return _eventRegistrationRepository.GetEventRegByRoute(routeId);
         }
         public IEnumerable<EventRegistration> GetAthleteRegistrations(int athleteId)
         {

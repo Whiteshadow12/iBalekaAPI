@@ -181,6 +181,40 @@ namespace iBalekaAPI.Core.Controllers
             }
             return response.ToHttpResponse();
         }
+
+        /// <summary>
+        /// Get a events by route
+        /// </summary>
+        /// <param name="routeId" type="int">Route Id</param>
+        /// <remarks>Gets events by route</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpGet]
+        [Route("Route/[action]")]
+        public async Task<IActionResult> GetEventByRoute([FromQuery]int routeId)
+        {
+            var response = new ListModelResponse<Event>()
+                as IListModelResponse<Event>;
+            try
+            {
+                if (routeId < 1)
+                    throw new Exception("User Id is null");
+                response.Model = await Task.Run(() =>
+                {
+                    IEnumerable<Event> evnt = _context.GetEventByRoute(routeId);
+                    if (evnt == null)
+                        throw new Exception("Event does not Exist");
+                    return evnt;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+        }
+
         //save event
         /// <summary>
         /// Saves an event

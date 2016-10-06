@@ -62,7 +62,7 @@ namespace iBalekaAPI.Data.Repositories
         }
         public Club CreateClub(Club club)
         {
-            var newClub = DbContext.Add(new Club()).Entity;
+            Club newClub = new Club();
             newClub.Name = club.Name;
             newClub.DateCreated = club.DateCreated;
             newClub.Deleted = false;
@@ -102,9 +102,13 @@ namespace iBalekaAPI.Data.Repositories
                         throw new NotSupportedException("Don't know how to handle concurrency conflicts for " + entry.Metadata.Name);
                     }
                 }
-
                 // Retry the save operation
+                
+            }
+            finally
+            {
                 DbContext.SaveChanges();
+                
             }
             return newClub;
         }

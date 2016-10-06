@@ -218,6 +218,39 @@ namespace iBalekaAPI.Core.Controllers
         }
 
         /// <summary>
+        ///  Get route Run count
+        /// </summary>
+        /// <param name="routeId" type="int">Route Id</param>
+        /// <remarks>Gets a particular run</remarks>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpGet]
+        [Route("Route/[action]")]
+        public async Task<IActionResult> GetRouteRunCount([FromQuery]int routeId)
+        {
+            var response = new SingleModelResponse<int>()
+               as ISingleModelResponse<int>;
+            try
+            {
+                if (routeId < 1)
+                    throw new Exception("Run Id is missing");
+                response.Model = await Task.Run(() =>
+                {
+                    int run = _context.GetRouteRunCount(routeId);
+                    if (run !=0)
+                        throw new Exception("Route Runs do not exist");
+                    return run;
+                });
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.Message;
+            }
+            return response.ToHttpResponse();
+        }
+
+        /// <summary>
         ///  Gets total distance ran for a particular athlete
         /// </summary>
         /// <param name="athleteId" type="int">Athlete Id</param>

@@ -26,12 +26,15 @@ namespace iBalekaAPI.Data.Repositories
     public class RouteRepository : RepositoryBase<Route>, IRouteRepository
     {
         private iBalekaDBContext DbContext;
-        public RouteRepository(iBalekaDBContext dbContext)
+        private IRunRepository runRepo;
+        private IEventRepository eventRepo;
+        public RouteRepository(iBalekaDBContext dbContext, IRunRepository _runRepo, IEventRepository _eventRepo)
             : base(dbContext)
         {
+            runRepo = _runRepo;
+            eventRepo = _eventRepo;
             DbContext = dbContext;
         }
-
 
         public Route AddRoute(Route route)
         {
@@ -50,7 +53,7 @@ namespace iBalekaAPI.Data.Repositories
 
             //create map image?
             DbContext.Route.Add(savingRoute);
-            DbContext.SaveChanges();  
+            DbContext.SaveChanges();
             return savingRoute;
         }
         public Route UpdateRoute(Route updatedRoute)
@@ -86,7 +89,16 @@ namespace iBalekaAPI.Data.Repositories
         }
         public IEnumerable<Route> GetUserRoutes(string UserID)
         {
-            return GetRoutesQuery().GetRouteByUserId(UserID);
+            ICollection<Route> routes;
+            routes = DbContext.Route
+                        .Where(r => r.Deleted == false && r.UserID == UserID)
+                        .ToList();
+            foreach (Route route in routes)
+            {
+                route.RunCount = runRepo.GetRouteRunCount(route.RouteId);
+                route.EventCount = eventRepo.GetEventsByRoute(route.RouteId).Count();
+            }
+            return routes;
         }
         public IEnumerable<Route> GetRoutes()
         {

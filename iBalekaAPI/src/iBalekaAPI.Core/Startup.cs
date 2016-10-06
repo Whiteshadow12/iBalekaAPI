@@ -88,6 +88,7 @@ namespace iBalekaAPI.Core
             services.AddScoped<IAthleteRepository, AthleteRepository>();
             services.AddScoped<IClubRepository, ClubRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IEventRegistrationRepository, EventRegistrationRepository>();
             //services.AddScoped<IRatingRepository, RatingRepository>();
             services.AddScoped<IRouteRepository, RouteRepository>();
             services.AddScoped<IRunRepository, RunRepository>();
