@@ -48,6 +48,8 @@ namespace iBalekaAPI.Data.Repositories
             newEvent.Location = evnt.Location;
             newEvent.UserID = evnt.UserID;
             newEvent.ClubID = evnt.ClubID;
+            newEvent.Timezone = evnt.Timezone;
+            newEvent.EventDateTime = evnt.EventDateTime;
             newEvent.DateCreated = evnt.DateCreated;
 
             foreach (EventRoute evntRoute in evnt.EventRoute)
@@ -73,6 +75,8 @@ namespace iBalekaAPI.Data.Repositories
             newEvent.Date = evnt.Date;
             newEvent.Time = evnt.Time;
             newEvent.Location = evnt.Location;
+            newEvent.Timezone = evnt.Timezone;
+            newEvent.EventDateTime = evnt.EventDateTime;
             newEvent.DateModified = evnt.DateModified;
 
 

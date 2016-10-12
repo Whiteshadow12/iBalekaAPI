@@ -3,10 +3,7 @@
 
   "dependencies": {
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
-    "Microsoft.NETCore.App": {
-      "version": "1.0.0",
-      "type": "platform"
-    },
+    "Microsoft.NETCore.App": "1.0.1",
     "Newtonsoft.Json": "9.0.1"
   },
   "frameworks": {
