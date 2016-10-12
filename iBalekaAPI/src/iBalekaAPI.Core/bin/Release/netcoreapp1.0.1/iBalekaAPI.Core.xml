@@ -1,0 +1,490 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>iBalekaAPI.Core</name>
+    </assembly>
+    <members>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.GetAthletes">
+            <summary>
+            Gets all athletes
+            </summary>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response> 
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.GetAthlete(System.Int32)">
+            <summary>
+            Returns a specific athlete 
+            </summary>
+            <param name="athleteId" type="int">AthleteId</param>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.LoginAthlete(System.String,System.String)">
+            <summary>
+            Logs athlete in(Returns athlete Id) 
+            </summary>
+            <param name="username" type="int">Athlete Email</param>
+            <param name="password" type="int">Athlete Password</param>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.ForgotPassword(System.String)">
+            <summary>
+            Return forgotton athlete
+            </summary>
+            <paramref name="email"/>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.RegisterAthlete(iBalekaAPI.Models.Athlete)">
+            <summary>
+            Registers an Athlete to db
+            </summary>
+            <paramref name="athlete"/>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.UpdateAthlete(iBalekaAPI.Models.Athlete)">
+            <summary>
+            Updates some properties of a athlete
+            </summary>
+            <param name="athlete" type="Athlete"></param>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.AthleteController.DeleteAthlete(System.Int32)">
+            <summary>
+            Deletes a specific athlete
+            </summary>
+            <param name="athlete" type="int">Athlete Id</param>
+            <remarks>Delete an Athlete</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.ClubController.GetAllClubs">
+            <summary>
+            Get all clubs
+            </summary>
+            <remarks>Get all clubs</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.ClubController.GetUserClubs(System.String)">
+            <summary>
+            Get all user created clubs
+            </summary>
+            <param name="userId" type="int">User Id</param>
+            <remarks>Get all user created clubs</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.ClubController.GetClub(System.Int32)">
+            <summary>
+            Get a particular club
+            </summary>
+            <param name="clubId" type="int">Club Id</param>
+            <remarks>Get a particular club</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.ClubController.CreateClub(iBalekaAPI.Models.Club)">
+            <summary>
+            Create a club
+            </summary>
+            <param name="club" type="Club">Club Model</param>
+            <remarks>Create a Club</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.ClubController.UpdateClub(iBalekaAPI.Models.Club)">
+            <summary>
+            Update a club
+            </summary>
+            <param name="club" type="Club">Club Model</param>
+            <remarks>Update a Club</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.ClubController.DeleteClub(System.Int32)">
+            <summary>
+            Delete a club
+            </summary>
+            <param name="club" type="int">Club Id</param>
+            <remarks>Delete a club</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.ClubMemberController.GetClubMembers(System.Int32)">
+            <summary>
+            Gets clubmembers for a particular club
+            </summary>
+            <param name="clubId" type="int">Club Id</param>
+            <remarks>Get club members</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.ClubMemberController.GetClubMember(System.Int32)">
+            <summary>
+            Gets particular club member
+            </summary>
+            <param name="memberId" type="int">MemberId</param>
+            <remarks>Get club member</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.ClubMemberController.RegisterMember(iBalekaAPI.Models.ClubMember)">
+            <summary>
+            Register athlete to a particular club
+            </summary>
+            <param name="clubmember" type="ClubMember">ClubMember Model</param>
+            <remarks>Register club member</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.ClubMemberController.DeRegisterMember(System.Int32)">
+            <summary>
+            DeRegister athlete from a particular club
+            </summary>
+            <param name="clubmember" type="int">ClubMember Id</param>
+            <remarks>DeRegister club member</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.GetUserEvents(System.String)">
+            <summary>
+            Get all user created events
+            </summary>
+            <param name="userId" type="int">User Id</param>
+            <remarks>Get user created events</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.GetClubEvents(System.Int32)">
+            <summary>
+            Get all club created events
+            </summary>
+            <param name="clubId" type="int">Club Id</param>
+            <remarks>Get club created events</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.GetEvents">
+            <summary>
+            Get all events
+            </summary>
+            <remarks>Get all events</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.GetEventRoutes(System.Int32)">
+            <summary>
+            Get all Event EventRoutes
+            </summary>
+            <param name="evntId" type="int">Event Id</param>
+            <remarks>Get all Event EventRoutes</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.GetEvent(System.Int32)">
+            <summary>
+            Get a particular event
+            </summary>
+            <param name="eventId" type="int">Event Id</param>
+            <remarks>Get an event</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.GetEventByRoute(System.Int32)">
+            <summary>
+            Get a events by route
+            </summary>
+            <param name="routeId" type="int">Route Id</param>
+            <remarks>Gets events by route</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.SaveEvent(iBalekaAPI.Models.Event)">
+            <summary>
+            Saves an event
+            </summary>
+            <param name="evnt" type="Event">Event Model</param>
+            <remarks>Saves an event</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.EditEvent(iBalekaAPI.Models.Event)">
+            <summary>
+            Update an event
+            </summary>
+            <param name="evnt" type="Event">Event Model</param>
+            <remarks>Update an event</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventController.DeleteEvent(System.Int32)">
+            <summary>
+            Delete an event
+            </summary>
+            <param name="evnt" type="int">Event Id</param>
+            <remarks>Delete an event</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventRegistrationController.GetRegistration(System.Int32)">
+            <summary>
+            Get a particular event registration
+            </summary>
+            <param name="regId" type="int">Registration Id</param>
+            <remarks>Get a particular event registration</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventRegistrationController.GetRegistrations(System.Int32)">
+            <summary>
+            Get all registrations for a particular event 
+            </summary>
+            <param name="eventId" type="int">Event Id</param>
+            <remarks>Get all registrations for a particular event</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventRegistrationController.GetAthleteRegistrations(System.Int32)">
+            <summary>
+            Get all athlete registrations 
+            </summary>
+            <param name="athleteId" type="int">Athlete Id</param>
+            <remarks>Get all athlete registrations</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventRegistrationController.GetRegistrationsByRoute(System.Int32)">
+            <summary>
+            Get all registrations by route
+            </summary>
+            <param name="routeId" type="int">Route Id</param>
+            <remarks>Get all athlete registrations</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventRegistrationController.Register(iBalekaAPI.Models.EventRegistration)">
+            <summary>
+            Register athlete
+            </summary>
+            <param name="reg" type="EventRegistration">Registration Model</param>
+            <remarks>Register athlete</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.EventRegistrationController.DeRegister(System.Int32)">
+            <summary>
+            DeRegister athlete
+            </summary>
+            <param name="regId" type="int">Registration Id</param>
+            <remarks>DeRegister athlete</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.MapController.GetUserRoutes(System.String)">
+            <summary>
+            Get all user created Routes
+            </summary>
+            <param name="userId" type="string">User Id</param>
+            <remarks>Get all user created Routes</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.MapController.GetRoutes">
+            <summary>
+            Get all Routes
+            </summary>
+            <remarks>Get all Routes</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.MapController.AddRoute(iBalekaAPI.Models.Route,System.String)">
+            <summary>
+            Add Route to DB
+            </summary>
+            <param name="route" type="Route">Route Model</param>
+            <param name="userId" type="string">User Id</param>
+            <remarks>Add Route to DB</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.MapController.GetRoute(System.Int32)">
+            <summary>
+            Get a Route
+            </summary>
+            <param name="routeId" type="int">Route Id</param>
+            <remarks>Get a Route</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.MapController.EditRoute(iBalekaAPI.Models.Route)">
+            <summary>
+            Update a Route
+            </summary>
+            <param name="route" type="Route">Route Model</param>
+            <remarks>Update a Route</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.MapController.DeleteRoute(System.Int32)">
+            <summary>
+            Delete a Route
+            </summary>
+            <param name="routeId" type="int">Route Id</param>
+            <remarks>Delete a Route</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetAthletePersonalRuns(System.Int32)">
+            <summary>
+            Gets all athlete personal runs
+            </summary>
+            <param name="athleteId" type="int">Athlete Id</param>
+            <remarks>Gets all athlete personal runs</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetAthleteEventRuns(System.Int32)">
+            <summary>
+            Gets all athlete event runs
+            </summary>
+            <param name="athleteId" type="int">Athlete Id</param>
+            <remarks>Gets all athlete event runs</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetRouteRuns(System.Int32)">
+            <summary>
+            Gets all runs by route
+            </summary>
+            <param name="routeId" type="int">Route Id</param>
+            <remarks>Gets all runs by route</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetEventRuns(System.Int32)">
+            <summary>
+            Gets all runs by event
+            </summary>
+            <param name="eventId" type="int">Event Id</param>
+            <remarks>Gets all runs by event</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetAllRuns(System.Int32)">
+            <summary>
+            Gets all athletre runs
+            </summary>
+            <param name="athleteId" type="int">Athlete Id</param>
+            <remarks>Gets all athletr=e runs</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetRun(System.Int32)">
+            <summary>
+             Gets a particular run
+            </summary>
+            <param name="runId" type="int">Run Id</param>
+            <remarks>Gets a particular run</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetRouteRunCount(System.Int32)">
+            <summary>
+             Get route Run count
+            </summary>
+            <param name="routeId" type="int">Route Id</param>
+            <remarks>Gets a particular run</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetTotalDistanceRan(System.Int32)">
+            <summary>
+             Gets total distance ran for a particular athlete
+            </summary>
+            <param name="athleteId" type="int">Athlete Id</param>
+            <remarks>Gets Athlete Total Distance</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetRunCount(System.Int32)">
+            <summary>
+             Gets a count of total runs
+            </summary>
+            <param name="athleteId" type="int">Athlete Id</param>
+            <remarks>Gets Total Run Count</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetEventRunCount(System.Int32)">
+            <summary>
+             Gets a count of event runs
+            </summary>
+            <param name="athleteId" type="int">Athlete Id</param>
+            <remarks>Gets Event Run Count</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetPersonalRunCount(System.Int32)">
+            <summary>
+             Gets a count of personal runs
+            </summary>
+            <param name="athleteId" type="int">Athlete Id</param>
+            <remarks>Gets Personal Run Count</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetCaloriesOverTime(System.Int32,System.String,System.String)">
+            <summary>
+             Gets a calories burnt over a certain time
+            </summary>
+            <param name="athleteId" type="int">Athlete Id</param>
+            <param name="startDate" type="int">Start Date</param>
+            <param name="endDate" type="int">End Date</param>
+            <remarks>Gets Calories burnt over time</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.GetDistanceOverTime(System.Int32,System.String,System.String)">
+            <summary>
+             Gets a total distance over a certain time
+            </summary>
+            <param name="athleteId" type="int">Athlete Id</param>
+            <param name="startDate" type="int">Start Date</param>
+            <param name="endDate" type="int">End Date</param>
+            <remarks>Gets Total Distance burnt over time</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.AddRun(iBalekaAPI.Models.Run)">
+            <summary>
+            Adds a run
+            </summary>
+            <param name="run" type="Run">Run Model</param>
+            <remarks>Adds a run</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.DeleteRun(System.Int32)">
+            <summary>
+            Deletes a particular run
+            </summary>
+            <param name="runId" type="int">Run Id</param>
+            <remarks>Deletes a particular run</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:iBalekaAPI.Core.Controllers.RunController.UpdateRun(iBalekaAPI.Models.Run)">
+            <summary>
+            Updates a run
+            </summary>
+            <param name="run" type="Run">Run Model</param>
+            <remarks>Updatess a run</remarks>
+            <response code="400">Bad request</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+    </members>
+</doc>

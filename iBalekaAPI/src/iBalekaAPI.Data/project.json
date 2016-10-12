@@ -1,25 +1,19 @@
 {
   "dependencies": {
-    "Microsoft.EntityFrameworkCore": "1.0.0",
-    "Microsoft.EntityFrameworkCore.Relational": "1.0.0",
-    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
-    "Microsoft.EntityFrameworkCore.SqlServer.Design": {
-      "version": "1.0.0",
-      "type": "build"
-    },
     "Microsoft.EntityFrameworkCore.Tools": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    },
-    "Microsoft.NETCore.App": {
-      "version": "1.0.0",
-      "type": "platform"
     },
     "Microsoft.AspNetCore.Authorization": "1.0.0",
     "iBalekaAPI.Models": "1.0.0-*",
     "Microsoft.Extensions.Caching.Abstractions": "1.0.0",
     "Microsoft.Extensions.Configuration.Binder": "1.0.0",
-    "System.Interactive.Async": "3.0.0"
+    "System.Interactive.Async": "3.0.0",
+    "Microsoft.EntityFrameworkCore": "1.0.1",
+    "Microsoft.EntityFrameworkCore.Relational": "1.0.1",
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1",
+    "Microsoft.EntityFrameworkCore.SqlServer.Design": "1.0.1",
+    "Microsoft.NETCore.App": "1.0.1"
   },
   "frameworks": {
     "netcoreapp1.0": {
