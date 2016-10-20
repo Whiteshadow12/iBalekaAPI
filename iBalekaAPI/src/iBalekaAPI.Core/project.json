@@ -7,6 +7,9 @@
   },
   "dependencies": {
     "BundlerMinifier.Core": "2.2.281",
+    "Hangfire": "1.6.6",
+    "Hangfire.Core": "1.6.6",
+    "Hangfire.SqlServer": "1.6.6",
     "iBalekaAPI.Data": "1.0.0-*",
     "iBalekaAPI.Models": "1.0.0-*",
     "iBalekaAPI.Services": "1.0.0-*",
@@ -34,11 +37,13 @@
     "Swashbuckle.SwaggerUi": "6.0.0-beta901"
   },
   "frameworks": {
-    "netcoreapp1.0.1": {}
-  
-  },
-  "runtimes": {
-    "win10-x64": {}
+    "netcoreapp1.0.1": {
+      "imports": [
+        "dotnet5.6",
+        "portable-net45+win8"
+      ]
+    }
+
   },
   "publishOptions": {
     "include": [
@@ -53,6 +58,9 @@
     "configProperties": {
       "System.GC.Server": true
     }
+  },
+  "runtimes": {
+    "win10-x64": {}
   },
   "scripts": {
     "prepublish": [ "bower install", "dotnet bundle" ],
