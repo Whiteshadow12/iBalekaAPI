@@ -22,7 +22,7 @@ using System.IO;
 using iBalekaAPI.Core.Swagger;
 using Newtonsoft.Json.Serialization;
 using System.Reflection.Metadata;
-using Hangfire;
+
 
 namespace iBalekaAPI.Core
 {
@@ -48,7 +48,7 @@ namespace iBalekaAPI.Core
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("ServerConnection")));
+            
             services.AddMvc()
                .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver())
                .AddJsonOptions(jsonOptions =>
@@ -117,8 +117,7 @@ namespace iBalekaAPI.Core
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            app.UseHangfireDashboard("/dashboard");
-            app.UseHangfireServer();
+           
             app.UseMvcWithDefaultRoute();
             app.UseSwagger((httpRequest, swaggerDoc) =>
             {
