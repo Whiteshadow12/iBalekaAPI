@@ -57,23 +57,23 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// Gets particular club member
         /// </summary>
-        /// <param name="memberId" type="int">MemberId</param>
+        /// <param name="athleteId" type="int">AthleteId</param>
         /// <remarks>Get club member</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         [HttpGet]
         [Route("Member/[action]")]
-        public async Task<IActionResult> GetClubMember([FromQuery]int memberId)
+        public async Task<IActionResult> GetClubMember([FromQuery]int athleteId)
         {
             var response = new SingleModelResponse<ClubMember>()
               as ISingleModelResponse<ClubMember>;
             try
             {
-                if (memberId < 1)
+                if (athleteId < 1)
                     throw new Exception("Model is missing");
                 response.Model = await Task.Run(() =>
                 {
-                    ClubMember member = _context.GetMemberByID(memberId);
+                    ClubMember member = _context.GetMemberByID(athleteId);
                     if (member == null)
                         throw new Exception("Club Member does not Exist");
                     return member;

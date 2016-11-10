@@ -154,7 +154,7 @@ namespace iBalekaAPI.Data.Repositories
         {
             ClubMember clubMembers;
             clubMembers = DbContext.ClubMember
-                            .Where(p => p.MemberId==id)
+                            .Where(p => p.AthleteId==id && p.Status==ClubStatus.Joined)
                             .Single();
             if (clubMembers!=null)
             {
