@@ -89,13 +89,15 @@ namespace iBalekaAPI.Core.Controllers
         /// <summary>
         /// Register athlete to a particular club
         /// </summary>
-        /// <param name="clubmember" type="ClubMember">ClubMember Model</param>
+        /// <param name="athleteId" type="ClubMember">Athlete ID</param>
+        /// <param name="clubId" type="ClubMember">Club ID</param>
+        /// <param name="dateJoined" type="ClubMember">Date Joined</param>
         /// <remarks>Register club member</remarks>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> RegisterMember([FromBody]ClubMember clubmember)
+        public async Task<IActionResult> RegisterMember([FromQuery]int athleteId, [FromQuery]int clubId, [FromQuery]string dateJoined)
         {
             var existingMember = new ListModelResponse<ClubMember>()
               as IListModelResponse<ClubMember>;
@@ -103,11 +105,11 @@ namespace iBalekaAPI.Core.Controllers
               as ISingleModelResponse<ClubMember>;
             try
             {
-                if (clubmember == null)
-                    throw new Exception("Model is missing");
+                if (athleteId < 1)
+                    throw new Exception("Athlete ID is missing");
                 existingMember.Model = await Task.Run(() =>
                 {
-                    return _context.AthletClubs(clubmember.AthleteId);
+                    return _context.AthletClubs(athleteId);
                 });
                 //check if member is part of club
                 if(existingMember.Model!=null)
@@ -120,7 +122,7 @@ namespace iBalekaAPI.Core.Controllers
                 }
                 response.Model = await Task.Run(() =>
                 {
-                    ClubMember clb = _context.RegisterMember(clubmember);
+                    ClubMember clb = _context.RegisterMember(athleteId,clubId,dateJoined);
                     return clb;
                 });
             }

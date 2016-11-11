@@ -24,7 +24,7 @@ namespace iBalekaAPI.Services
         ClubMember GetMemberByID(int id);
         IEnumerable<ClubMember> GetMembers(int clubId);
         IEnumerable<ClubMember> AthletClubs(int athleteId);
-        ClubMember RegisterMember(ClubMember member);
+        ClubMember RegisterMember(int athleteId,int clubId,string dateJoined);
         void DeRegisterMember(int memberId);
         void SaveMember();
 
@@ -83,9 +83,9 @@ namespace iBalekaAPI.Services
         {
             return _clubRepo.GetMembers(clubId);
         }
-        public ClubMember RegisterMember(ClubMember member)
+        public ClubMember RegisterMember(int athleteId, int clubId, string dateJoined)
         {
-            return _clubRepo.JoinClub(member);
+            return _clubRepo.JoinClub(athleteId, clubId, dateJoined);
         }
         public void DeRegisterMember(int member)
         {
