@@ -24,7 +24,7 @@ namespace iBalekaAPI.Data.Repositories
         Club GetClubQuery(int clubid);
         ClubMember GetMemberByID(int id);
         IEnumerable<ClubMember> GetMembers(int clubId);
-        ClubMember JoinClub(ClubMember entity);
+        ClubMember JoinClub(int athleteId, int clubId, string dateJoined);
         void LeaveClub(int entityId);
 
         ICollection<ClubMember> GetAthleteClubs(int athleteId);
@@ -58,7 +58,7 @@ namespace iBalekaAPI.Data.Repositories
             Club cl = GetClubByID(entity);
             cl.Deleted = true;
             DbContext.SaveChanges();
-            
+
         }
         public Club CreateClub(Club club)
         {
@@ -70,11 +70,11 @@ namespace iBalekaAPI.Data.Repositories
             newClub.Location = club.Location;
             newClub.UserId = club.UserId;
             DbContext.Club.Add(newClub);
-           
+
             try
             {
                 DbContext.SaveChanges();
-                
+
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -103,12 +103,12 @@ namespace iBalekaAPI.Data.Repositories
                     }
                 }
                 // Retry the save operation
-                
+
             }
             finally
             {
                 DbContext.SaveChanges();
-                
+
             }
             return newClub;
         }
@@ -125,7 +125,7 @@ namespace iBalekaAPI.Data.Repositories
         {
             Club clubs;
             clubs = DbContext.Club
-                    .Where(p => p.Deleted == false && p.ClubId==clubId)
+                    .Where(p => p.Deleted == false && p.ClubId == clubId)
                     .Single();
             return clubs;
         }
@@ -148,18 +148,18 @@ namespace iBalekaAPI.Data.Repositories
             dclub.Deleted = true;
             DbContext.Club.Update(dclub);
             DbContext.SaveChanges();
-        } 
+        }
         //club members
         public ClubMember GetMemberByID(int id)
         {
             ClubMember clubMembers;
             clubMembers = DbContext.ClubMember
-                            .Where(p => p.AthleteId==id && p.Status==ClubStatus.Joined)
+                            .Where(p => p.AthleteId == id && p.Status == ClubStatus.Joined)
                             .Single();
-            if (clubMembers!=null)
+            if (clubMembers != null)
             {
                 clubMembers.Club = GetClubQuery(clubMembers.ClubId);
-                clubMembers.Athlete = _athleteRepo.GetAthletesQuery().GetAthleteByAthleteId(clubMembers.AthleteId);          
+                clubMembers.Athlete = _athleteRepo.GetAthletesQuery().GetAthleteByAthleteId(clubMembers.AthleteId);
             }
             return clubMembers;
         }
@@ -167,27 +167,20 @@ namespace iBalekaAPI.Data.Repositories
         {
             ICollection<ClubMember> clubMembers;
             clubMembers = DbContext.ClubMember
-                            .Where(p => p.Status == ClubStatus.Joined && p.ClubId==clubId)
+                            .Where(p => p.Status == ClubStatus.Joined && p.ClubId == clubId)
                             .ToList();
             return clubMembers;
         }
-        public ClubMember JoinClub(ClubMember entity)
+        public ClubMember JoinClub(int athleteId, int clubId, string dateJoined)
         {
-            ClubMember exist = DbContext.ClubMember.Single(a => a.ClubId == entity.ClubId && a.AthleteId == entity.AthleteId);
-            if (exist == null)
-            {
-                entity.DateJoined = entity.DateJoined;
-                entity.Status = ClubStatus.Joined;
-                DbContext.ClubMember.Add(entity);
-            }
-            else
-            {
-                exist.DateJoined = entity.DateJoined;
-                exist.Status = ClubStatus.Joined;
-               DbContext.ClubMember.Update(exist);
-            }
+            ClubMember exist = new ClubMember();
+            exist.AthleteId = athleteId;
+            exist.ClubId = clubId;
+            exist.DateJoined = dateJoined;
+            exist.Status = ClubStatus.Joined;
+            DbContext.ClubMember.Add(exist);
             DbContext.SaveChanges();
-           return DbContext.ClubMember.Single(a => a.ClubId == entity.ClubId && a.AthleteId == entity.AthleteId);
+            return exist;
 
         }
         public void LeaveClub(int entityId)
